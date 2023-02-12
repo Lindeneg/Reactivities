@@ -1,9 +1,8 @@
 import axios from 'axios';
-import Box from '@mui/material/Box';
 import type { GetServerSideProps } from 'next';
-
-import PlatformLayout from '@/components/platform-layout';
+import Layout from '@/containers/layout';
 import type Activity from '@/models/activity';
+import Box from '@mui/material/Box';
 
 interface HomeProps {
     activities: Activity[];
@@ -11,13 +10,13 @@ interface HomeProps {
 
 const Home = ({ activities }: HomeProps) => {
     return (
-        <PlatformLayout>
-            <Box component="section">
+        <Layout>
+            <Box component='section'>
                 {activities.map((e) => (
                     <p key={e.id}>{e.title}</p>
                 ))}
             </Box>
-        </PlatformLayout>
+        </Layout>
     );
 };
 

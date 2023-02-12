@@ -14,12 +14,7 @@ const HeaderLogo = ({ name, logoPath, to = '/' }: HeaderLogoProps) => {
             <Link href={to}>
                 <Image src={logoPath} alt={`${name} logo image`} width={32} height={32} priority />
             </Link>
-            <Typography
-                sx={{ marginLeft: '0.5rem' }}
-                variant="h6"
-                component="h1"
-                color="text.primary"
-            >
+            <Typography sx={{ marginLeft: '0.5rem' }} variant='h6' component='h1' color='text.primary'>
                 {name}
             </Typography>
         </>

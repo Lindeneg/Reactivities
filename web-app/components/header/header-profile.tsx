@@ -5,8 +5,8 @@ export interface HeaderProfileProps {}
 
 const HeaderProfile = ({}: HeaderProfileProps) => {
     return (
-        <IconButton sx={{ marginRight: '0.5rem' }} aria-label="open account toolbox">
-            <AccountCircleIcon fontSize="large" />
+        <IconButton sx={{ marginRight: '0.5rem' }} aria-label='open account toolbox'>
+            <AccountCircleIcon fontSize='large' />
         </IconButton>
     );
 };

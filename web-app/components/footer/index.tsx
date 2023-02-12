@@ -1,13 +1,17 @@
+import type { Breakpoint, SxProps } from '@mui/material';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
 
-export interface PlatformFooter {}
+export interface FooterProps {
+    children: React.ReactNode;
+    sx?: SxProps;
+    maxWidth?: Breakpoint;
+}
 
-const PlatformFooter = ({}: PlatformFooter) => {
+const Footer = ({ children, sx = {}, maxWidth = 'sm' }: FooterProps) => {
     return (
         <Box
-            component="footer"
+            component='footer'
             sx={{
                 position: 'fixed',
                 left: 0,
@@ -15,13 +19,12 @@ const PlatformFooter = ({}: PlatformFooter) => {
                 width: '100%',
                 textAlign: 'center',
                 bgcolor: (t) => t.palette.grey[900],
+                ...sx,
             }}
         >
-            <Container maxWidth="sm">
-                <Typography variant="body1">My sticky footer can be found here.</Typography>
-            </Container>
+            <Container maxWidth={maxWidth}>{children}</Container>
         </Box>
     );
 };
 
-export default PlatformFooter;
+export default Footer;

@@ -1,10 +1,10 @@
+import type { AppProps } from 'next/app';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import type { AppProps } from 'next/app';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 // react redux toolkit ts
 // https://github.com/reduxjs/cra-template-redux-typescript/tree/master/template/src/features/counter
