@@ -23,7 +23,7 @@ const Layout = ({ children, meta }: LayoutProps) => {
             <MetaHeader {...meta} />
             <Header name='Reactivities' logoPath='/next.svg' onOpenNavigation={toggleNavHandler} />
             <Navigation name='Reactivities' open={navOpen} items={navItems} onClose={toggleNavHandler} />
-            <Container maxWidth='xl' component='main'>
+            <Container maxWidth='xl' component='main' sx={{ minHeight: '100vh' }}>
                 {children}
             </Container>
             <Footer>asd</Footer>

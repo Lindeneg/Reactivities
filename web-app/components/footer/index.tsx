@@ -13,7 +13,7 @@ const Footer = ({ children, sx = {}, maxWidth = 'sm' }: FooterProps) => {
         <Box
             component='footer'
             sx={{
-                position: 'fixed',
+                marginTop: '2rem',
                 left: 0,
                 bottom: 0,
                 width: '100%',

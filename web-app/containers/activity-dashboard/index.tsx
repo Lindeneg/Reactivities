@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
+import DashboardWidget from '@/components/widget/dashboard-widget';
 import type Activity from '@/models/activity';
 
 export interface ActivityDashboardProps {
@@ -9,11 +9,11 @@ export interface ActivityDashboardProps {
 
 const ActivityDashboard = ({ activities }: ActivityDashboardProps) => {
     return (
-        <Box component='section' sx={{ marginTop: '2rem', flexGrow: 1 }}>
-            <Grid container spacing={8}>
+        <Box component='section' sx={{ flexGrow: 1 }}>
+            <Grid container spacing={6} justifyContent='center'>
                 {activities.map((e) => (
-                    <Grid item key={e.id} xs={6}>
-                        <Paper>{e.title}</Paper>
+                    <Grid item key={e.id} xs={0} sm={6} lg={4}>
+                        <DashboardWidget activity={e} onClick={() => console.log(e.id + ' clicked')} />
                     </Grid>
                 ))}
             </Grid>
