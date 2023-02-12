@@ -27,3 +27,8 @@ msbuild.wrn
 
 # Visual Studio 2015
 .vs/
+
+# local dev db
+*.db
+*.db-shm
+*.db-wal

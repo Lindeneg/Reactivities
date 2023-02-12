@@ -1,4 +1,3 @@
-import type { NavigationProps } from '@/components/navigation';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import Dashboard from '@mui/icons-material/Dashboard';
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
@@ -8,6 +7,7 @@ import ReceiptIcon from '@mui/icons-material/Receipt';
 import SchoolIcon from '@mui/icons-material/School';
 import TuneIcon from '@mui/icons-material/Tune';
 import Mail from '@mui/icons-material/VerifiedUser';
+import type { NavigationProps } from '@/components/navigation';
 
 const navEntries: NavigationProps['items'] = [
     {
@@ -17,9 +17,19 @@ const navEntries: NavigationProps['items'] = [
     },
     {
         label: 'Home1',
-        path: '/',
+        path: '/hello',
         Icon: Mail,
     },
+    { divider: true },
+    {
+        label: 'Clickable',
+        onClick: () => {
+            console.log('hello');
+        },
+        closeOnClick: true,
+        Icon: InfoIcon,
+    },
+    /*
     {
         label: 'Engagement', // engagement breakdown per department
         path: '/engagement',
@@ -58,6 +68,7 @@ const navEntries: NavigationProps['items'] = [
         path: '/sign-out',
         Icon: Logout,
     },
+    */
 ];
 
 export default navEntries;

@@ -18,7 +18,7 @@ const Header = ({ name, logoPath, onOpenNavigation }: HeaderProps) => {
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 padding: '1.5rem',
-                bgcolor: (t) => t.palette.grey[900],
+                bgcolor: (t) => t.palette.mode === 'dark' ? t.palette.grey[900] : t.palette.grey[200],
             }}
         >
             <Box component='div' sx={{ display: 'inline-flex', alignItems: 'center' }}>

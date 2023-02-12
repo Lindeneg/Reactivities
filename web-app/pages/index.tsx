@@ -1,8 +1,8 @@
 import axios from 'axios';
 import type { GetServerSideProps } from 'next';
+import ActivityDashboard from '@/containers/activity-dashboard';
 import Layout from '@/containers/layout';
 import type Activity from '@/models/activity';
-import Box from '@mui/material/Box';
 
 interface HomeProps {
     activities: Activity[];
@@ -11,11 +11,7 @@ interface HomeProps {
 const Home = ({ activities }: HomeProps) => {
     return (
         <Layout>
-            <Box component='section'>
-                {activities.map((e) => (
-                    <p key={e.id}>{e.title}</p>
-                ))}
-            </Box>
+            <ActivityDashboard activities={activities} />
         </Layout>
     );
 };

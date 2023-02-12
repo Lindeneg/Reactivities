@@ -17,15 +17,15 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 // CQRS https://blog.christian-schou.dk/how-to-implement-cqrs-with-mediatr-in-asp-net/
 
-const darkTheme = createTheme({
+const theme = createTheme({
     palette: {
-        mode: 'dark',
+        mode: 'light',
     },
 });
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
-        <ThemeProvider theme={darkTheme}>
+        <ThemeProvider theme={theme}>
             <CssBaseline />
             <Component {...pageProps} />
         </ThemeProvider>

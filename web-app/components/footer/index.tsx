@@ -18,11 +18,13 @@ const Footer = ({ children, sx = {}, maxWidth = 'sm' }: FooterProps) => {
                 bottom: 0,
                 width: '100%',
                 textAlign: 'center',
-                bgcolor: (t) => t.palette.grey[900],
+                bgcolor: (t) => (t.palette.mode === 'dark' ? t.palette.grey[900] : t.palette.grey[200]),
                 ...sx,
             }}
         >
-            <Container maxWidth={maxWidth}>{children}</Container>
+            <Container maxWidth={maxWidth} sx={{ padding: '1rem' }}>
+                {children}
+            </Container>
         </Box>
     );
 };
