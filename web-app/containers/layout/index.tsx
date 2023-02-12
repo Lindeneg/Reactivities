@@ -1,9 +1,10 @@
+import { useState } from 'react';
+import Container from '@mui/material/Container';
 import Footer from '@/components/footer';
 import Header from '@/components/header';
 import MetaHeader, { type MetaHeaderProps } from '@/components/meta-header';
 import Navigation from '@/components/navigation';
 import navItems from '@/data/navigation';
-import Container from '@mui/material/Container';
 
 export interface LayoutProps {
     meta?: MetaHeaderProps;
@@ -11,13 +12,17 @@ export interface LayoutProps {
 }
 
 const Layout = ({ children, meta }: LayoutProps) => {
-    // control drawer
-    // control profile
+    const [navOpen, setNavOpen] = useState(false);
+
+    const toggleNavHandler = () => {
+        setNavOpen((prev) => !prev);
+    };
+
     return (
         <>
             <MetaHeader {...meta} />
-            <Header name='Reactivities' logoPath='/logo.png' onOpenNavigation={() => null} />
-            <Navigation name='Reactivities' open={true} items={navItems} onClose={() => null} />
+            <Header name='Reactivities' logoPath='/logo.png' onOpenNavigation={toggleNavHandler} />
+            <Navigation name='Reactivities' open={navOpen} items={navItems} onClose={toggleNavHandler} />
             <Container maxWidth='xl' component='main'>
                 {children}
             </Container>

@@ -6,7 +6,7 @@ module.exports = {
     useTabs: false,
     printWidth: 120,
     jsxSingleQuote: true,
-    importOrder: ['<THIRD_PARTY_MODULES>', '^[@/]'],
+    importOrder: ['<THIRD_PARTY_MODULES>', '@next/', '@mui/', '^[@/]', '^[./]'],
     importOrderSortSpecifiers: true,
     plugins: [require.resolve('@trivago/prettier-plugin-sort-imports')],
 };
