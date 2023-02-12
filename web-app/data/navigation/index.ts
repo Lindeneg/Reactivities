@@ -11,18 +11,13 @@ import type { NavigationProps } from '@/components/navigation';
 
 const navEntries: NavigationProps['items'] = [
     {
-        label: 'Dashboard', // graphs, data, numbers presented in customizable widgets
-        path: '/',
+        label: 'Dashboard',
+        path: '/activities',
         Icon: Dashboard,
-    },
-    {
-        label: 'Home1',
-        path: '/hello',
-        Icon: Mail,
     },
     { divider: true },
     {
-        label: 'Clickable',
+        label: 'Create Activity',
         onClick: () => {
             console.log('hello');
         },

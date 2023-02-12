@@ -16,12 +16,6 @@ export interface NavigationItemProps {
     Icon?: React.ComponentType;
 }
 
-interface CustomListItemButtonProps {
-    LinkComponent?: typeof Link;
-    href?: string;
-    onClick?: () => void;
-}
-
 const NavigationItem = ({
     divider,
     label,
@@ -34,7 +28,7 @@ const NavigationItem = ({
     const router = useRouter();
 
     if (divider) {
-        return <Divider />;
+        return <Divider sx={{ marginTop: '0.5rem', marginBottom: '0.5rem' }} />;
     }
 
     const closeAndClickHandler = () => {
@@ -47,7 +41,7 @@ const NavigationItem = ({
         router.push(path);
     };
 
-    const listItemButtonProps: CustomListItemButtonProps = {};
+    const listItemButtonProps: Partial<Record<'onClick', () => void>> = {};
 
     if (typeof path !== 'undefined' && typeof onClick === 'undefined') {
         listItemButtonProps.onClick = navClickHandler;
