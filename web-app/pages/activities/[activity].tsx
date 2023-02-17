@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { GetServerSideProps } from 'next';
-import DashboardWidget from '@/components/widget/dashboard-widget';
-import Layout from '@/containers/layout';
+import DashboardWidget from '@/features/activity-dashboard/activity-widget';
+import Layout from '@/features/layout';
 import type Activity from '@/models/activity';
 
 interface HomeProps {
@@ -26,14 +26,13 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
             },
         };
     } catch (err) {
-        console.log(err);
+        return {
+            redirect: {
+                destination: '/404',
+                permanent: false,
+            },
+        };
     }
-
-    return {
-        props: {
-            activity: null,
-        },
-    };
 };
 
 export default Home;

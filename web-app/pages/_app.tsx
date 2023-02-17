@@ -1,10 +1,11 @@
 import type { AppProps } from 'next/app';
+import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import ErrorBoundary from '@/components/error/error-boundary';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import CssBaseline from '@mui/material/CssBaseline';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 // react redux toolkit ts
 // https://github.com/reduxjs/cra-template-redux-typescript/tree/master/template/src/features/counter
@@ -25,9 +26,11 @@ const theme = createTheme({
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Component {...pageProps} />
-        </ThemeProvider>
+        <ErrorBoundary>
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <Component {...pageProps} />
+            </ThemeProvider>
+        </ErrorBoundary>
     );
 }

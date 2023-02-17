@@ -1,14 +1,15 @@
 import axios from 'axios';
 import type { GetServerSideProps } from 'next';
-import ActivityDashboard from '@/containers/activity-dashboard';
-import Layout from '@/containers/layout';
+import ActivityDashboard from '@/features/activity-dashboard';
+import Layout from '@/features/layout';
 import type Activity from '@/models/activity';
 
 interface HomeProps {
     activities: Activity[];
+    error: string | null;
 }
 
-const Home = ({ activities }: HomeProps) => {
+const Home = ({ activities, error }: HomeProps) => {
     return (
         <Layout>
             <ActivityDashboard activities={activities} />
@@ -22,17 +23,17 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
         return {
             props: {
                 activities: data,
+                error: null,
             },
         };
     } catch (err) {
-        console.log(err);
+        return {
+            props: {
+                activities: [],
+                error: 'Failed HTTP call',
+            },
+        };
     }
-
-    return {
-        props: {
-            activities: [],
-        },
-    };
 };
 
 export default Home;
