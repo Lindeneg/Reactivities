@@ -1,6 +1,6 @@
 import type { SxProps, Theme } from '@mui/material';
 
-export const withColorContrast = (sx: SxProps<Theme>): SxProps<Theme> => {
+const withColorContrast = (sx: SxProps<Theme>): SxProps<Theme> => {
     return {
         ...sx,
         bgcolor: (theme) => {
@@ -8,3 +8,5 @@ export const withColorContrast = (sx: SxProps<Theme>): SxProps<Theme> => {
         },
     };
 };
+
+export default withColorContrast;

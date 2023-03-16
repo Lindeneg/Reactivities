@@ -8,6 +8,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import TuneIcon from '@mui/icons-material/Tune';
 import Mail from '@mui/icons-material/VerifiedUser';
 import type { NavigationProps } from '@/components/navigation';
+import communicator from '@/utils/communicator';
 
 const navEntries: NavigationProps['items'] = [
     {
@@ -19,7 +20,7 @@ const navEntries: NavigationProps['items'] = [
     {
         label: 'Create Activity',
         onClick: () => {
-            console.log('hello');
+            communicator.publish('toggle-create-activity-modal', null);
         },
         closeOnClick: true,
         Icon: InfoIcon,

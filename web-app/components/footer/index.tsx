@@ -1,7 +1,7 @@
 import type { Breakpoint, SxProps } from '@mui/material';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import { withColorContrast } from '@/utils';
+import withColorContrast from '@/utils/with-color-contrast';
 
 export interface FooterProps {
     children: React.ReactNode;

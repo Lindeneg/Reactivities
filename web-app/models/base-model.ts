@@ -1,5 +1,3 @@
-interface BaseModel {
+export interface BaseModel {
     id: string;
 }
-
-export default BaseModel;

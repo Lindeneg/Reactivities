@@ -1,6 +1,6 @@
-import type BaseModel from './base-model';
+import type { BaseModel } from './base-model';
 
-interface Activity extends BaseModel {
+export interface BaseActivity {
     title: string;
     date: string;
     description: string;
@@ -9,4 +9,4 @@ interface Activity extends BaseModel {
     venue: string;
 }
 
-export default Activity;
+export type Activity = BaseModel & BaseActivity;
