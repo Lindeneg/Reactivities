@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { type AxiosError } from 'axios';
 import type { GetServerSideProps } from 'next';
 import ActivityDashboard from '@/features/activity-dashboard';
 import Layout from '@/features/layout';
@@ -30,7 +30,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
         return {
             props: {
                 activities: [],
-                error: 'Failed HTTP call',
+                error: (err as AxiosError).message,
             },
         };
     }

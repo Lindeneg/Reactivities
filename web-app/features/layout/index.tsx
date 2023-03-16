@@ -26,7 +26,7 @@ const Layout = ({ children, meta }: LayoutProps) => {
             <Container maxWidth='xl' component='main' sx={{ minHeight: '100vh' }}>
                 {children}
             </Container>
-            <Footer>asd</Footer>
+            <Footer>Reactivities @ Christian Lindeneg - 2023</Footer>
         </>
     );
 };

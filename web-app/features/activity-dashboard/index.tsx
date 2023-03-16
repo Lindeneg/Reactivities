@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import Dashboard from '@/components/dashboard';
 import type Activity from '@/models/activity';
 import ActivityWidget from './activity-widget';
@@ -7,9 +8,13 @@ export interface ActivityDashboardProps {
     activities: Activity[];
 }
 
-const ActivityDashboard = ({ activities }: ActivityDashboardProps) => {
+const ActivityDashboard = (props: ActivityDashboardProps) => {
+    const [activities, _setActivities] = useState(props.activities);
     const router = useRouter();
 
+    const addActivity = () => {};
+    const removeActivity = () => {};
+ 
     return (
         <Dashboard
             data={activities}
