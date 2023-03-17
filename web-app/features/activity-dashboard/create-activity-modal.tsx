@@ -29,14 +29,35 @@ const CreateActivityModal = ({ open, onSubmit, onClose }: CreateActivityModalPro
                 validate={(values) => {
                     const errors: Partial<BaseActivity> = {};
 
-                    if (!values.title) {
+                    if (!values.title || values.title.length < 3 || values.title.length > 12) {
                         errors.title = '3-12 characters';
+                    }
+
+                    if (!values.category || values.category.length < 3 || values.category.length > 12) {
+                        errors.category = '3-12 characters';
+                    }
+
+                    if (!values.city || values.city.length < 1 || values.city.length > 16) {
+                        errors.city = '1-16 characters';
+                    }
+
+                    if (!values.venue || values.venue.length < 1 || values.venue.length > 16) {
+                        errors.venue = '1-16 characters';
+                    }
+
+                    if (!values.description || values.description.length < 3 || values.description.length > 128) {
+                        errors.description = '3-128 characters';
+                    }
+
+                    if (!values.date) {
+                        errors.date = 'Date is required';
                     }
 
                     return errors;
                 }}
                 onSubmit={(values) => {
                     onSubmit(values);
+                    onClose();
                 }}
                 onReset={() => {
                     setHasSubmitted(false);
@@ -70,13 +91,43 @@ const CreateActivityModal = ({ open, onSubmit, onClose }: CreateActivityModalPro
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField required fullWidth label='City' id='city' name='city' />
+                                <TextField
+                                    required
+                                    fullWidth
+                                    label='City'
+                                    id='city'
+                                    name='city'
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    helperText={hasSubmitted && errors.city}
+                                    error={hasSubmitted && !!errors.city}
+                                />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField required fullWidth label='Category' id='category' name='category' />
+                                <TextField
+                                    required
+                                    fullWidth
+                                    label='Category'
+                                    id='category'
+                                    name='category'
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    helperText={hasSubmitted && errors.category}
+                                    error={hasSubmitted && !!errors.category}
+                                />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField required fullWidth label='Venue' id='venue' name='venue' />
+                                <TextField
+                                    required
+                                    fullWidth
+                                    label='Venue'
+                                    id='venue'
+                                    name='venue'
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    helperText={hasSubmitted && errors.venue}
+                                    error={hasSubmitted && !!errors.venue}
+                                />
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
@@ -87,10 +138,24 @@ const CreateActivityModal = ({ open, onSubmit, onClose }: CreateActivityModalPro
                                     id='description'
                                     label='Description'
                                     name='description'
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    helperText={hasSubmitted && errors.description}
+                                    error={hasSubmitted && !!errors.description}
                                 />
                             </Grid>
                             <Grid item xs={12}>
-                                <TextField required fullWidth id='date' type='date' name='date' />
+                                <TextField
+                                    required
+                                    fullWidth
+                                    id='date'
+                                    type='date'
+                                    name='date'
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    helperText={hasSubmitted && errors.date}
+                                    error={hasSubmitted && !!errors.date}
+                                />
                             </Grid>
                         </Grid>
                         <Button
@@ -99,7 +164,7 @@ const CreateActivityModal = ({ open, onSubmit, onClose }: CreateActivityModalPro
                             variant='contained'
                             sx={{ mt: 3 }}
                             onClick={() => {
-                                setHasSubmitted(true);
+                                !hasSubmitted && setHasSubmitted(true);
                                 if (Object.keys(errors).length > 0) return;
                                 handleSubmit();
                             }}

@@ -1,14 +1,11 @@
 import axios from 'axios';
 import constants from '@/constants';
 import type { Activity, BaseActivity } from '@/models/activity';
+import config from '../config';
 
 const axiosInstance = axios.create({
+    ...config,
     baseURL: constants.REACTIVITY_API_URL + '/activities',
-    timeout: 8000,
-    headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-    },
 });
 
 const api = {
