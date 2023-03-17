@@ -1,13 +1,7 @@
-import type { Activity, BaseActivity } from '@/models/activity';
+export type ReactivityEvent = 'set-create-activity-modal-state';
 
-export type ReactivityEvent = 'toggle-create-activity-modal' | 'create-activity' | 'remove-activity';
-
-export type ReactivityEventPayload<TEvent extends ReactivityEvent> = TEvent extends 'toggle-create-activity-modal'
-    ? null
-    : TEvent extends 'create-activity'
-    ? BaseActivity
-    : TEvent extends 'remove-activity'
-    ? { id: Activity['id'] }
+export type ReactivityEventPayload<TEvent extends ReactivityEvent> = TEvent extends 'set-create-activity-modal-state'
+    ? { open: boolean }
     : never;
 
 export type ReactivityEventListener<TEvent extends ReactivityEvent> = (

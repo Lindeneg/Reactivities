@@ -20,7 +20,7 @@ const navEntries: NavigationProps['items'] = [
     {
         label: 'Create Activity',
         onClick: () => {
-            communicator.publish('toggle-create-activity-modal', null);
+            communicator.publish('set-create-activity-modal-state', { open: true });
         },
         closeOnClick: true,
         Icon: InfoIcon,

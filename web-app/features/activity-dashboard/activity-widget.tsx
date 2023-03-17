@@ -1,7 +1,7 @@
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Widget from '@/components/widget';
-import type Activity from '@/models/activity';
+import type { Activity } from '@/models/activity';
 
 export interface ActivityWidgetProps {
     activity: Activity;
