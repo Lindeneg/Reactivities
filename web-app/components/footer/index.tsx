@@ -14,9 +14,7 @@ const Footer = ({ children, sx = {}, maxWidth = 'sm' }: FooterProps) => {
         <Box
             component='footer'
             sx={withColorContrast({
-                marginTop: '2rem',
-                left: 0,
-                bottom: 0,
+                marginTop: 'auto',
                 width: '100%',
                 textAlign: 'center',
                 ...sx,

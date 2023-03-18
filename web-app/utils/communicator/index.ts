@@ -1,8 +1,11 @@
+import type { OptionsObject } from 'notistack';
 import type { Activity } from '@/models/activity';
 
 export type ReactivityEvent =
     | 'set-create-activity-modal-state'
+    | 'set-confirmation-modal-state'
     | 'set-global-spinner-state'
+    | 'enqueue-snackbar'
     | 'created-activity'
     | 'updated-activity'
     | 'deleted-activity';
@@ -15,6 +18,10 @@ export type ReactivityEventPayload<TEvent extends ReactivityEvent> = TEvent exte
     ? { activityId: string }
     : TEvent extends 'set-global-spinner-state'
     ? { open: boolean }
+    : TEvent extends 'set-confirmation-modal-state'
+    ? { open: boolean; description?: string; onAccept?: () => Promise<void> | void }
+    : TEvent extends 'enqueue-snackbar'
+    ? { msg: string } & OptionsObject
     : never;
 
 export type ReactivityEventListener<TEvent extends ReactivityEvent> = (

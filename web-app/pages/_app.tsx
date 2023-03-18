@@ -29,7 +29,7 @@ export default function App({ Component, pageProps }: AppProps) {
     return (
         <ErrorBoundary>
             <ThemeProvider theme={theme}>
-                <SnackbarProvider maxSnack={3}>
+                <SnackbarProvider maxSnack={10}>
                     <CssBaseline />
                     <Component {...pageProps} />
                 </SnackbarProvider>

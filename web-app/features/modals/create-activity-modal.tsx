@@ -1,5 +1,4 @@
 import { Formik } from 'formik';
-import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -18,7 +17,6 @@ const CreateActivityModal = () => {
     const [showCreateActivityModal, setShowCreateActivityModal] = useState(false);
     const [activity, setActivity] = useState<Activity | null>(null);
     const [hasSubmitted, setHasSubmitted] = useState(false);
-    const { enqueueSnackbar } = useSnackbar();
 
     const hasMadeChange = (values: BaseActivity) => {
         if (!activity) return true;
@@ -39,37 +37,7 @@ const CreateActivityModal = () => {
         }
     });
 
-    const createActivity = async (base: BaseActivity) => {
-        try {
-            const { data: id } = await api.activities.create(base);
-
-            // TODO CHECK ERROR
-
-            communicator.publish('created-activity', { activity: { id, ...base } });
-            // show the success snackbar
-        } catch (err) {
-            // show the failure snackbar
-        }
-    };
-
-    const updateActivity = async (id: string, updatedActivity: BaseActivity) => {
-        try {
-            await api.activities.update(id, updatedActivity);
-
-            // TODO CHECK ERROR
-
-            communicator.publish('updated-activity', { activity: { id, ...updatedActivity } });
-            // show the success snackbar
-        } catch (err) {
-            // show the failure snackbar
-        }
-    };
-
-    const handleClose = () => {
-        // showCreateActivityModal(false) can be called directly but we'd
-        // like to publish the event for any potential listeners
-        communicator.publish('set-create-activity-modal-state', { open: false });
-    };
+    const handleClose = () => communicator.publish('set-create-activity-modal-state', { open: false });
 
     return (
         <Modal open={showCreateActivityModal} labelledBy='activity modal' describedBy='create a new activity'>
@@ -93,15 +61,15 @@ const CreateActivityModal = () => {
                         errors.title = '3-24 characters';
                     }
 
-                    if (!values.category || values.category.length < 3 || values.category.length > 12) {
+                    if (!values.category || values.category.length < 3 || values.category.length > 32) {
                         errors.category = '3-12 characters';
                     }
 
-                    if (!values.city || values.city.length < 1 || values.city.length > 16) {
+                    if (!values.city || values.city.length < 1 || values.city.length > 32) {
                         errors.city = '1-16 characters';
                     }
 
-                    if (!values.venue || values.venue.length < 1 || values.venue.length > 16) {
+                    if (!values.venue || values.venue.length < 1 || values.venue.length > 32) {
                         errors.venue = '1-16 characters';
                     }
 
@@ -116,7 +84,7 @@ const CreateActivityModal = () => {
                     return errors;
                 }}
                 onSubmit={async (values) => {
-                    await (activity ? updateActivity(activity.id, values) : createActivity(values));
+                    await (activity ? api.activities.update(activity.id, values) : api.activities.create(values));
                     handleClose();
                 }}
             >
