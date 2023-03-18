@@ -1,24 +1,24 @@
 import type { AxiosError } from 'axios';
 import type { GetServerSideProps } from 'next';
 import api from '@/data/api';
-import DashboardWidget from '@/features/activity-dashboard/activity-widget';
+import DashboardWidget from '@/features/widgets/activity-widget';
 import Layout from '@/features/layout';
 import type { Activity } from '@/models/activity';
 
-interface HomeProps {
+interface ActivityPageProps {
     activity: Activity | null;
 }
 
-const Home = ({ activity }: HomeProps) => {
+const ActivityPage = ({ activity }: ActivityPageProps) => {
     if (!activity) return;
     return (
         <Layout>
-            <DashboardWidget activity={activity} onClick={() => null} />
+            <DashboardWidget activity={activity} onMoreDetails={() => null} onDelete={() => {}} />
         </Layout>
     );
 };
 
-export const getServerSideProps: GetServerSideProps<HomeProps> = async (context) => {
+export const getServerSideProps: GetServerSideProps<ActivityPageProps> = async (context) => {
     try {
         const { data } = await api.activities.get(String(context.query.activity));
         return {
@@ -38,4 +38,4 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (context)
     }
 };
 
-export default Home;
+export default ActivityPage;

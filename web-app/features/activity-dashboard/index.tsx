@@ -1,11 +1,12 @@
 import { useRouter } from 'next/router';
+import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 import Dashboard from '@/components/dashboard';
 import api from '@/data/api';
 import type { Activity } from '@/models/activity';
 import communicator from '@/utils/communicator';
 import useSubscription from '@/utils/use-subscription';
-import ActivityWidget from './activity-widget';
+import ActivityWidget from '../widgets/activity-widget';
 
 export interface ActivityDashboardProps {
     activities: Activity[];
@@ -13,6 +14,7 @@ export interface ActivityDashboardProps {
 
 const ActivityDashboard = (props: ActivityDashboardProps) => {
     const [activities, setActivities] = useState(props.activities);
+    const { enqueueSnackbar } = useSnackbar();
     const router = useRouter();
 
     useSubscription('created-activity', ({ detail }) => setActivities((prev) => [...prev, detail.activity]));
@@ -28,16 +30,14 @@ const ActivityDashboard = (props: ActivityDashboardProps) => {
 
     const deleteActivity = async (id: string) => {
         communicator.publish('set-global-spinner-state', { open: true });
+        const title = activities.find((e) => e.id === id)?.title;
         try {
-            const { status } = await api.activities.delete(id);
+            await api.activities.delete(id + '2');
 
-            if (status === 200) {
-                setActivities((prev) => prev.filter((e) => e.id !== id));
-            } else {
-                // throw error;
-            }
+            setActivities((prev) => prev.filter((e) => e.id !== id));
+            enqueueSnackbar('Successfully deleted activity: ' + title, { variant: 'success' });
         } catch (err) {
-            // dispatch error;
+            enqueueSnackbar('Failed to delete activity: ' + title, { variant: 'error' });
         }
         communicator.publish('set-global-spinner-state', { open: false });
     };

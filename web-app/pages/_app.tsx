@@ -1,4 +1,5 @@
 import type { AppProps } from 'next/app';
+import { SnackbarProvider } from 'notistack';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ErrorBoundary from '@/components/error/error-boundary';
@@ -28,8 +29,10 @@ export default function App({ Component, pageProps }: AppProps) {
     return (
         <ErrorBoundary>
             <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <Component {...pageProps} />
+                <SnackbarProvider maxSnack={3}>
+                    <CssBaseline />
+                    <Component {...pageProps} />
+                </SnackbarProvider>
             </ThemeProvider>
         </ErrorBoundary>
     );

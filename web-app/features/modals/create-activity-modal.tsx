@@ -1,4 +1,5 @@
 import { Formik } from 'formik';
+import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -17,16 +18,14 @@ const CreateActivityModal = () => {
     const [showCreateActivityModal, setShowCreateActivityModal] = useState(false);
     const [activity, setActivity] = useState<Activity | null>(null);
     const [hasSubmitted, setHasSubmitted] = useState(false);
+    const { enqueueSnackbar } = useSnackbar();
 
     const hasMadeChange = (values: BaseActivity) => {
-        return (
-            activity?.title !== values.title ||
-            activity?.category !== values.category ||
-            activity?.city !== values.city ||
-            activity?.venue !== values.venue ||
-            activity?.description !== values.description ||
-            activity?.date !== values.date
-        );
+        if (!activity) return true;
+        for (const key in values) {
+            if (values[key as keyof BaseActivity] !== activity[key as keyof BaseActivity]) return true;
+        }
+        return false;
     };
 
     useSubscription('set-create-activity-modal-state', ({ detail }) => {
@@ -47,7 +46,10 @@ const CreateActivityModal = () => {
             // TODO CHECK ERROR
 
             communicator.publish('created-activity', { activity: { id, ...base } });
-        } catch (err) {}
+            // show the success snackbar
+        } catch (err) {
+            // show the failure snackbar
+        }
     };
 
     const updateActivity = async (id: string, updatedActivity: BaseActivity) => {
@@ -57,7 +59,10 @@ const CreateActivityModal = () => {
             // TODO CHECK ERROR
 
             communicator.publish('updated-activity', { activity: { id, ...updatedActivity } });
-        } catch (err) {}
+            // show the success snackbar
+        } catch (err) {
+            // show the failure snackbar
+        }
     };
 
     const handleClose = () => {

@@ -5,12 +5,12 @@ import ActivityDashboard from '@/features/activity-dashboard';
 import Layout from '@/features/layout';
 import type { Activity } from '@/models/activity';
 
-interface HomeProps {
+interface ActivitiesPageProps {
     activities: Activity[];
     error: string | null;
 }
 
-const Home = ({ activities, error }: HomeProps) => {
+const ActivitiesPage = ({ activities, error }: ActivitiesPageProps) => {
     return (
         <Layout>
             {error && <p>{error}</p>}
@@ -19,7 +19,7 @@ const Home = ({ activities, error }: HomeProps) => {
     );
 };
 
-export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
+export const getServerSideProps: GetServerSideProps<ActivitiesPageProps> = async () => {
     try {
         const { data } = await api.activities.getAll();
         return {
@@ -40,4 +40,4 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
     }
 };
 
-export default Home;
+export default ActivitiesPage;

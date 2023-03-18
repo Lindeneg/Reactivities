@@ -2,3 +2,4 @@ StudentAssets
 .vscode
 .idea
 .vs/
+*.db

@@ -7,7 +7,7 @@ const Spinner = () => {
 
     useSubscription('set-global-spinner-state', ({ detail }) => setShow(detail.open));
 
-    if (!show) return;
+    if (!show) return null;
 
     return <GlobalSpinner />;
 };
