@@ -17,8 +17,11 @@ public static class BuilderServiceExtensions
 
         services.AddCors(opt =>
         {
-            opt.AddPolicy("CorsPolicy",
-                policy => { policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000"); });
+            opt.AddPolicy("DevCorsPolicy",
+                policy => { policy.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin(); });
+
+            opt.AddPolicy("ProdCorsPolicy",
+                policy => { policy.WithMethods("GET", "POST", "PATCH", "DELETE").AllowAnyHeader().WithOrigins("https://app.lindeneg.org"); });
         });
 
         services.AddMediatR(typeof(Many.Handler));

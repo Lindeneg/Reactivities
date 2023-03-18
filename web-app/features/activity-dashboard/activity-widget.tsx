@@ -18,9 +18,22 @@ const ActivityWidget = ({ activity, onClick }: ActivityWidgetProps) => {
     return (
         <Widget
             action={
-                <Button onClick={onClick} size='small'>
-                    More Details
-                </Button>
+                <div
+                    style={{
+                        display: 'flex',
+                        width: '100%',
+                        padding: '8px',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                    }}
+                >
+                    <Button onClick={onClick} size='small'>
+                        More Details
+                    </Button>
+                    <IconButton aria-label='delete activity'>
+                        <DeleteForeverIcon fontSize='small' />
+                    </IconButton>
+                </div>
             }
         >
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -28,7 +41,7 @@ const ActivityWidget = ({ activity, onClick }: ActivityWidgetProps) => {
                     {activity.category.toUpperCase()}
                 </Typography>
                 <IconButton
-                    aria-label='open account toolbox'
+                    aria-label='open edit activity modal'
                     onClick={() => {
                         communicator.publish('set-create-activity-modal-state', { open: true, activity });
                     }}

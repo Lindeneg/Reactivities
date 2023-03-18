@@ -2,6 +2,7 @@ import { Formik } from 'formik';
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
@@ -10,14 +11,25 @@ import Modal from '@/components/modal';
 import api from '@/data/api';
 import type { Activity, BaseActivity } from '@/models/activity';
 import communicator from '@/utils/communicator';
-import useCommunicator from '@/utils/use-communicator';
+import useSubscription from '@/utils/use-subscription';
 
 const CreateActivityModal = () => {
     const [showCreateActivityModal, setShowCreateActivityModal] = useState(false);
     const [activity, setActivity] = useState<Activity | null>(null);
     const [hasSubmitted, setHasSubmitted] = useState(false);
 
-    useCommunicator('set-create-activity-modal-state', ({ detail }) => {
+    const hasMadeChange = (values: BaseActivity) => {
+        return (
+            activity?.title !== values.title ||
+            activity?.category !== values.category ||
+            activity?.city !== values.city ||
+            activity?.venue !== values.venue ||
+            activity?.description !== values.description ||
+            activity?.date !== values.date
+        );
+    };
+
+    useSubscription('set-create-activity-modal-state', ({ detail }) => {
         setShowCreateActivityModal(detail.open);
         if (detail.open) {
             detail.activity && setActivity(detail.activity);
@@ -32,6 +44,8 @@ const CreateActivityModal = () => {
         try {
             const { data: id } = await api.activities.create(base);
 
+            // TODO CHECK ERROR
+
             communicator.publish('created-activity', { activity: { id, ...base } });
         } catch (err) {}
     };
@@ -40,23 +54,22 @@ const CreateActivityModal = () => {
         try {
             await api.activities.update(id, updatedActivity);
 
+            // TODO CHECK ERROR
+
             communicator.publish('updated-activity', { activity: { id, ...updatedActivity } });
         } catch (err) {}
     };
 
     const handleClose = () => {
+        // showCreateActivityModal(false) can be called directly but we'd
+        // like to publish the event for any potential listeners
         communicator.publish('set-create-activity-modal-state', { open: false });
     };
 
     return (
-        <Modal
-            open={showCreateActivityModal}
-            onClose={handleClose}
-            labelledBy='activity modal'
-            describedBy='create a new activity'
-        >
+        <Modal open={showCreateActivityModal} labelledBy='activity modal' describedBy='create a new activity'>
             <Typography id='activity-modal-title' variant='h6' component='h2'>
-                Create Activity
+                {activity ? 'Edit' : 'Create'} Activity
             </Typography>
             <Divider sx={{ margin: '15px 0px' }} />
             <Formik<BaseActivity>
@@ -210,15 +223,23 @@ const CreateActivityModal = () => {
                             fullWidth
                             variant='contained'
                             sx={{ mt: 3 }}
+                            disabled={isSubmitting || (!!activity && !hasMadeChange(values))}
                             onClick={() => {
                                 !hasSubmitted && setHasSubmitted(true);
                                 if (Object.keys(errors).length > 0) return;
                                 handleSubmit();
                             }}
                         >
-                            {isSubmitting ? 'Please Wait..' : 'Submit'}
+                            {isSubmitting ? <CircularProgress /> : 'Submit'}
                         </Button>
-                        <Button type='button' fullWidth variant='outlined' sx={{ mt: 1 }} onClick={() => handleClose()}>
+                        <Button
+                            disabled={isSubmitting}
+                            type='button'
+                            fullWidth
+                            variant='outlined'
+                            sx={{ mt: 1 }}
+                            onClick={() => handleClose()}
+                        >
                             Cancel
                         </Button>
                     </Box>

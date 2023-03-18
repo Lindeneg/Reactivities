@@ -11,16 +11,18 @@ public static class ApplicationServiceExtensions
         {
             app.UseSwagger();
             app.UseSwaggerUI();
+            app.UseCors("DevCorsPolicy");
         }
 
         if (app.Environment.IsProduction())
         {
             app.UseHttpsRedirection();
+            app.UseCors("ProdCorsPolicy");
         }
 
         return app;
     }
-    
+
     public static async Task<WebApplication> ConfigureDatabase(this WebApplication app)
     {
         // Explicit cleanup

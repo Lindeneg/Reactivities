@@ -20,7 +20,7 @@ import '@fontsource/roboto/700.css';
 
 const theme = createTheme({
     palette: {
-        mode: 'dark',
+        mode: 'light',
     },
 });
 

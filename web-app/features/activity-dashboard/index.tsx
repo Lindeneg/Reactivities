@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Dashboard from '@/components/dashboard';
 import type { Activity } from '@/models/activity';
-import useCommunicator from '@/utils/use-communicator';
+import useSubscription from '@/utils/use-subscription';
 import ActivityWidget from './activity-widget';
 
 export interface ActivityDashboardProps {
@@ -13,9 +13,9 @@ const ActivityDashboard = (props: ActivityDashboardProps) => {
     const [activities, setActivities] = useState(props.activities);
     const router = useRouter();
 
-    useCommunicator('created-activity', ({ detail }) => setActivities((prev) => [...prev, detail.activity]));
+    useSubscription('created-activity', ({ detail }) => setActivities((prev) => [...prev, detail.activity]));
 
-    useCommunicator('updated-activity', ({ detail }) =>
+    useSubscription('updated-activity', ({ detail }) =>
         setActivities((prev) => {
             const index = prev.findIndex((e) => e.id === detail.activity.id);
             if (index === -1) return prev;
@@ -24,7 +24,7 @@ const ActivityDashboard = (props: ActivityDashboardProps) => {
         })
     );
 
-    useCommunicator('deleted-activity', ({ detail }) =>
+    useSubscription('deleted-activity', ({ detail }) =>
         setActivities((prev) => prev.filter((e) => e.id !== detail.activityId))
     );
 
