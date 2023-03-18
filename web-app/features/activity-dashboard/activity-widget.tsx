@@ -9,12 +9,11 @@ import communicator from '@/utils/communicator';
 
 export interface ActivityWidgetProps {
     activity: Activity;
-    onClick: () => void;
-    onEdit?: () => void;
-    onDelete?: () => void;
+    onMoreDetails: () => void;
+    onDelete: (id: string) => void;
 }
 
-const ActivityWidget = ({ activity, onClick }: ActivityWidgetProps) => {
+const ActivityWidget = ({ activity, onMoreDetails, onDelete }: ActivityWidgetProps) => {
     return (
         <Widget
             action={
@@ -27,10 +26,10 @@ const ActivityWidget = ({ activity, onClick }: ActivityWidgetProps) => {
                         justifyContent: 'space-between',
                     }}
                 >
-                    <Button onClick={onClick} size='small'>
+                    <Button onClick={onMoreDetails} size='small'>
                         More Details
                     </Button>
-                    <IconButton aria-label='delete activity'>
+                    <IconButton aria-label='delete activity' onClick={() => onDelete(activity.id)}>
                         <DeleteForeverIcon fontSize='small' />
                     </IconButton>
                 </div>

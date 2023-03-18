@@ -2,6 +2,7 @@ import type { Activity } from '@/models/activity';
 
 export type ReactivityEvent =
     | 'set-create-activity-modal-state'
+    | 'set-global-spinner-state'
     | 'created-activity'
     | 'updated-activity'
     | 'deleted-activity';
@@ -12,6 +13,8 @@ export type ReactivityEventPayload<TEvent extends ReactivityEvent> = TEvent exte
     ? { activity: Activity }
     : TEvent extends 'deleted-activity'
     ? { activityId: string }
+    : TEvent extends 'set-global-spinner-state'
+    ? { open: boolean }
     : never;
 
 export type ReactivityEventListener<TEvent extends ReactivityEvent> = (
