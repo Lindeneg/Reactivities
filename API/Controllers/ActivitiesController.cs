@@ -20,7 +20,7 @@ public class ActivitiesController : BaseApiController
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateActivity(Activity activity)
+    public async Task<ActionResult<Guid>> CreateActivity(Activity activity)
     {
         return Ok(await Mediator.Send(new Create.Command { Activity = activity }));
     }

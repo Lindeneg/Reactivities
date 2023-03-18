@@ -5,6 +5,7 @@ import Header from '@/components/header';
 import MetaHeader, { type MetaHeaderProps } from '@/components/meta-header';
 import Navigation from '@/components/navigation';
 import navItems from '@/data/navigation';
+import Modals from '../modals';
 
 export interface LayoutProps {
     meta?: MetaHeaderProps;
@@ -20,6 +21,7 @@ const Layout = ({ children, meta }: LayoutProps) => {
 
     return (
         <>
+            <Modals />
             <MetaHeader {...meta} />
             <Header name='Reactivities' logoPath='/next.svg' to='/' onOpenNavigation={toggleNavHandler} />
             <Navigation name='Reactivities' open={navOpen} items={navItems} onClose={toggleNavHandler} />

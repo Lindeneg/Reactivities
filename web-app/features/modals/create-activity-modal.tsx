@@ -7,30 +7,72 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Modal from '@/components/modal';
-import type { BaseActivity } from '@/models/activity';
+import api from '@/data/api';
+import type { Activity, BaseActivity } from '@/models/activity';
+import communicator from '@/utils/communicator';
+import useCommunicator from '@/utils/use-communicator';
 
-export interface CreateActivityModalProps {
-    open: boolean;
-    onSubmit: (activity: BaseActivity) => void;
-    onClose: () => void;
-}
-
-const CreateActivityModal = ({ open, onSubmit, onClose }: CreateActivityModalProps) => {
+const CreateActivityModal = () => {
+    const [showCreateActivityModal, setShowCreateActivityModal] = useState(false);
+    const [activity, setActivity] = useState<Activity | null>(null);
     const [hasSubmitted, setHasSubmitted] = useState(false);
 
+    useCommunicator('set-create-activity-modal-state', ({ detail }) => {
+        setShowCreateActivityModal(detail.open);
+        if (detail.open) {
+            detail.activity && setActivity(detail.activity);
+        } else {
+            setHasSubmitted(false);
+            setShowCreateActivityModal(false);
+            setActivity(null);
+        }
+    });
+
+    const createActivity = async (base: BaseActivity) => {
+        try {
+            const { data: id } = await api.activities.create(base);
+
+            communicator.publish('created-activity', { activity: { id, ...base } });
+        } catch (err) {}
+    };
+
+    const updateActivity = async (id: string, updatedActivity: BaseActivity) => {
+        try {
+            await api.activities.update(id, updatedActivity);
+
+            communicator.publish('updated-activity', { activity: { id, ...updatedActivity } });
+        } catch (err) {}
+    };
+
+    const handleClose = () => {
+        communicator.publish('set-create-activity-modal-state', { open: false });
+    };
+
     return (
-        <Modal open={open} labelledBy='activity modal' describedBy='create a new activity'>
+        <Modal
+            open={showCreateActivityModal}
+            onClose={handleClose}
+            labelledBy='activity modal'
+            describedBy='create a new activity'
+        >
             <Typography id='activity-modal-title' variant='h6' component='h2'>
                 Create Activity
             </Typography>
             <Divider sx={{ margin: '15px 0px' }} />
             <Formik<BaseActivity>
-                initialValues={{ title: '', description: '', category: '', date: '', city: '', venue: '' }}
+                initialValues={{
+                    title: activity?.title || '',
+                    category: activity?.category || '',
+                    city: activity?.city || '',
+                    venue: activity?.venue || '',
+                    description: activity?.description || '',
+                    date: activity?.date || '',
+                }}
                 validate={(values) => {
                     const errors: Partial<BaseActivity> = {};
 
-                    if (!values.title || values.title.length < 3 || values.title.length > 12) {
-                        errors.title = '3-12 characters';
+                    if (!values.title || values.title.length < 3 || values.title.length > 24) {
+                        errors.title = '3-24 characters';
                     }
 
                     if (!values.category || values.category.length < 3 || values.category.length > 12) {
@@ -55,24 +97,23 @@ const CreateActivityModal = ({ open, onSubmit, onClose }: CreateActivityModalPro
 
                     return errors;
                 }}
-                onSubmit={(values) => {
-                    onSubmit(values);
-                    onClose();
-                }}
-                onReset={() => {
-                    setHasSubmitted(false);
+                onSubmit={async (values) => {
+                    await (activity ? updateActivity(activity.id, values) : createActivity(values));
+                    handleClose();
                 }}
             >
                 {({
+                    values,
+
                     errors,
+
+                    isSubmitting,
 
                     handleChange,
 
                     handleBlur,
 
                     handleSubmit,
-
-                    handleReset,
                 }) => (
                     <Box component='form' noValidate sx={{ mt: 3 }}>
                         <Grid container spacing={2}>
@@ -81,6 +122,7 @@ const CreateActivityModal = ({ open, onSubmit, onClose }: CreateActivityModalPro
                                     name='title'
                                     id='title'
                                     label='Title'
+                                    value={values.title}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     helperText={hasSubmitted && errors.title}
@@ -97,6 +139,7 @@ const CreateActivityModal = ({ open, onSubmit, onClose }: CreateActivityModalPro
                                     label='City'
                                     id='city'
                                     name='city'
+                                    value={values.city}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     helperText={hasSubmitted && errors.city}
@@ -110,6 +153,7 @@ const CreateActivityModal = ({ open, onSubmit, onClose }: CreateActivityModalPro
                                     label='Category'
                                     id='category'
                                     name='category'
+                                    value={values.category}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     helperText={hasSubmitted && errors.category}
@@ -123,6 +167,7 @@ const CreateActivityModal = ({ open, onSubmit, onClose }: CreateActivityModalPro
                                     label='Venue'
                                     id='venue'
                                     name='venue'
+                                    value={values.venue}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     helperText={hasSubmitted && errors.venue}
@@ -138,6 +183,7 @@ const CreateActivityModal = ({ open, onSubmit, onClose }: CreateActivityModalPro
                                     id='description'
                                     label='Description'
                                     name='description'
+                                    value={values.description}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     helperText={hasSubmitted && errors.description}
@@ -151,6 +197,7 @@ const CreateActivityModal = ({ open, onSubmit, onClose }: CreateActivityModalPro
                                     id='date'
                                     type='date'
                                     name='date'
+                                    value={values.date.split('T')[0]}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     helperText={hasSubmitted && errors.date}
@@ -169,18 +216,9 @@ const CreateActivityModal = ({ open, onSubmit, onClose }: CreateActivityModalPro
                                 handleSubmit();
                             }}
                         >
-                            Submit
+                            {isSubmitting ? 'Please Wait..' : 'Submit'}
                         </Button>
-                        <Button
-                            type='button'
-                            fullWidth
-                            variant='outlined'
-                            sx={{ mt: 1 }}
-                            onClick={() => {
-                                handleReset();
-                                onClose();
-                            }}
-                        >
+                        <Button type='button' fullWidth variant='outlined' sx={{ mt: 1 }} onClick={() => handleClose()}>
                             Cancel
                         </Button>
                     </Box>

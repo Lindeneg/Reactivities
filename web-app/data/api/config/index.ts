@@ -1,7 +1,7 @@
 const config = {
     timeout: 8000,
     headers: {
-        Accept: 'application/json',
+        Accept: '*/*',
         'Content-Type': 'application/json',
     },
 };

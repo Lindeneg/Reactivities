@@ -1,7 +1,17 @@
-export type ReactivityEvent = 'set-create-activity-modal-state';
+import type { Activity } from '@/models/activity';
+
+export type ReactivityEvent =
+    | 'set-create-activity-modal-state'
+    | 'created-activity'
+    | 'updated-activity'
+    | 'deleted-activity';
 
 export type ReactivityEventPayload<TEvent extends ReactivityEvent> = TEvent extends 'set-create-activity-modal-state'
-    ? { open: boolean }
+    ? { open: boolean; activity?: Activity }
+    : TEvent extends 'created-activity' | 'updated-activity'
+    ? { activity: Activity }
+    : TEvent extends 'deleted-activity'
+    ? { activityId: string }
     : never;
 
 export type ReactivityEventListener<TEvent extends ReactivityEvent> = (

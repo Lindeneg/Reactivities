@@ -9,6 +9,7 @@ builder.Services.AddCustomServices(builder.Configuration);
 var app = builder.Build();
 
 app.AddCustomServices();
+app.UseCors("CorsPolicy");
 app.UseAuthorization();
 app.MapControllers();
 

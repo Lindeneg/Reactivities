@@ -6,12 +6,12 @@ namespace Application.Activities;
 
 public class Create
 {
-    public class Command : IRequest
+    public class Command : IRequest<Guid>
     {
         public Activity Activity { get; set; }
     }
 
-    public class Handler : IRequestHandler<Command>
+    public class Handler : IRequestHandler<Command, Guid>
     {
         private readonly DataContext _context;
 
@@ -20,14 +20,14 @@ public class Create
             _context = context;
         }
 
-        public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(Command request, CancellationToken cancellationToken)
         {
-            if (request.Activity == null) return Unit.Value;
+            //if (request.Activity == null) return Unit.Value;
 
-            _context.Activities.Add(request.Activity);
+            var a = _context.Activities.Add(request.Activity);
             await _context.SaveChangesAsync(cancellationToken);
 
-            return Unit.Value;
+            return a.Entity.Id;
         }
     }
 }

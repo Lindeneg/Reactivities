@@ -1,6 +1,6 @@
 import type { AxiosError } from 'axios';
 import type { GetServerSideProps } from 'next';
-import api from '@/axios/activities';
+import api from '@/data/api';
 import DashboardWidget from '@/features/activity-dashboard/activity-widget';
 import Layout from '@/features/layout';
 import type { Activity } from '@/models/activity';
@@ -20,7 +20,7 @@ const Home = ({ activity }: HomeProps) => {
 
 export const getServerSideProps: GetServerSideProps<HomeProps> = async (context) => {
     try {
-        const { data } = await api.getActivity(String(context.query.activity));
+        const { data } = await api.activities.get(String(context.query.activity));
         return {
             props: {
                 activity: data,
