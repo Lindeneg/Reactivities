@@ -31,7 +31,9 @@ const ActivityControlWidget = ({
         communicator.publish('set-confirmation-modal-state', {
             open: true,
             description: `Are you sure you want to activity '${activity.title}'?`,
-            onAccept: () => api.activities.delete(activity.id, activity.title),
+            onAccept: async () => {
+                await api.activities.delete(activity.id, activity.title);
+            },
         });
     };
 

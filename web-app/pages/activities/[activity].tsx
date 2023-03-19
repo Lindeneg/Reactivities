@@ -12,14 +12,9 @@ const ActivityPage = (props: ActivityDashboardProps) => {
 };
 
 export const getServerSideProps: GetServerSideProps<ActivityDashboardProps> = async (context) => {
-    try {
-        const { data } = await api.activities.get(String(context.query.activity));
-        return {
-            props: {
-                activity: data,
-            },
-        };
-    } catch (err) {
+    const { response, error } = await api.activities.get(String(context.query.activity));
+
+    if (error || !response) {
         return {
             redirect: {
                 destination: '/404',
@@ -27,6 +22,12 @@ export const getServerSideProps: GetServerSideProps<ActivityDashboardProps> = as
             },
         };
     }
+
+    return {
+        props: {
+            activity: response.data,
+        },
+    };
 };
 
 export default ActivityPage;

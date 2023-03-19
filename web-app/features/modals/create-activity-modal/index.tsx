@@ -153,7 +153,7 @@ const CreateActivityModal = () => {
                             {
                                 name: 'description',
                                 id: 'description',
-                                label: 'Venue',
+                                label: 'Description',
                                 value: values.description,
                                 helperText: hasSubmitted && errors.description,
                                 error: hasSubmitted && !!errors.description,

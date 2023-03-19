@@ -32,16 +32,9 @@ const ActivitiesPage = ({ error, ...props }: ActivitiesPageProps) => {
 };
 
 export const getServerSideProps: GetServerSideProps<ActivitiesPageProps> = async () => {
-    try {
-        const { data } = await api.activities.getAll();
+    const { response, error } = await api.activities.getAll();
 
-        return {
-            props: {
-                activities: sortActivitiesByDate(data),
-                error: null,
-            },
-        };
-    } catch (err) {
+    if (error || !response) {
         return {
             props: {
                 activities: [],
@@ -49,6 +42,13 @@ export const getServerSideProps: GetServerSideProps<ActivitiesPageProps> = async
             },
         };
     }
+
+    return {
+        props: {
+            activities: sortActivitiesByDate(response.data),
+            error: null,
+        },
+    };
 };
 
 export default ActivitiesPage;
