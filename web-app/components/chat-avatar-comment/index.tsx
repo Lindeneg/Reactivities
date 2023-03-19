@@ -12,12 +12,12 @@ export type ChatCommentProps = {
     //replies?: Comment[];
 };
 
-export interface ChatCommentWidgetProps extends ChatCommentProps {
-    onReply: (commentId: string) => void;
+export interface ChatAvatarCommentProps extends ChatCommentProps {
+    onReply?: (commentId: string) => void;
     firstItem?: boolean;
 }
 
-const ChatCommentWidget = ({ id, name, image, date, comment, onReply, firstItem = false }: ChatCommentWidgetProps) => {
+const ChatAvatarComment = ({ id, name, image, date, comment, onReply, firstItem = false }: ChatAvatarCommentProps) => {
     return (
         <>
             <Box display='flex' margin={!firstItem ? '1rem 0' : '0 0 1rem 0'}>
@@ -31,21 +31,23 @@ const ChatCommentWidget = ({ id, name, image, date, comment, onReply, firstItem 
                         | {date}
                     </Typography>
                     <Typography variant='body1'>{comment}</Typography>
-                    <Button
-                        onClick={() => onReply(id)}
-                        type='button'
-                        size='small'
-                        variant='outlined'
-                        sx={{ marginTop: '0.3rem' }}
-                    >
-                        <Typography variant='button' component='small'>
-                            Reply
-                        </Typography>
-                    </Button>
+                    {onReply && (
+                        <Button
+                            onClick={() => onReply(id)}
+                            type='button'
+                            size='small'
+                            variant='outlined'
+                            sx={{ marginTop: '0.3rem' }}
+                        >
+                            <Typography variant='button' component='small'>
+                                Reply
+                            </Typography>
+                        </Button>
+                    )}
                 </Box>
             </Box>
         </>
     );
 };
 
-export default ChatCommentWidget;
+export default ChatAvatarComment;
