@@ -3,6 +3,7 @@ import Card, { type CardProps } from '@mui/material/Card';
 import CardActions, { type CardActionsProps } from '@mui/material/CardActions';
 import CardContent, { type CardContentProps } from '@mui/material/CardContent';
 import CardHeader, { type CardHeaderProps } from '@mui/material/CardHeader';
+import withColorContrast from '@/logic/with-color-contrast';
 
 export interface WidgetProps {
     children: React.ReactNode;
@@ -13,6 +14,7 @@ export interface WidgetProps {
     cardContentProps?: CardContentProps;
     cardActionProps?: CardActionsProps;
     cardHeaderProps?: CardHeaderProps;
+    title?: string;
 }
 
 const Widget = ({
@@ -22,13 +24,20 @@ const Widget = ({
     cardActionProps,
     cardHeaderProps,
     cardProps,
+    title,
     withBox = true,
     minWidth = 275,
 }: WidgetProps) => {
     const content = (
         <Card variant='elevation' {...cardProps}>
             <>
-                {cardHeaderProps && <CardHeader {...cardHeaderProps} />}
+                {(title || cardHeaderProps) && (
+                    <CardHeader
+                        title={title}
+                        sx={withColorContrast({ width: '100%', textAlign: 'center' })}
+                        {...cardHeaderProps}
+                    />
+                )}
                 <CardContent {...cardContentProps}>{children}</CardContent>
                 {action && <CardActions {...cardActionProps}>{action}</CardActions>}
             </>

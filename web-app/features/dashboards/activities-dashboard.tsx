@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Box from '@mui/material/Box';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
 import Grid from '@/components/grid';
 import Widget from '@/components/widget';
 import ActivityWidget from '@/features/widgets/activity-widget';
@@ -43,7 +45,17 @@ const ActivitiesDashboard = (props: ActivitiesDashboardProps) => {
                     />
                 )}
             />
-            <Widget minWidth={375}>Hello</Widget>
+            <Box>
+                <Widget title='Activity Filters' minWidth={375}>
+                    <List>
+                        <ListItem>Hello</ListItem>
+                        <ListItem>There</ListItem>
+                    </List>
+                </Widget>
+                <Widget minWidth={375} cardProps={{ sx: { marginTop: '1rem' } }}>
+                    Kenobi
+                </Widget>
+            </Box>
         </Box>
     );
 };

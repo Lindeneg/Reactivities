@@ -7,7 +7,6 @@ import ChatAvatarComment, {
     type ChatCommentProps,
 } from '@/components/chat-avatar-comment';
 import Widget from '@/components/widget';
-import withColorContrast from '@/logic/with-color-contrast';
 
 export interface ChatWidgetProps {
     onReplyToComment: ChatAvatarCommentProps['onReply'];
@@ -19,11 +18,8 @@ export interface ChatWidgetProps {
 const ChatWidget = ({ title, comments, onReplyToComment, onReplyToEvent }: ChatWidgetProps) => {
     return (
         <Widget
+            title={title}
             withBox={false}
-            cardHeaderProps={{
-                sx: withColorContrast({ width: '100%', textAlign: 'center', marginBottom: '1rem' }),
-                title,
-            }}
             cardActionProps={{ sx: { paddingLeft: '1rem' } }}
             action={
                 <Button onClick={onReplyToEvent} type='button' variant='contained' startIcon={<ReplyIcon />}>
