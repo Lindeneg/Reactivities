@@ -62,8 +62,8 @@ const CreateActivityModal = () => {
                         errors.title = '3-24 characters';
                     }
 
-                    if (!values.category || values.category.length < 3 || values.category.length > 32) {
-                        errors.category = '3-12 characters';
+                    if (typeof values.category !== 'number' || isNaN(values.category)) {
+                        errors.category = 'Please Select Category';
                     }
 
                     if (!values.city || values.city.length < 1 || values.city.length > 32) {
