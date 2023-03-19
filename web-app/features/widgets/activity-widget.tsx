@@ -79,10 +79,13 @@ const ActivityWidget = ({ activity, onMoreDetails }: ActivityWidgetProps) => {
                         {activity.title}
                     </Typography>
                     <Typography sx={{ mb: 1.5 }} color='text.secondary'>
-                        {activity.city} | {new Date(activity.date).toLocaleDateString()}
+                        {activity.city} | {activity.venue}
                     </Typography>
                 </Box>
             </Box>
+            <Typography sx={{ mt: 1.5 }} color='text.secondary'>
+                {new Date(activity.date).toLocaleDateString()}
+            </Typography>
             <Typography
                 variant='body2'
                 sx={withColorContrast({

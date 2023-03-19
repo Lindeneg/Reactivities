@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+const { exec } = require('node:child_process');
+const path = require('node:path');
+
+const run = (cmd, location, color = null) => {
+    exec(cmd, { cwd: path.join(process.cwd(), location) }, (err, stdout, stderr) => {
+        if (err) {
+            console.error({ err, stdout, stderr });
+        }
+    }).stdout.on('data', (data) => {
+        color ? console.log(`\x1b[${color}m%s\x1b`, data) : console.log(data);
+    });
+};
+
+const startBackend = () => run('dotnet run --watch', 'API', '36');
+
+const startFrontend = () => run('yarn dev', 'web-app');
+
+(() => {
+    const mode = process.argv.slice(2)[0];
+
+    if (!mode || mode === 'be' || mode === 'all') {
+        startBackend();
+    }
+
+    if (!mode || mode === 'fe' || mode === 'all') {
+        startFrontend();
+    }
+})();
