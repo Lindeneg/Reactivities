@@ -3,12 +3,13 @@ using FluentValidation;
 using Domain;
 using MediatR;
 using Persistence;
+using Application.Core;
 
 namespace Application.Activities;
 
 public class EditActivity
 {
-    public class Command : IRequest
+    public class Command : IRequest<Result<Unit>>
     {
         public Activity Activity { get; set; }
     }
@@ -21,7 +22,7 @@ public class EditActivity
         }
     }
 
-    public class Handler : IRequestHandler<Command>
+    public class Handler : IRequestHandler<Command, Result<Unit>>
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
@@ -32,18 +33,20 @@ public class EditActivity
             _mapper = mapper;
         }
 
-        public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
             var activity = await _context.Activities.FindAsync(new object[] { request.Activity.Id },
                 cancellationToken: cancellationToken);
 
-            if (activity == null) return Unit.Value;
+            if (activity == null) return null;
 
             _mapper.Map(request.Activity, activity);
 
-            await _context.SaveChangesAsync(cancellationToken);
+            var result = await _context.SaveChangesAsync(cancellationToken) > 0;
 
-            return Unit.Value;
+            if (!result) return Result<Unit>.Failure("Failed to edit the activity");
+
+            return Result<Unit>.Success(Unit.Value);
         }
     }
 }
