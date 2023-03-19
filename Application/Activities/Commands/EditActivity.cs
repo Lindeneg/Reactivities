@@ -1,15 +1,24 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Domain;
 using MediatR;
 using Persistence;
 
 namespace Application.Activities;
 
-public class Edit
+public class EditActivity
 {
     public class Command : IRequest
     {
         public Activity Activity { get; set; }
+    }
+
+    public class CommandValidator : AbstractValidator<Command>
+    {
+        public CommandValidator()
+        {
+            RuleFor(x => x.Activity).SetValidator(new StrictActivityValidator());
+        }
     }
 
     public class Handler : IRequestHandler<Command>

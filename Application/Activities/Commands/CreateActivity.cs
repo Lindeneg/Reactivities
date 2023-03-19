@@ -1,14 +1,23 @@
 ﻿using Domain;
+using FluentValidation;
 using MediatR;
 using Persistence;
 
 namespace Application.Activities;
 
-public class Create
+public class CreateActivity
 {
     public class Command : IRequest<Guid>
     {
         public Activity Activity { get; set; }
+    }
+
+    public class CommandValidator : AbstractValidator<Command>
+    {
+        public CommandValidator()
+        {
+            RuleFor(x => x.Activity).SetValidator(new StrictActivityValidator());
+        }
     }
 
     public class Handler : IRequestHandler<Command, Guid>

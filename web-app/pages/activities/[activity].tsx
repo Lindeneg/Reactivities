@@ -14,8 +14,7 @@ const Page = (props: ActivityPageProps) => {
 
 export const getServerSideProps: GetServerSideProps<ActivityPageProps> = async (context) => {
     try {
-        const { data, status } = await api.activities.get(String(context.query.activity));
-        if (!data || status === 204) throw new Error();
+        const { data } = await api.activities.get(String(context.query.activity));
         return {
             props: {
                 activity: data,
