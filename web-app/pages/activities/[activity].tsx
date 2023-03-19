@@ -1,18 +1,17 @@
-import type { AxiosError } from 'axios';
 import type { GetServerSideProps } from 'next';
 import api from '@/data/api';
+import ActivityDashboard, { type ActivityDashboardProps } from '@/features/dashboards/activity-dashboard';
 import Layout from '@/features/layout';
-import ActivityPage, { type ActivityPageProps } from '@/features/pages/activity-page';
 
-const Page = (props: ActivityPageProps) => {
+const ActivityPage = (props: ActivityDashboardProps) => {
     return (
         <Layout>
-            <ActivityPage {...props} />
+            <ActivityDashboard {...props} />
         </Layout>
     );
 };
 
-export const getServerSideProps: GetServerSideProps<ActivityPageProps> = async (context) => {
+export const getServerSideProps: GetServerSideProps<ActivityDashboardProps> = async (context) => {
     try {
         const { data } = await api.activities.get(String(context.query.activity));
         return {
@@ -21,8 +20,6 @@ export const getServerSideProps: GetServerSideProps<ActivityPageProps> = async (
             },
         };
     } catch (err) {
-        console.log({ msg: 'Failed to fetch activity', id: context.query.activity, err: (err as AxiosError).cause });
-
         return {
             redirect: {
                 destination: '/404',
@@ -32,4 +29,4 @@ export const getServerSideProps: GetServerSideProps<ActivityPageProps> = async (
     }
 };
 
-export default Page;
+export default ActivityPage;

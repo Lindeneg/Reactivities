@@ -1,14 +1,32 @@
-import type { AxiosError } from 'axios';
 import type { GetServerSideProps } from 'next';
+import { useEffect } from 'react';
 import api from '@/data/api';
+import ActivitiesDashboard from '@/features/dashboards/activities-dashboard';
 import Layout from '@/features/layout';
-import ActivitiesPage, { type ActivitiesPageProps } from '@/features/pages/activities-page';
 import { sortActivitiesByDate } from '@/logic';
+import type { Activity } from '@/models/activity';
+import communicator from '@/utils/communicator';
 
-const Page = (props: ActivitiesPageProps) => {
+export interface ActivitiesPageProps {
+    activities: Activity[];
+    error: string | null;
+}
+
+const ActivitiesPage = ({ error, ...props }: ActivitiesPageProps) => {
+    useEffect(() => {
+        error && communicator.publish('enqueue-snackbar', { msg: error, variant: 'error', autoHideDuration: 10000 });
+    }, [error]);
+
+    if (error)
+        return (
+            <Layout>
+                <p>An error occurred</p>
+            </Layout>
+        );
+
     return (
         <Layout>
-            <ActivitiesPage {...props} />
+            <ActivitiesDashboard {...props} />
         </Layout>
     );
 };
@@ -24,8 +42,6 @@ export const getServerSideProps: GetServerSideProps<ActivitiesPageProps> = async
             },
         };
     } catch (err) {
-        console.log({ msg: 'Failed to fetch activities', err: (err as AxiosError).cause });
-
         return {
             props: {
                 activities: [],
@@ -35,4 +51,4 @@ export const getServerSideProps: GetServerSideProps<ActivitiesPageProps> = async
     }
 };
 
-export default Page;
+export default ActivitiesPage;

@@ -11,11 +11,11 @@ import ActivityControlWidget from '../widgets/activity-control-widget';
 import ActivityInformationWidget from '../widgets/activity-information-widget';
 import ChatWidget from '../widgets/chat-widget';
 
-export interface ActivityPageProps {
+export interface ActivityDashboardProps {
     activity: Activity;
 }
 
-const ActivityPage = (props: ActivityPageProps) => {
+const ActivityDashboard = (props: ActivityDashboardProps) => {
     const [activity, setActivity] = useState(props.activity);
     const router = useRouter();
 
@@ -106,4 +106,4 @@ const ActivityPage = (props: ActivityPageProps) => {
     );
 };
 
-export default ActivityPage;
+export default ActivityDashboard;

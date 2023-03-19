@@ -11,6 +11,7 @@ export interface ActivityAttendanceWidgetProps {
 const ActivityAttendanceWidget = ({ attendees }: ActivityAttendanceWidgetProps) => {
     return (
         <Widget
+            minWidth={375}
             cardHeaderProps={{
                 sx: withColorContrast({ width: '100%', textAlign: 'center' }),
                 title: `${attendees.length} attendees going`,
