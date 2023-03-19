@@ -1,34 +1,21 @@
 import type { AxiosError } from 'axios';
 import type { GetServerSideProps } from 'next';
-import Image from 'next/image';
 import api from '@/data/api';
 import Layout from '@/features/layout';
-import DashboardWidget from '@/features/widgets/activity-widget';
-import type { Activity } from '@/models/activity';
+import ActivityPage, { type ActivityPageProps } from '@/features/pages/activity-page';
 
-interface ActivityPageProps {
-    activity: Activity | null;
-}
-
-const ActivityPage = ({ activity }: ActivityPageProps) => {
-    if (!activity) return;
+const Page = (props: ActivityPageProps) => {
     return (
         <Layout>
-            <Image
-                src={`/images/categoryImages/${activity.category.toLowerCase()}.jpg`}
-                alt='activity image'
-                width={1024}
-                height={1024}
-                style={{ height: '300px', width: '100%', objectFit: 'cover' }}
-            />
-            <DashboardWidget activity={activity} onMoreDetails={() => null} />
+            <ActivityPage {...props} />
         </Layout>
     );
 };
 
 export const getServerSideProps: GetServerSideProps<ActivityPageProps> = async (context) => {
     try {
-        const { data } = await api.activities.get(String(context.query.activity));
+        const { data, status } = await api.activities.get(String(context.query.activity));
+        if (!data || status === 204) throw new Error();
         return {
             props: {
                 activity: data,
@@ -46,4 +33,4 @@ export const getServerSideProps: GetServerSideProps<ActivityPageProps> = async (
     }
 };
 
-export default ActivityPage;
+export default Page;

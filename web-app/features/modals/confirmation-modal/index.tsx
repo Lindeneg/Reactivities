@@ -34,6 +34,7 @@ const ConfirmationModal = () => {
     return (
         <Modal
             open={showModal}
+            onClose={handleClose}
             labelledBy='confirmation modal'
             describedBy='confirm an action'
             boxProps={{ minHeight: 200 }}

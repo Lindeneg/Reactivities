@@ -1,7 +1,9 @@
-import { useSnackbar } from 'notistack';
+import { type SnackbarKey, closeSnackbar, useSnackbar } from 'notistack';
 import { useState } from 'react';
+import CloseIcon from '@mui/icons-material/Close';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
+import IconButton from '@mui/material/IconButton';
 import Footer from '@/components/footer';
 import GlobalSpinner from '@/components/global-spinner';
 import Header from '@/components/header';
@@ -16,6 +18,19 @@ export interface LayoutProps {
     children: React.ReactNode;
 }
 
+const CloseSnackBarButton = (key: SnackbarKey) => {
+    return (
+        <IconButton
+            aria-label='close snackbar'
+            onClick={() => {
+                closeSnackbar(key);
+            }}
+        >
+            <CloseIcon />
+        </IconButton>
+    );
+};
+
 const Layout = ({ children, meta }: LayoutProps) => {
     const [navOpen, setNavOpen] = useState(false);
     const [showSpinner, setShowSpinner] = useState(false);
@@ -27,15 +42,18 @@ const Layout = ({ children, meta }: LayoutProps) => {
 
     useSubscription('enqueue-snackbar', ({ detail }) => {
         const { msg, ...props } = detail;
-        enqueueSnackbar(msg, props);
+        enqueueSnackbar(msg, {
+            action: (key) => CloseSnackBarButton(key),
+            ...props,
+        });
     });
 
     useSubscription('set-global-spinner-state', ({ detail }) => setShowSpinner(detail.open));
 
     return (
         <>
-            <Modals />
             {showSpinner && <GlobalSpinner />}
+            <Modals />
             <MetaHeader {...meta} />
             <Box display='flex' flexDirection='column' minHeight='100vh'>
                 <Header name='Reactivities' logoPath='/next.svg' to='/' onOpenNavigation={toggleNavHandler} />

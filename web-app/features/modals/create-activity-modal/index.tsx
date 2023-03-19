@@ -36,7 +36,12 @@ const CreateActivityModal = () => {
     const handleClose = () => communicator.publish('set-create-activity-modal-state', { open: false });
 
     return (
-        <Modal open={showCreateActivityModal} labelledBy='activity modal' describedBy='create a new activity'>
+        <Modal
+            open={showCreateActivityModal}
+            onClose={activity ? handleClose : () => null}
+            labelledBy='activity modal'
+            describedBy='create a new activity'
+        >
             <Typography id='activity-modal-title' variant='h6' component='h2'>
                 {activity ? 'Edit' : 'Create'} Activity
             </Typography>
@@ -44,14 +49,14 @@ const CreateActivityModal = () => {
             <Formik<BaseActivity>
                 initialValues={{
                     title: activity?.title || '',
-                    category: activity?.category || '',
+                    category: activity?.category || ('' as any),
                     city: activity?.city || '',
                     venue: activity?.venue || '',
                     description: activity?.description || '',
                     date: activity?.date || '',
                 }}
                 validate={(values) => {
-                    const errors: Partial<BaseActivity> = {};
+                    const errors: Record<string, string> = {};
 
                     if (!values.title || values.title.length < 3 || values.title.length > 24) {
                         errors.title = '3-24 characters';
