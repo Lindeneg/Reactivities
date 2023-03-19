@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import type { Activity } from '@/models/activity';
@@ -13,13 +14,18 @@ export interface ActivityPageProps {
     activity: Activity;
 }
 
-const ActivityPage = ({ activity }: ActivityPageProps) => {
+const ActivityPage = (props: ActivityPageProps) => {
+    const [activity, setActivity] = useState(props.activity);
     const router = useRouter();
 
     useSubscription('deleted-activity', ({ detail }) => {
         if (activity.id !== detail.activityId) return;
 
         router.push('/activities');
+    });
+
+    useSubscription('updated-activity', ({ detail }) => {
+        setActivity(detail.activity);
     });
 
     return (
@@ -35,13 +41,15 @@ const ActivityPage = ({ activity }: ActivityPageProps) => {
 
                 <ActivityControlWidget
                     activity={activity}
-                    isAttending={false}
+                    isAttending={true}
                     isHost={true}
                     onAttendActivity={() => {}}
                     onCancelAttendance={() => {}}
                 />
 
                 <ActivityInformationWidget
+                    hostedBy='Bob'
+                    title={activity.title}
                     description={activity.description}
                     date={activity.date}
                     city={activity.city}

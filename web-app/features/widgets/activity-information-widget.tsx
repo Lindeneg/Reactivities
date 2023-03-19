@@ -1,3 +1,4 @@
+import BadgeIcon from '@mui/icons-material/Badge';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import InfoIcon from '@mui/icons-material/Info';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -10,15 +11,30 @@ import prettyDateString from '@/utils/pretty-date/pretty-date';
 
 export interface ActivityInformationWidgetProps {
     description: string;
+    hostedBy: string;
+    title: string;
     date: string;
     city: string;
     venue: string;
 }
 
-const ActivityInformationWidget = ({ description, date, city, venue }: ActivityInformationWidgetProps) => {
+const ActivityInformationWidget = ({
+    title,
+    hostedBy,
+    description,
+    date,
+    city,
+    venue,
+}: ActivityInformationWidgetProps) => {
     return (
         <Widget withBox={false}>
             <List>
+                <ListItem divider>
+                    <ListItemIcon>
+                        <BadgeIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={`${title} | Hosted by ${hostedBy}`} />
+                </ListItem>
                 <ListItem divider>
                     <ListItemIcon>
                         <InfoIcon />

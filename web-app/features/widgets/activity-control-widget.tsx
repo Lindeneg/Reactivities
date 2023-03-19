@@ -50,7 +50,7 @@ const ActivityControlWidget = ({
         >
             <Box marginBottom='1rem'>
                 <Button
-                    disabled={!isAttending}
+                    disabled={isAttending}
                     onClick={onAttendActivity}
                     size='small'
                     variant='contained'
@@ -70,7 +70,7 @@ const ActivityControlWidget = ({
             </Box>
             <Box>
                 <Button
-                    disabled={isAttending}
+                    disabled={!isAttending}
                     onClick={onCancelAttendance}
                     size='small'
                     variant='outlined'
