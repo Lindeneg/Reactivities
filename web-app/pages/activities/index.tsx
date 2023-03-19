@@ -3,6 +3,7 @@ import type { GetServerSideProps } from 'next';
 import api from '@/data/api';
 import Layout from '@/features/layout';
 import ActivitiesPage, { type ActivitiesPageProps } from '@/features/pages/activities-page';
+import { sortActivitiesByDate } from '@/logic';
 
 const Page = (props: ActivitiesPageProps) => {
     return (
@@ -15,9 +16,10 @@ const Page = (props: ActivitiesPageProps) => {
 export const getServerSideProps: GetServerSideProps<ActivitiesPageProps> = async () => {
     try {
         const { data } = await api.activities.getAll();
+
         return {
             props: {
-                activities: data,
+                activities: sortActivitiesByDate(data),
                 error: null,
             },
         };
