@@ -29,6 +29,7 @@ const ActivityPage = (props: ActivityPageProps) => {
         setActivity(detail.activity);
     });
 
+    // TODO mobile view
     return (
         <Box display='flex' flexDirection='row' justifyContent='space-evenly' width='100%'>
             <Stack spacing={2}>
