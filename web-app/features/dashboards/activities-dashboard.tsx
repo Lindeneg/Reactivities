@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
+import Typography from '@mui/material/Typography';
 import Grid from '@/components/grid';
 import Widget from '@/components/widget';
 import ActivityWidget from '@/features/widgets/activity-widget';
@@ -48,21 +49,25 @@ const ActivitiesDashboard = (props: ActivitiesDashboardProps) => {
                 )}
             />
             <Box>
-                {/* TODO create activity filters widget */}
                 <Widget title='Activity Filters' minWidth={375}>
                     <List>
                         <ListItem divider>
-                            <ListItemButton selected>All Activities</ListItemButton>
+                            <ListItemButton selected>
+                                <Typography variant='button'>All Activities</Typography>
+                            </ListItemButton>
                         </ListItem>
                         <ListItem divider>
-                            <ListItemButton>I&apos;m Going</ListItemButton>
+                            <ListItemButton>
+                                <Typography variant='button'>I&apos;m Going</Typography>
+                            </ListItemButton>
                         </ListItem>
                         <ListItem divider>
-                            <ListItemButton>I&apos;m Hosting</ListItemButton>
+                            <ListItemButton>
+                                <Typography variant='button'>I&apos;m Hosting</Typography>
+                            </ListItemButton>
                         </ListItem>
                     </List>
                 </Widget>
-                {/* TODO calender widget */}
                 <Widget minWidth={375} cardProps={{ sx: { marginTop: '1rem' } }}>
                     <Calender />
                 </Widget>
