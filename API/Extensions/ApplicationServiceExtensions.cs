@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using API.Middleware;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace API.Extensions;
@@ -7,6 +8,8 @@ public static class ApplicationServiceExtensions
 {
     public static WebApplication AddCustomServices(this WebApplication app)
     {
+        app.UseMiddleware<ExceptionMiddleware>();
+
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
