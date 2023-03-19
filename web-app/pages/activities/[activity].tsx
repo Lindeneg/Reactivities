@@ -1,8 +1,8 @@
 import type { AxiosError } from 'axios';
 import type { GetServerSideProps } from 'next';
 import api from '@/data/api';
-import DashboardWidget from '@/features/widgets/activity-widget';
 import Layout from '@/features/layout';
+import DashboardWidget from '@/features/widgets/activity-widget';
 import type { Activity } from '@/models/activity';
 
 interface ActivityPageProps {
@@ -13,7 +13,7 @@ const ActivityPage = ({ activity }: ActivityPageProps) => {
     if (!activity) return;
     return (
         <Layout>
-            <DashboardWidget activity={activity} onMoreDetails={() => null} onDelete={() => {}} />
+            <DashboardWidget activity={activity} onMoreDetails={() => null} />
         </Layout>
     );
 };

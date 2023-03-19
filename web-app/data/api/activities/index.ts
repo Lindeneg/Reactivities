@@ -6,7 +6,7 @@ import config from '../config';
 
 const axiosInstance = axios.create({
     ...config,
-    baseURL: constants.NEXT_PUBLIC_REACTIVITY_API_URL + '/activities',
+    baseURL: constants.ENV.NEXT_PUBLIC_REACTIVITY_API_URL + '/activities',
 });
 
 const activities = {

@@ -8,9 +8,6 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-// react redux toolkit ts
-// https://github.com/reduxjs/cra-template-redux-typescript/tree/master/template/src/features/counter
-
 // dashboard example
 // https://github.com/mui/material-ui/blob/v5.11.8/docs/data/material/getting-started/templates/dashboard/Dashboard.tsx
 
@@ -21,7 +18,7 @@ import '@fontsource/roboto/700.css';
 
 const theme = createTheme({
     palette: {
-        mode: 'light',
+        mode: 'dark',
     },
 });
 
