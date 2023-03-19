@@ -1,72 +1,14 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import ReplyIcon from '@mui/icons-material/Reply';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardHeader from '@mui/material/CardHeader';
-import Textarea from '@mui/material/TextareaAutosize';
 import type { Activity } from '@/models/activity';
 import getCategory from '@/utils/get-category';
 import useSubscription from '@/utils/use-subscription';
-import withColorContrast from '@/utils/with-color-contrast';
+import ChatWidget from '../widgets/chat-widget';
 
 export interface ActivityPageProps {
     activity: Activity;
 }
-type Comment = {
-    id: string;
-    name: string;
-    image: string;
-    date: string;
-    comment: string;
-    replies?: Comment[];
-};
-
-interface ChatWidgetProps {
-    onReplyToComment?: (commentId: string) => void;
-    onReplyToEvent?: () => void;
-    title: string;
-    comments: Comment[];
-}
-
-interface ChatCommentProps extends Comment {
-    onReply?: (commentId: string) => void;
-}
-
-const ChatComment = ({}: ChatCommentProps) => {
-    return (
-        <div>
-            {/* IMAGE - NAME - TIMESTAMP */}
-            {/* COMMENT */}
-            {/* REPLY */}
-        </div>
-    );
-};
-
-const ChatWidget = ({ title, comments, onReplyToComment, onReplyToEvent }: ChatWidgetProps) => {
-    return (
-        <Card>
-            <CardHeader
-                sx={withColorContrast({ width: '100%', textAlign: 'center', marginBottom: '1rem' })}
-                title={title}
-            />
-            <CardContent>
-                {comments.map((e) => (
-                    <ChatComment {...e} onReply={onReplyToComment} key={e.id} />
-                ))}
-                <Textarea minRows={3} style={{ width: '100%' }} />
-            </CardContent>
-            <CardActions sx={{ paddingLeft: '1rem' }}>
-                <Button onClick={onReplyToEvent} type='button' variant='contained' startIcon={<ReplyIcon />}>
-                    Reply
-                </Button>
-            </CardActions>
-        </Card>
-    );
-};
 
 const ActivityPage = ({ activity }: ActivityPageProps) => {
     const router = useRouter();
@@ -96,10 +38,10 @@ const ActivityPage = ({ activity }: ActivityPageProps) => {
                 <Card sx={{ marginBottom: '1rem' }}>
                     <h1>Information</h1>
                 </Card>
-
-                {/* CHAT */}
                 <ChatWidget
                     title='Chat about this event'
+                    onReplyToEvent={() => {}}
+                    onReplyToComment={() => {}}
                     comments={[
                         {
                             id: '1',
