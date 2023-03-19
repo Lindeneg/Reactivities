@@ -1,28 +1,25 @@
 import type { OptionsObject } from 'notistack';
 import type { Activity } from '@/models/activity';
 
-export type ReactivityEvent =
-    | 'set-create-activity-modal-state'
-    | 'set-confirmation-modal-state'
-    | 'set-global-spinner-state'
-    | 'enqueue-snackbar'
-    | 'created-activity'
-    | 'updated-activity'
-    | 'deleted-activity';
+type ReactivityPayload = {
+    'set-create-activity-modal-state': { open: boolean; activity?: Activity };
 
-export type ReactivityEventPayload<TEvent extends ReactivityEvent> = TEvent extends 'set-create-activity-modal-state'
-    ? { open: boolean; activity?: Activity }
-    : TEvent extends 'created-activity' | 'updated-activity'
-    ? { activity: Activity }
-    : TEvent extends 'deleted-activity'
-    ? { activityId: string }
-    : TEvent extends 'set-global-spinner-state'
-    ? { open: boolean }
-    : TEvent extends 'set-confirmation-modal-state'
-    ? { open: boolean; description?: string; onAccept?: () => Promise<void> | void }
-    : TEvent extends 'enqueue-snackbar'
-    ? { msg: string } & OptionsObject
-    : never;
+    'created-activity': { activity: Activity };
+
+    'updated-activity': { activity: Activity };
+
+    'deleted-activity': { activityId: string };
+
+    'set-global-spinner-state': { open: boolean };
+
+    'set-confirmation-modal-state': { open: boolean; description?: string; onAccept?: () => Promise<void> | void };
+
+    'enqueue-snackbar': { msg: string } & OptionsObject;
+};
+
+export type ReactivityEvent = keyof ReactivityPayload;
+
+export type ReactivityEventPayload<TEvent extends ReactivityEvent> = ReactivityPayload[TEvent];
 
 export type ReactivityEventListener<TEvent extends ReactivityEvent> = (
     event: CustomEvent<ReactivityEventPayload<TEvent>>
@@ -37,14 +34,12 @@ const createEvent = <TEvent extends ReactivityEvent>(
     return new CustomEvent(event, { detail: payload });
 };
 
-const autoCast = <T>(arg: unknown) => arg as T;
-
 const subscribe = <TEvent extends ReactivityEvent>(event: TEvent, listener: ReactivityEventListener<TEvent>) => {
-    eventTarget.addEventListener(event, autoCast(listener));
+    eventTarget.addEventListener(event, listener as EventListenerOrEventListenerObject | null);
 };
 
 const unsubscribe = <TEvent extends ReactivityEvent>(event: TEvent, listener: ReactivityEventListener<TEvent>) => {
-    eventTarget.removeEventListener(event, autoCast(listener));
+    eventTarget.removeEventListener(event, listener as EventListenerOrEventListenerObject | null);
 };
 
 const publish = <TEvent extends ReactivityEvent>(event: TEvent, payload: ReactivityEventPayload<TEvent>) => {

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import communicator, { type ReactivityEvent, ReactivityEventListener } from '../communicator';
+import communicator, { type ReactivityEvent, type ReactivityEventListener } from '../communicator';
 
 const useSubscription = <TEvent extends ReactivityEvent>(event: TEvent, listener: ReactivityEventListener<TEvent>) => {
     useEffect(() => {
