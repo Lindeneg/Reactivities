@@ -1,7 +1,7 @@
 import axios, { type AxiosError, type AxiosResponse } from 'axios';
+import communicator from '@/communicator';
 import constants from '@/constants';
 import type { Activity, BaseActivity } from '@/models/activity';
-import communicator from '@/utils/communicator';
 import config from '../config';
 
 const axiosInstance = axios.create({

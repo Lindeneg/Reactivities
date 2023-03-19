@@ -3,9 +3,9 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
+import useListener from '@/hooks/use-listener';
+import getCategory from '@/logic/get-category';
 import type { Activity } from '@/models/activity';
-import getCategory from '@/utils/get-category';
-import useSubscription from '@/utils/use-subscription';
 import ActivityAttendanceWidget from '../widgets/activity-attendance-widget';
 import ActivityControlWidget from '../widgets/activity-control-widget';
 import ActivityInformationWidget from '../widgets/activity-information-widget';
@@ -19,13 +19,13 @@ const ActivityDashboard = (props: ActivityDashboardProps) => {
     const [activity, setActivity] = useState(props.activity);
     const router = useRouter();
 
-    useSubscription('deleted-activity', ({ detail }) => {
+    useListener('deleted-activity', ({ detail }) => {
         if (activity.id !== detail.activityId) return;
 
         router.push('/activities');
     });
 
-    useSubscription('updated-activity', ({ detail }) => {
+    useListener('updated-activity', ({ detail }) => {
         setActivity(detail.activity);
     });
 

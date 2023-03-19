@@ -7,7 +7,7 @@ import ChatAvatarComment, {
     type ChatCommentProps,
 } from '@/components/chat-avatar-comment';
 import Widget from '@/components/widget';
-import withColorContrast from '@/utils/with-color-contrast';
+import withColorContrast from '@/logic/with-color-contrast';
 
 export interface ChatWidgetProps {
     onReplyToComment: ChatAvatarCommentProps['onReply'];

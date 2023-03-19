@@ -10,7 +10,7 @@ import Header from '@/components/header';
 import MetaHeader, { type MetaHeaderProps } from '@/components/meta-header';
 import Navigation from '@/components/navigation';
 import navItems from '@/data/navigation';
-import useSubscription from '@/utils/use-subscription';
+import useListener from '@/hooks/use-listener';
 import Modals from '../modals';
 
 export interface LayoutProps {
@@ -40,7 +40,7 @@ const Layout = ({ children, meta }: LayoutProps) => {
         setNavOpen((prev) => !prev);
     };
 
-    useSubscription('enqueue-snackbar', ({ detail }) => {
+    useListener('enqueue-snackbar', ({ detail }) => {
         const { msg, ...props } = detail;
         enqueueSnackbar(msg, {
             action: (key) => CloseSnackbarButton(key),
@@ -48,7 +48,7 @@ const Layout = ({ children, meta }: LayoutProps) => {
         });
     });
 
-    useSubscription('set-global-spinner-state', ({ detail }) => setShowSpinner(detail.open));
+    useListener('set-global-spinner-state', ({ detail }) => setShowSpinner(detail.open));
 
     return (
         <>

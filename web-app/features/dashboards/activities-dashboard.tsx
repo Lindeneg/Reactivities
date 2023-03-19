@@ -4,8 +4,8 @@ import Box from '@mui/material/Box';
 import Grid from '@/components/grid';
 import Widget from '@/components/widget';
 import ActivityWidget from '@/features/widgets/activity-widget';
+import useListener from '@/hooks/use-listener';
 import type { Activity } from '@/models/activity';
-import useSubscription from '@/utils/use-subscription';
 
 export interface ActivitiesDashboardProps {
     activities: Activity[];
@@ -15,9 +15,9 @@ const ActivitiesDashboard = (props: ActivitiesDashboardProps) => {
     const [activities, setActivities] = useState(props.activities);
     const router = useRouter();
 
-    useSubscription('created-activity', ({ detail }) => setActivities((prev) => [...prev, detail.activity]));
+    useListener('created-activity', ({ detail }) => setActivities((prev) => [...prev, detail.activity]));
 
-    useSubscription('updated-activity', ({ detail }) =>
+    useListener('updated-activity', ({ detail }) =>
         setActivities((prev) => {
             const index = prev.findIndex((e) => e.id === detail.activity.id);
             if (index === -1) return prev;
@@ -26,7 +26,7 @@ const ActivitiesDashboard = (props: ActivitiesDashboardProps) => {
         })
     );
 
-    useSubscription('deleted-activity', ({ detail }) =>
+    useListener('deleted-activity', ({ detail }) =>
         setActivities((prev) => prev.filter((e) => e.id !== detail.activityId))
     );
 

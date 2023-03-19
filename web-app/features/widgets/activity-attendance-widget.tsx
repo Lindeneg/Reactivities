@@ -2,7 +2,7 @@ import React from 'react';
 import List from '@mui/material/List';
 import AttendeeItem, { type AttendeeItemProps } from '@/components/attendee-item';
 import Widget from '@/components/widget';
-import withColorContrast from '@/utils/with-color-contrast';
+import withColorContrast from '@/logic/with-color-contrast';
 
 export interface ActivityAttendanceWidgetProps {
     attendees: AttendeeItemProps[];

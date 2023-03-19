@@ -7,8 +7,8 @@ import ReceiptIcon from '@mui/icons-material/Receipt';
 import SchoolIcon from '@mui/icons-material/School';
 import TuneIcon from '@mui/icons-material/Tune';
 import Mail from '@mui/icons-material/VerifiedUser';
+import communicator from '@/communicator';
 import type { NavigationProps } from '@/components/navigation';
-import communicator from '@/utils/communicator';
 
 const navEntries: NavigationProps['items'] = [
     {

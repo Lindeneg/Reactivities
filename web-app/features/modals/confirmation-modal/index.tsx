@@ -2,9 +2,9 @@ import { useRef, useState } from 'react';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
+import communicator from '@/communicator';
 import Modal from '@/components/modal';
-import communicator from '@/utils/communicator';
-import useSubscription from '@/utils/use-subscription';
+import useListener from '@/hooks/use-listener';
 
 const defaultDescription = 'Are you sure you want to continue?';
 
@@ -13,7 +13,7 @@ const ConfirmationModal = () => {
     const [description, setDescription] = useState<string>('');
     const callback = useRef<() => Promise<void> | void>(() => {});
 
-    useSubscription('set-confirmation-modal-state', ({ detail }) => {
+    useListener('set-confirmation-modal-state', ({ detail }) => {
         if (detail.open) {
             callback.current = detail.onAccept || (() => {});
             setDescription(detail.description || '');

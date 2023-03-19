@@ -7,7 +7,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Widget from '@/components/widget';
-import prettyDateString from '@/utils/pretty-date/pretty-date';
+import prettyDateString from '@/logic/pretty-date-string';
 
 export interface ActivityInformationWidgetProps {
     description: string;

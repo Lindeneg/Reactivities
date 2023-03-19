@@ -2,13 +2,13 @@ import { Formik } from 'formik';
 import { useState } from 'react';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
+import communicator from '@/communicator';
 import GridForm from '@/components/grid-form';
 import Modal from '@/components/modal';
 import api from '@/data/api';
+import useListener from '@/hooks/use-listener';
+import getCategory from '@/logic/get-category';
 import type { Activity, BaseActivity } from '@/models/activity';
-import communicator from '@/utils/communicator';
-import getCategory from '@/utils/get-category';
-import useSubscription from '@/utils/use-subscription';
 
 const CreateActivityModal = () => {
     const [showCreateActivityModal, setShowCreateActivityModal] = useState(false);
@@ -23,7 +23,7 @@ const CreateActivityModal = () => {
         return false;
     };
 
-    useSubscription('set-create-activity-modal-state', ({ detail }) => {
+    useListener('set-create-activity-modal-state', ({ detail }) => {
         setShowCreateActivityModal(detail.open);
         if (detail.open) {
             detail.activity && setActivity(detail.activity);

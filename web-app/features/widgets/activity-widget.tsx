@@ -6,13 +6,13 @@ import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import communicator from '@/communicator';
 import Widget from '@/components/widget';
 import api from '@/data/api';
+import getCategory from '@/logic/get-category';
+import prettyDateString from '@/logic/pretty-date-string';
+import withColorContrast from '@/logic/with-color-contrast';
 import type { Activity } from '@/models/activity';
-import communicator from '@/utils/communicator';
-import getCategory from '@/utils/get-category';
-import prettyDateString from '@/utils/pretty-date/pretty-date';
-import withColorContrast from '@/utils/with-color-contrast';
 
 export interface ActivityWidgetProps {
     activity: Activity;

@@ -1,11 +1,11 @@
 import type { GetServerSideProps } from 'next';
 import { useEffect } from 'react';
+import communicator from '@/communicator';
 import api from '@/data/api';
 import ActivitiesDashboard from '@/features/dashboards/activities-dashboard';
 import Layout from '@/features/layout';
-import { sortActivitiesByDate } from '@/logic';
+import sortActivitiesByDate from '@/logic/sort-activities-by-date';
 import type { Activity } from '@/models/activity';
-import communicator from '@/utils/communicator';
 
 export interface ActivitiesPageProps {
     activities: Activity[];

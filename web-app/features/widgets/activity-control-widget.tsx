@@ -3,10 +3,10 @@ import EditIcon from '@mui/icons-material/Edit';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
+import communicator from '@/communicator';
 import Widget from '@/components/widget';
 import api from '@/data/api';
 import type { Activity } from '@/models/activity';
-import communicator from '@/utils/communicator';
 
 export interface ActivityControlWidgetProps {
     activity: Activity;

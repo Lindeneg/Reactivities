@@ -1,7 +1,7 @@
 import MenuIcon from '@mui/icons-material/Menu';
 import { IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
-import withColorContrast from '@/utils/with-color-contrast';
+import withColorContrast from '@/logic/with-color-contrast';
 import HeaderLogo, { type HeaderLogoProps } from './header-logo';
 import HeaderProfile from './header-profile';
 import HeaderSearch from './header-search';
