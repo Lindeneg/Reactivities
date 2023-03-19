@@ -10,7 +10,7 @@ import Widget from '@/components/widget';
 import api from '@/data/api';
 import type { Activity } from '@/models/activity';
 import communicator from '@/utils/communicator';
-import getCategoryLabel from '@/utils/get-category-label';
+import getCategory from '@/utils/get-category';
 import withColorContrast from '@/utils/with-color-contrast';
 
 export interface ActivityWidgetProps {
@@ -45,7 +45,7 @@ const ActivityWidget = ({ activity, onMoreDetails }: ActivityWidgetProps) => {
             }
         >
             <Box display='flex' alignItems='center' justifyContent='space-between'>
-                <Chip label={getCategoryLabel(activity.category).toUpperCase()} size='small' variant='outlined' />
+                <Chip label={getCategory.label(activity.category).toUpperCase()} size='small' variant='outlined' />
                 <IconButton aria-label='open edit activity modal' onClick={openCreateActivityModal}>
                     <EditIcon fontSize='small' />
                 </IconButton>

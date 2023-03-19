@@ -7,6 +7,7 @@ import Modal from '@/components/modal';
 import api from '@/data/api';
 import type { Activity, BaseActivity } from '@/models/activity';
 import communicator from '@/utils/communicator';
+import getCategory from '@/utils/get-category';
 import useSubscription from '@/utils/use-subscription';
 
 const CreateActivityModal = () => {
@@ -47,14 +48,11 @@ const CreateActivityModal = () => {
             </Typography>
             <Divider sx={{ margin: '15px 0px' }} />
             <Formik<BaseActivity>
-                initialValues={{
-                    title: activity?.title || '',
-                    category: activity?.category || ('' as any),
-                    city: activity?.city || '',
-                    venue: activity?.venue || '',
-                    description: activity?.description || '',
-                    date: activity?.date || '',
-                }}
+                initialValues={
+                    activity
+                        ? activity
+                        : { title: '', category: '' as any, city: '', venue: '', description: '', date: '' }
+                }
                 validate={(values) => {
                     const errors: Record<string, string> = {};
 
@@ -130,9 +128,11 @@ const CreateActivityModal = () => {
                                 name: 'category',
                                 id: 'category',
                                 label: 'Category',
+                                options: getCategory.selection(),
                                 value: values.category,
                                 helperText: hasSubmitted && errors.category,
                                 error: hasSubmitted && !!errors.category,
+                                select: true,
                                 required: true,
                                 fullWidth: true,
                                 autoFocus: true,

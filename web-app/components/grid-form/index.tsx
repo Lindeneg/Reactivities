@@ -2,9 +2,12 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Grid';
+import MenuItem from '@mui/material/MenuItem';
 import TextField, { type TextFieldProps } from '@mui/material/TextField';
 
-type TextFieldPropsWithoutHandlers = Omit<TextFieldProps, 'onChange' | 'onBlur'>;
+type TextFieldPropsWithoutHandlers = Omit<TextFieldProps, 'onChange' | 'onBlur'> & {
+    options?: { value: number | string; label: string }[];
+};
 
 export interface GridFormProps {
     small: TextFieldPropsWithoutHandlers[];
@@ -27,12 +30,22 @@ const GridForm = ({
     onSubmit,
     onClose,
 }: GridFormProps) => {
-    const renderTextField = (props: TextFieldPropsWithoutHandlers, size: 'small' | 'large') => {
+    const renderTextField = ({ options, ...props }: TextFieldPropsWithoutHandlers, size: 'small' | 'large') => {
         const gridProps = size === 'small' ? { xs: 12, sm: 6 } : { xs: 12 };
 
         return (
             <Grid {...gridProps} item key={props.id}>
-                <TextField {...props} onChange={handleChange} onBlur={handleBlur} />
+                {props.select && Array.isArray(options) ? (
+                    <TextField {...props} onChange={handleChange} onBlur={handleBlur}>
+                        {options.map((e) => (
+                            <MenuItem key={e.value} value={e.value}>
+                                {e.label}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+                ) : (
+                    <TextField {...props} onChange={handleChange} onBlur={handleBlur} />
+                )}
             </Grid>
         );
     };

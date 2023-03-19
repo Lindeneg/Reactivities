@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import DashboardWidget from '@/features/widgets/activity-widget';
 import type { Activity } from '@/models/activity';
-import getCategoryLabel from '@/utils/get-category-label';
+import getCategory from '@/utils/get-category';
 import useSubscription from '@/utils/use-subscription';
 
 export interface ActivityPageProps {
@@ -21,7 +21,7 @@ const ActivityPage = ({ activity }: ActivityPageProps) => {
     return (
         <>
             <Image
-                src={`/images/categoryImages/${getCategoryLabel(activity.category).toLowerCase()}.jpg`}
+                src={`/images/categoryImages/${getCategory.label(activity.category).toLowerCase()}.jpg`}
                 alt='activity image'
                 width={1024}
                 height={1024}
