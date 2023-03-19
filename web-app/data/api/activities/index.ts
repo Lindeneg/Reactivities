@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { type AxiosError, type AxiosResponse } from 'axios';
 import constants from '@/constants';
 import type { Activity, BaseActivity } from '@/models/activity';
 import communicator from '@/utils/communicator';
@@ -9,19 +9,24 @@ const axiosInstance = axios.create({
     baseURL: constants.ENV.NEXT_PUBLIC_REACTIVITY_API_URL + '/activities',
 });
 
+type APIResult<TReturn> = Promise<{
+    response: AxiosResponse<TReturn> | null;
+    error: AxiosError | null;
+}>;
+
 const activities = {
     getAll: () => axiosInstance.get<Activity[]>('/'),
 
     get: (id: Activity['id']) => axiosInstance.get<Activity>(`/${id}`),
 
-    create: async (activity: BaseActivity) => {
+    create: async (activity: BaseActivity): APIResult<string> => {
         try {
-            const { data } = await axiosInstance.post<string>('/', activity);
+            const response = await axiosInstance.post<string>('/', activity);
 
             communicator.publish('created-activity', {
                 activity: {
                     ...activity,
-                    id: data,
+                    id: response.data,
                 },
             });
 
@@ -29,11 +34,21 @@ const activities = {
                 msg: `Successfully create activity: '${activity.title}'`,
                 variant: 'success',
             });
+
+            return {
+                response,
+                error: null,
+            };
         } catch (err) {
             communicator.publish('enqueue-snackbar', {
                 msg: `Failed to create activity: '${activity.title}'`,
                 variant: 'error',
             });
+
+            return {
+                response: null,
+                error: err as AxiosError,
+            };
         }
     },
 

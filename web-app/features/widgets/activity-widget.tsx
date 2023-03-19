@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import Box from '@mui/material/Box';
@@ -10,6 +11,7 @@ import api from '@/data/api';
 import type { Activity } from '@/models/activity';
 import communicator from '@/utils/communicator';
 import getCategoryLabel from '@/utils/get-category-label';
+import withColorContrast from '@/utils/with-color-contrast';
 
 export interface ActivityWidgetProps {
     activity: Activity;
@@ -48,11 +50,48 @@ const ActivityWidget = ({ activity, onMoreDetails }: ActivityWidgetProps) => {
                     <EditIcon fontSize='small' />
                 </IconButton>
             </Box>
-            <Typography variant='h5' component='div'>
-                {activity.title}
-            </Typography>
-            <Typography sx={{ mb: 1.5 }} color='text.secondary'>
-                {activity.city} | {new Date(activity.date).toLocaleDateString()}
+
+            <Box
+                display='flex'
+                sx={(theme) => ({
+                    [theme.breakpoints.up('md')]: {
+                        flexDirection: 'row',
+                    },
+                    [theme.breakpoints.down('md')]: {
+                        flexDirection: 'column',
+                    },
+                })}
+            >
+                <Image src={'/images/user.png'} alt='activity image' width={128} height={128} />
+                <Box
+                    display='flex'
+                    flexDirection='column'
+                    sx={(theme) => ({
+                        [theme.breakpoints.up('md')]: {
+                            margin: 'auto',
+                        },
+                        [theme.breakpoints.down('md')]: {
+                            margin: '0',
+                        },
+                    })}
+                >
+                    <Typography variant='h5' component='div'>
+                        {activity.title}
+                    </Typography>
+                    <Typography sx={{ mb: 1.5 }} color='text.secondary'>
+                        {activity.city} | {new Date(activity.date).toLocaleDateString()}
+                    </Typography>
+                </Box>
+            </Box>
+            <Typography
+                variant='body2'
+                sx={withColorContrast({
+                    margin: '8px 0',
+                    padding: '4px',
+                    borderRadius: '12px',
+                })}
+            >
+                Attendees
             </Typography>
             <Typography variant='body2'>{activity.description}</Typography>
         </Widget>
