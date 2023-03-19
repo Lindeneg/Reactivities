@@ -2,6 +2,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Chip from '@mui/material/Chip';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Widget from '@/components/widget';
@@ -41,9 +42,7 @@ const ActivityWidget = ({ activity, onMoreDetails }: ActivityWidgetProps) => {
             }
         >
             <Box display='flex' alignItems='center' justifyContent='space-between'>
-                <Typography sx={{ fontSize: 14 }} color='text.secondary' gutterBottom>
-                    {activity.category.toUpperCase()}
-                </Typography>
+                <Chip label={activity.category.toUpperCase()} size='small' variant='outlined' />
                 <IconButton aria-label='open edit activity modal' onClick={openCreateActivityModal}>
                     <EditIcon fontSize='small' />
                 </IconButton>

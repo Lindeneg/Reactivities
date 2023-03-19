@@ -18,7 +18,7 @@ export interface LayoutProps {
     children: React.ReactNode;
 }
 
-const CloseSnackBarButton = (key: SnackbarKey) => {
+const CloseSnackbarButton = (key: SnackbarKey) => {
     return (
         <IconButton
             aria-label='close snackbar'
@@ -43,7 +43,7 @@ const Layout = ({ children, meta }: LayoutProps) => {
     useSubscription('enqueue-snackbar', ({ detail }) => {
         const { msg, ...props } = detail;
         enqueueSnackbar(msg, {
-            action: (key) => CloseSnackBarButton(key),
+            action: (key) => CloseSnackbarButton(key),
             ...props,
         });
     });
