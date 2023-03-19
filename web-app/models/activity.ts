@@ -1,12 +1,13 @@
-import type BaseModel from './base-model';
+import type { BaseModel } from './base-model';
+import type { Category } from './category';
 
-interface Activity extends BaseModel {
+export interface BaseActivity {
     title: string;
     date: string;
     description: string;
-    category: string;
+    category: Category;
     city: string;
     venue: string;
 }
 
-export default Activity;
+export type Activity = BaseModel & BaseActivity;

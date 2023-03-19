@@ -11,16 +11,18 @@ public static class ApplicationServiceExtensions
         {
             app.UseSwagger();
             app.UseSwaggerUI();
+            app.UseCors("DevCorsPolicy");
         }
 
         if (app.Environment.IsProduction())
         {
             app.UseHttpsRedirection();
+            app.UseCors("ProdCorsPolicy");
         }
 
         return app;
     }
-    
+
     public static async Task<WebApplication> ConfigureDatabase(this WebApplication app)
     {
         // Explicit cleanup
@@ -36,7 +38,7 @@ public static class ApplicationServiceExtensions
         catch (Exception ex)
         {
             var logger = services.GetRequiredService<ILogger<Program>>();
-            logger.LogError(ex, "An Error occured during migration");
+            logger.LogError(ex, "An Error occurred during migration");
         }
 
         return app;
