@@ -1,5 +1,6 @@
 import type { AppProps } from 'next/app';
 import { SnackbarProvider } from 'notistack';
+import 'react-calendar/dist/Calendar.css';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ErrorBoundary from '@/components/error/error-boundary';

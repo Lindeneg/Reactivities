@@ -1,8 +1,10 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import Calender from 'react-calendar';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
 import Grid from '@/components/grid';
 import Widget from '@/components/widget';
 import ActivityWidget from '@/features/widgets/activity-widget';
@@ -46,14 +48,23 @@ const ActivitiesDashboard = (props: ActivitiesDashboardProps) => {
                 )}
             />
             <Box>
+                {/* TODO create activity filters widget */}
                 <Widget title='Activity Filters' minWidth={375}>
                     <List>
-                        <ListItem>Hello</ListItem>
-                        <ListItem>There</ListItem>
+                        <ListItem divider>
+                            <ListItemButton selected>All Activities</ListItemButton>
+                        </ListItem>
+                        <ListItem divider>
+                            <ListItemButton>I&apos;m Going</ListItemButton>
+                        </ListItem>
+                        <ListItem divider>
+                            <ListItemButton>I&apos;m Hosting</ListItemButton>
+                        </ListItem>
                     </List>
                 </Widget>
+                {/* TODO calender widget */}
                 <Widget minWidth={375} cardProps={{ sx: { marginTop: '1rem' } }}>
-                    Kenobi
+                    <Calender />
                 </Widget>
             </Box>
         </Box>
