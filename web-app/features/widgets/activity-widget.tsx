@@ -11,6 +11,7 @@ import api from '@/data/api';
 import type { Activity } from '@/models/activity';
 import communicator from '@/utils/communicator';
 import getCategory from '@/utils/get-category';
+import prettyDateString from '@/utils/pretty-date/pretty-date';
 import withColorContrast from '@/utils/with-color-contrast';
 
 export interface ActivityWidgetProps {
@@ -84,7 +85,7 @@ const ActivityWidget = ({ activity, onMoreDetails }: ActivityWidgetProps) => {
                 </Box>
             </Box>
             <Typography sx={{ mt: 1.5 }} color='text.secondary'>
-                {new Date(activity.date).toLocaleDateString()}
+                {prettyDateString(activity.date)}
             </Typography>
             <Typography
                 variant='body2'

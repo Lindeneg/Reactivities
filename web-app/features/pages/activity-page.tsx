@@ -1,9 +1,12 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import Card from '@mui/material/Card';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import type { Activity } from '@/models/activity';
 import getCategory from '@/utils/get-category';
 import useSubscription from '@/utils/use-subscription';
+import ActivityControlWidget from '../widgets/activity-control-widget';
+import ActivityInformationWidget from '../widgets/activity-information-widget';
 import ChatWidget from '../widgets/chat-widget';
 
 export interface ActivityPageProps {
@@ -20,24 +23,31 @@ const ActivityPage = ({ activity }: ActivityPageProps) => {
     });
 
     return (
-        <div style={{ width: '100%' }}>
-            <div style={{ width: '50%' }}>
+        <Box width='100%'>
+            <Stack spacing={2} sx={{ width: '50%' }}>
                 <Image
                     src={`/images/categoryImages/${getCategory.label(activity.category).toLowerCase()}.jpg`}
                     alt='activity image'
                     width={1024}
                     height={1024}
-                    style={{ height: '300px', width: '100%', objectFit: 'cover', marginBottom: '1rem' }}
+                    style={{ height: '300px', width: '100%', objectFit: 'cover' }}
                 />
-                {/* CONTROL (JOIN, CANCEL, MANAGE) */}
-                <Card sx={{ marginBottom: '1rem' }}>
-                    <h1>Control</h1>
-                </Card>
 
-                {/* INFORMATION */}
-                <Card sx={{ marginBottom: '1rem' }}>
-                    <h1>Information</h1>
-                </Card>
+                <ActivityControlWidget
+                    activity={activity}
+                    isAttending={false}
+                    isHost={true}
+                    onAttendActivity={() => {}}
+                    onCancelAttendance={() => {}}
+                />
+
+                <ActivityInformationWidget
+                    description={activity.description}
+                    date={activity.date}
+                    city={activity.city}
+                    venue={activity.venue}
+                />
+
                 <ChatWidget
                     title='Chat about this event'
                     onReplyToEvent={() => {}}
@@ -59,9 +69,9 @@ const ActivityPage = ({ activity }: ActivityPageProps) => {
                         },
                     ]}
                 />
-            </div>
-            <div>{/* SIDE BAR */}</div>
-        </div>
+            </Stack>
+            {/* SIDEBAR */}
+        </Box>
     );
 };
 
