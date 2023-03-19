@@ -6,6 +6,7 @@ import Stack from '@mui/material/Stack';
 import type { Activity } from '@/models/activity';
 import getCategory from '@/utils/get-category';
 import useSubscription from '@/utils/use-subscription';
+import ActivityAttendanceWidget from '../widgets/activity-attendance-widget';
 import ActivityControlWidget from '../widgets/activity-control-widget';
 import ActivityInformationWidget from '../widgets/activity-information-widget';
 import ChatWidget from '../widgets/chat-widget';
@@ -29,8 +30,8 @@ const ActivityPage = (props: ActivityPageProps) => {
     });
 
     return (
-        <Box width='100%'>
-            <Stack spacing={2} sx={{ width: '50%' }}>
+        <Box display='flex' flexDirection='row' justifyContent='space-evenly' width='100%'>
+            <Stack spacing={2}>
                 <Image
                     src={`/images/categoryImages/${getCategory.label(activity.category).toLowerCase()}.jpg`}
                     alt='activity image'
@@ -78,7 +79,28 @@ const ActivityPage = (props: ActivityPageProps) => {
                     ]}
                 />
             </Stack>
-            {/* SIDEBAR */}
+            <ActivityAttendanceWidget
+                attendees={[
+                    {
+                        name: 'Bob',
+                        image: '/images/user.png',
+                        isHost: true,
+                        isFollowing: true,
+                    },
+                    {
+                        name: 'Tom',
+                        image: '/images/user.png',
+                        isHost: false,
+                        isFollowing: true,
+                    },
+                    {
+                        name: 'Sally',
+                        image: '/images/user.png',
+                        isHost: false,
+                        isFollowing: false,
+                    },
+                ]}
+            />
         </Box>
     );
 };
