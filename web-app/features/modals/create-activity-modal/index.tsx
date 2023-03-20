@@ -34,10 +34,9 @@ const CreateActivityModal = () => {
         }
     });
 
-    console.log({ activity });
-
     const handleClose = () => communicator.publish('set-create-activity-modal-state', { open: false });
 
+    // TODO refactor / split out component
     return (
         <Modal
             open={showCreateActivityModal}

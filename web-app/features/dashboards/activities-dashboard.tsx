@@ -43,6 +43,7 @@ const ActivitiesDashboard = (props: ActivitiesDashboardProps) => {
                 itemKey={(e) => e.id}
                 renderItem={(activity) => (
                     <ActivityWidget
+                        isHost={false}
                         activity={activity}
                         onMoreDetails={() => router.push('/activities/' + activity.id)}
                     />

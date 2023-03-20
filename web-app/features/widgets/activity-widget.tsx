@@ -16,10 +16,11 @@ import type { Activity } from '@/models/activity';
 
 export interface ActivityWidgetProps {
     activity: Activity;
+    isHost: boolean;
     onMoreDetails: () => void;
 }
 
-const ActivityWidget = ({ activity, onMoreDetails }: ActivityWidgetProps) => {
+const ActivityWidget = ({ activity, isHost, onMoreDetails }: ActivityWidgetProps) => {
     const openCreateActivityModal = () => {
         communicator.publish('set-create-activity-modal-state', { open: true, activity });
     };
@@ -41,17 +42,21 @@ const ActivityWidget = ({ activity, onMoreDetails }: ActivityWidgetProps) => {
                     <Button onClick={onMoreDetails} size='small'>
                         More Details
                     </Button>
-                    <IconButton aria-label='delete activity' onClick={onDelete}>
-                        <DeleteForeverIcon fontSize='small' />
-                    </IconButton>
+                    {isHost && (
+                        <IconButton aria-label='delete activity' onClick={onDelete}>
+                            <DeleteForeverIcon fontSize='small' />
+                        </IconButton>
+                    )}
                 </Box>
             }
         >
-            <Box display='flex' alignItems='center' justifyContent='space-between'>
+            <Box display='flex' alignItems='center' justifyContent='space-between' marginBottom={isHost ? '0' : '1rem'}>
                 <Chip label={getCategory.label(activity.category).toUpperCase()} size='small' variant='outlined' />
-                <IconButton aria-label='open edit activity modal' onClick={openCreateActivityModal}>
-                    <EditIcon fontSize='small' />
-                </IconButton>
+                {isHost && (
+                    <IconButton aria-label='open edit activity modal' onClick={openCreateActivityModal}>
+                        <EditIcon fontSize='small' />
+                    </IconButton>
+                )}
             </Box>
 
             <Box
