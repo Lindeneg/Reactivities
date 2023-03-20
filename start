@@ -19,11 +19,11 @@ const startFrontend = () => run('yarn dev', 'web-app');
 (() => {
     const mode = process.argv.slice(2)[0];
 
-    if (!mode || mode === 'be' || mode === 'all') {
+    if (mode !== 'fe') {
         startBackend();
     }
 
-    if (!mode || mode === 'fe' || mode === 'all') {
+    if (mode !== 'be') {
         startFrontend();
     }
 })();

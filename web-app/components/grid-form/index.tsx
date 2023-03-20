@@ -50,7 +50,6 @@ const GridForm = ({
                     timeCaption='time'
                     selected={props.value as Date}
                     onChange={(date) => {
-                        console.log({ date, s: date?.toISOString() });
                         setFieldValue('date', date?.toISOString());
                     }}
                     required
