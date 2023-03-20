@@ -9,6 +9,7 @@ builder.Services.AddIdentityServices(builder.Configuration);
 var app = builder.Build();
 
 app.AddCustomServices();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
