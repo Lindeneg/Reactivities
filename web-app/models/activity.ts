@@ -3,7 +3,7 @@ import type { Category } from './category';
 
 export interface BaseActivity {
     title: string;
-    date: string;
+    date: Date;
     description: string;
     category: Category;
     city: string;

@@ -17,7 +17,7 @@ export interface ActivitiesDashboardProps {
 }
 
 const ActivitiesDashboard = (props: ActivitiesDashboardProps) => {
-    const [activities, setActivities] = useState(props.activities);
+    const [activities, setActivities] = useState(props.activities.map((e) => ({ ...e, date: new Date(e.date) })));
     const router = useRouter();
 
     useListener('created-activity', ({ detail }) => setActivities((prev) => [...prev, detail.activity]));

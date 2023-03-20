@@ -52,7 +52,7 @@ const CreateActivityModal = () => {
                 initialValues={
                     activity
                         ? activity
-                        : { title: '', category: '' as any, city: '', venue: '', description: '', date: '' }
+                        : { title: '', category: '' as any, city: '', venue: '', description: '', date: null as any }
                 }
                 validate={(values) => {
                     const errors: Record<string, string> = {};
@@ -171,8 +171,7 @@ const CreateActivityModal = () => {
                                 name: 'date',
                                 id: 'date',
                                 type: 'date',
-                                value: values.date ? new Date(values.date) : null,
-                                helperText: hasSubmitted && errors.date,
+                                value: values.date,
                                 error: hasSubmitted && !!errors.date,
                                 required: true,
                                 fullWidth: true,

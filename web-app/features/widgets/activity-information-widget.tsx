@@ -13,7 +13,7 @@ export interface ActivityInformationWidgetProps {
     description: string;
     hostedBy: string;
     title: string;
-    date: string;
+    date: Date;
     city: string;
     venue: string;
 }

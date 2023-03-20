@@ -48,9 +48,10 @@ const GridForm = ({
                     name='date'
                     showTimeSelect
                     timeCaption='time'
+                    dateFormat='MMMM d, yyyy h:mm aa'
                     selected={props.value as Date}
                     onChange={(date) => {
-                        setFieldValue('date', date?.toISOString());
+                        setFieldValue('date', date);
                     }}
                     required
                 />
