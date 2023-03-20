@@ -1,9 +1,11 @@
 import type { AppProps } from 'next/app';
 import { SnackbarProvider } from 'notistack';
 import 'react-calendar/dist/Calendar.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ErrorBoundary from '@/components/error/error-boundary';
+import '@/styles/index.css';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';

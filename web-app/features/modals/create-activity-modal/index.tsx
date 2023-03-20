@@ -34,6 +34,8 @@ const CreateActivityModal = () => {
         }
     });
 
+    console.log({ activity });
+
     const handleClose = () => communicator.publish('set-create-activity-modal-state', { open: false });
 
     return (
@@ -82,7 +84,8 @@ const CreateActivityModal = () => {
 
                     return errors;
                 }}
-                onSubmit={async (values) => {
+                onSubmit={async (values, helpers) => {
+                    // helpers.setErrors();
                     await (activity ? api.activities.update(activity.id, values) : api.activities.create(values));
                     handleClose();
                 }}
@@ -95,6 +98,8 @@ const CreateActivityModal = () => {
                     isSubmitting,
 
                     handleChange,
+
+                    setFieldValue,
 
                     handleBlur,
 
@@ -167,7 +172,7 @@ const CreateActivityModal = () => {
                                 name: 'date',
                                 id: 'date',
                                 type: 'date',
-                                value: values.date.split('T')[0],
+                                value: values.date ? new Date(values.date) : null,
                                 helperText: hasSubmitted && errors.date,
                                 error: hasSubmitted && !!errors.date,
                                 required: true,
@@ -179,6 +184,7 @@ const CreateActivityModal = () => {
                         isSubmitting={isSubmitting}
                         handleChange={handleChange}
                         handleBlur={handleBlur}
+                        setFieldValue={setFieldValue}
                         onClose={handleClose}
                         onSubmit={() => {
                             !hasSubmitted && setHasSubmitted(true);

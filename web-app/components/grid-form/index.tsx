@@ -1,3 +1,5 @@
+import type { FormikHelpers } from 'formik';
+import DatePicker from 'react-datepicker';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -9,6 +11,7 @@ type TextFieldPropsWithoutHandlers = Omit<TextFieldProps, 'onChange' | 'onBlur'>
     options?: { value: number | string; label: string }[];
 };
 
+// TODO extend props with datepicker|textfield union type
 export interface GridFormProps {
     small: TextFieldPropsWithoutHandlers[];
     large: TextFieldPropsWithoutHandlers[];
@@ -16,6 +19,7 @@ export interface GridFormProps {
     isSubmitting: boolean;
     handleChange: TextFieldProps['onChange'];
     handleBlur: TextFieldProps['onBlur'];
+    setFieldValue: FormikHelpers<unknown>['setFieldValue'];
     onSubmit(): void;
     onClose(): void;
 }
@@ -27,25 +31,46 @@ const GridForm = ({
     isSubmitting,
     handleChange,
     handleBlur,
+    setFieldValue,
     onSubmit,
     onClose,
 }: GridFormProps) => {
     const renderTextField = ({ options, ...props }: TextFieldPropsWithoutHandlers, size: 'small' | 'large') => {
         const gridProps = size === 'small' ? { xs: 12, sm: 6 } : { xs: 12 };
 
+        let formElement = <TextField {...props} onChange={handleChange} onBlur={handleBlur} />;
+
+        if (props.type === 'date') {
+            formElement = (
+                <DatePicker
+                    className='reactivities-calender-picker'
+                    placeholderText='Date *'
+                    name='date'
+                    showTimeSelect
+                    timeCaption='time'
+                    selected={props.value as Date}
+                    onChange={(date) => {
+                        console.log({ date, s: date?.toISOString() });
+                        setFieldValue('date', date?.toISOString());
+                    }}
+                    required
+                />
+            );
+        } else if (props.select && Array.isArray(options)) {
+            formElement = (
+                <TextField {...props} onChange={handleChange} onBlur={handleBlur}>
+                    {options.map((e) => (
+                        <MenuItem key={e.value} value={e.value}>
+                            {e.label}
+                        </MenuItem>
+                    ))}
+                </TextField>
+            );
+        }
+
         return (
             <Grid {...gridProps} item key={props.id}>
-                {props.select && Array.isArray(options) ? (
-                    <TextField {...props} onChange={handleChange} onBlur={handleBlur}>
-                        {options.map((e) => (
-                            <MenuItem key={e.value} value={e.value}>
-                                {e.label}
-                            </MenuItem>
-                        ))}
-                    </TextField>
-                ) : (
-                    <TextField {...props} onChange={handleChange} onBlur={handleBlur} />
-                )}
+                {formElement}
             </Grid>
         );
     };
