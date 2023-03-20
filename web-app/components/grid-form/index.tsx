@@ -51,6 +51,7 @@ const GridForm = ({
                     dateFormat='MMMM d, yyyy h:mm aa'
                     selected={props.value as Date}
                     onChange={(date) => {
+                        console.log({ newDate: date });
                         setFieldValue('date', date);
                     }}
                     required

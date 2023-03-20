@@ -21,7 +21,10 @@ const activities = {
 
     create: handleResponse({
         callback: async (activity: BaseActivity) => {
-            const response = await axiosInstance.post<string>('/', activity);
+            const response = await axiosInstance.post<string>('/', {
+                ...activity,
+                date: activity.date.toISOString(),
+            });
 
             communicator.publish('created-activity', {
                 activity: {
@@ -47,7 +50,10 @@ const activities = {
 
     update: handleResponse({
         callback: async (id: Activity['id'], activity: BaseActivity) => {
-            const response = await axiosInstance.put<void>(`/${id}`, activity);
+            const response = await axiosInstance.put<void>(`/${id}`, {
+                ...activity,
+                date: activity.date.toISOString(),
+            });
 
             communicator.publish('updated-activity', {
                 activity: {
