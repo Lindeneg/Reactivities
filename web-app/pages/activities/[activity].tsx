@@ -2,8 +2,15 @@ import type { GetServerSideProps } from 'next';
 import api from '@/data/api';
 import ActivityDashboard, { type ActivityDashboardProps } from '@/features/dashboards/activity-dashboard';
 import Layout from '@/features/layout';
+import { useEffect } from 'react';
 
 const ActivityPage = (props: ActivityDashboardProps) => {
+
+    useEffect(() => {
+        
+
+    }, []);
+
     return (
         <Layout>
             <ActivityDashboard {...props} />

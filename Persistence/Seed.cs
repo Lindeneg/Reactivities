@@ -2,6 +2,7 @@
 using Activity = Domain.Activity;
 using CategoryEnum = Domain.CategoryEnum;
 using AppUser = Domain.AppUser;
+using System.Globalization;
 
 namespace Persistence;
 
@@ -25,6 +26,9 @@ public static class Seed
 
         }
 
+        Console.WriteLine("HELLO");
+        Console.WriteLine(DateTime.UtcNow.AddMonths(-2).ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture));
+
 
         if (context.Activities.Any()) return;
 
@@ -33,7 +37,7 @@ public static class Seed
             new Activity
             {
                 Title = "Past Activity 1",
-                Date = DateTime.UtcNow.AddMonths(-2),
+                Date = DateTime.UtcNow.AddMonths(-2).ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture),
                 Description = "Activity 2 months ago",
                 Category = CategoryEnum.Drinks,
                 City = "London",
@@ -42,7 +46,7 @@ public static class Seed
             new Activity
             {
                 Title = "Past Activity 2",
-                Date = DateTime.UtcNow.AddMonths(-1),
+                Date = DateTime.UtcNow.AddMonths(-1).ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture),
                 Description = "Activity 1 month ago",
                 Category = CategoryEnum.Culture,
                 City = "Paris",
@@ -51,7 +55,7 @@ public static class Seed
             new Activity
             {
                 Title = "Future Activity 1",
-                Date = DateTime.UtcNow.AddMonths(1),
+                Date = DateTime.UtcNow.AddMonths(1).ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture),
                 Description = "Activity 1 month in future",
                 Category = CategoryEnum.Culture,
                 City = "London",
@@ -60,7 +64,7 @@ public static class Seed
             new Activity
             {
                 Title = "Future Activity 2",
-                Date = DateTime.UtcNow.AddMonths(2),
+                Date = DateTime.UtcNow.AddMonths(2).ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture),
                 Description = "Activity 2 months in future",
                 Category = CategoryEnum.Music,
                 City = "London",
@@ -69,7 +73,7 @@ public static class Seed
             new Activity
             {
                 Title = "Future Activity 3",
-                Date = DateTime.UtcNow.AddMonths(3),
+                Date = DateTime.UtcNow.AddMonths(3).ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture),
                 Description = "Activity 3 months in future",
                 Category = CategoryEnum.Drinks,
                 City = "London",
@@ -78,7 +82,7 @@ public static class Seed
             new Activity
             {
                 Title = "Future Activity 4",
-                Date = DateTime.UtcNow.AddMonths(4),
+                Date = DateTime.UtcNow.AddMonths(4).ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture),
                 Description = "Activity 4 months in future",
                 Category = CategoryEnum.Drinks,
                 City = "London",
@@ -87,7 +91,7 @@ public static class Seed
             new Activity
             {
                 Title = "Future Activity 5",
-                Date = DateTime.UtcNow.AddMonths(5),
+                Date = DateTime.UtcNow.AddMonths(5).ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture),
                 Description = "Activity 5 months in future",
                 Category = CategoryEnum.Drinks,
                 City = "London",
@@ -96,7 +100,7 @@ public static class Seed
             new Activity
             {
                 Title = "Future Activity 6",
-                Date = DateTime.UtcNow.AddMonths(6),
+                Date = DateTime.UtcNow.AddMonths(6).ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture),
                 Description = "Activity 6 months in future",
                 Category = CategoryEnum.Music,
                 City = "London",
@@ -105,7 +109,7 @@ public static class Seed
             new Activity
             {
                 Title = "Future Activity 7",
-                Date = DateTime.UtcNow.AddMonths(7),
+                Date = DateTime.UtcNow.AddMonths(7).ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture),
                 Description = "Activity 2 months ago",
                 Category = CategoryEnum.Travel,
                 City = "London",
@@ -114,7 +118,7 @@ public static class Seed
             new Activity
             {
                 Title = "Future Activity 8",
-                Date = DateTime.UtcNow.AddMonths(8),
+                Date = DateTime.UtcNow.AddMonths(8).ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture),
                 Description = "Activity 8 months in future",
                 Category = CategoryEnum.Film,
                 City = "London",
