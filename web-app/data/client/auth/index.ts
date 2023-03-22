@@ -9,13 +9,6 @@ const axiosInstance = axios.create({
     baseURL: constants.ENV.NEXT_PUBLIC_REACTIVITY_API_URL + '/account',
 });
 
-axiosInstance.interceptors.request.use((config) => {
-    const match = window.document.cookie.match(/reactivities-token=(.+);?/);
-    config.headers.Authorization = `Bearer ${match ? match[1] : ''}`;
-
-    return config;
-});
-
 const auth = {
     login: handleResponse({
         callback: async (data: LoginDto) => {

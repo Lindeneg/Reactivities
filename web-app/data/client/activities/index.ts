@@ -1,9 +1,9 @@
 import axios from 'axios';
 import communicator from '@/communicator';
 import constants from '@/constants';
-import config from '@/data/config';
 import handleResponse from '@/logic/handle-response';
 import type { Activity, BaseActivity } from '@/models/activity';
+import config from '@/data/config';
 
 const axiosInstance = axios.create({
     ...config,

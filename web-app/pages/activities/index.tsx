@@ -5,6 +5,7 @@ import api from '@/data/server';
 import ActivitiesDashboard from '@/features/dashboards/activities-dashboard';
 import Layout from '@/features/layout';
 import sortActivitiesByDate from '@/logic/sort-activities-by-date';
+import { withServerSideAuth } from '@/middleware/with-server-side-auth';
 import type { Activity } from '@/models/activity';
 import type { User } from '@/models/user';
 
@@ -33,37 +34,28 @@ const ActivitiesPage = ({ error, ...props }: ActivitiesPageProps) => {
     );
 };
 
-export const getServerSideProps: GetServerSideProps<ActivitiesPageProps> = async (c) => {
-    const currentUser = await api.auth.getCurrentUser(c.req.cookies['reactivities-token'] || '');
+export const getServerSideProps: GetServerSideProps<ActivitiesPageProps> = async (cxt) => {
+    return withServerSideAuth<ActivitiesPageProps>(cxt, async ({ token, ...user }) => {
+        const { response, error } = await api.activities.getAll(token);
 
-    const { response, error } = await api.activities.getAll(c.req.cookies['reactivities-token'] || '');
+        if (error || !response) {
+            return {
+                props: {
+                    activities: [],
+                    user: null,
+                    error: 'An error occurred whilst fetching activities. Please try again later.',
+                },
+            };
+        }
 
-    if ([401, 403].includes(error?.response?.status || -1)) {
-        return {
-            redirect: {
-                destination: '/login',
-                permanent: false,
-            },
-        };
-    }
-
-    if (error || !response) {
         return {
             props: {
-                activities: [],
-                user: null,
-                error: 'An error occurred whilst fetching activities. Please try again later.',
+                activities: sortActivitiesByDate(response.data),
+                user,
+                error: null,
             },
         };
-    }
-
-    return {
-        props: {
-            activities: sortActivitiesByDate(response.data),
-            user: currentUser.response?.data,
-            error: null,
-        },
-    };
+    });
 };
 
 export default ActivitiesPage;
