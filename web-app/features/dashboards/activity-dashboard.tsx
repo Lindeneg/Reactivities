@@ -16,7 +16,7 @@ export interface ActivityDashboardProps {
 }
 
 const ActivityDashboard = (props: ActivityDashboardProps) => {
-    const [activity, setActivity] = useState(props.activity);
+    const [activity, setActivity] = useState({ ...props.activity, date: new Date(props.activity.date) });
     const router = useRouter();
 
     useListener('deleted-activity', ({ detail }) => {

@@ -9,7 +9,7 @@ import GlobalSpinner from '@/components/global-spinner';
 import Header from '@/components/header';
 import MetaHeader, { type MetaHeaderProps } from '@/components/meta-header';
 import Navigation from '@/components/navigation';
-import navItems from '@/data/navigation';
+import navItems from '@/constants/navigation';
 import useListener from '@/hooks/use-listener';
 import Modals from '../modals';
 

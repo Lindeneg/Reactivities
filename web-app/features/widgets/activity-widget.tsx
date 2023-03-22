@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import communicator from '@/communicator';
 import Widget from '@/components/widget';
-import api from '@/data/api';
+import api from '@/data/client';
 import getCategory from '@/logic/get-category';
 import prettyDateString from '@/logic/pretty-date-string';
 import withColorContrast from '@/logic/with-color-contrast';

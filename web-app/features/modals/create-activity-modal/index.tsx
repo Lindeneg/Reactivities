@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import communicator from '@/communicator';
 import GridForm from '@/components/grid-form';
 import Modal from '@/components/modal';
-import api from '@/data/api';
+import api from '@/data/client';
 import useListener from '@/hooks/use-listener';
 import getCategory from '@/logic/get-category';
 import type { Activity, BaseActivity } from '@/models/activity';

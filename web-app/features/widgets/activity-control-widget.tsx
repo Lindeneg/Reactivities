@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import communicator from '@/communicator';
 import Widget from '@/components/widget';
-import api from '@/data/api';
+import api from '@/data/client';
 import type { Activity } from '@/models/activity';
 
 export interface ActivityControlWidgetProps {
