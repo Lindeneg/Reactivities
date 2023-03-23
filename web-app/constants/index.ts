@@ -1,6 +1,7 @@
 const ENV = {
-    NEXT_PUBLIC_REACTIVITY_API_URL: process.env['NEXT_PUBLIC_REACTIVITY_API_URL'] || '',
-    REACTIVITY_MODE: process.env['REACTIVITY_MODE'] || '',
+    API_URL: process.env['NEXT_PUBLIC_REACTIVITY_API_URL'] || '',
+    MODE: process.env['NEXT_PUBLIC_REACTIVITY_MODE'] || '',
+    AUTH_COOKIE_NAME: process.env['NEXT_PUBLIC_REACTIVITY_AUTH_COOKIE_NAME'] || '',
 } as const;
 
 const META_HEADER = {
@@ -8,17 +9,15 @@ const META_HEADER = {
     DESCRIPTION: 'Create and organize events',
 } as const;
 
-const AUTH_ERROR_STATUS = [401, 403];
+const AUTH_ERROR_RESPONSE_STATUSES = [401, 403];
 
-const AUTH_COOKIE_NAME = 'reactivities-token';
-const AUTH_COOKIE_REGEX = /reactivities-token=(.+);?/;
+const AUTH_COOKIE_REGEX = new RegExp(`${ENV.AUTH_COOKIE_NAME}=(.+);?`);
 
 const constants = {
     ENV,
     META_HEADER,
-    AUTH_ERROR_STATUS,
-    AUTH_COOKIE_NAME,
     AUTH_COOKIE_REGEX,
+    AUTH_ERROR_RESPONSE_STATUSES,
 };
 
 export default constants;

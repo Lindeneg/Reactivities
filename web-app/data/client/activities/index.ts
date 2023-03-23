@@ -2,14 +2,14 @@ import axios from 'axios';
 import communicator from '@/communicator';
 import constants from '@/constants';
 import config from '@/data/config';
-import handleResponse from '@/data/handle-response';
 import withBearerFromCookie from '@/data/interceptors/with-bearer-from-cookie';
+import handleResponse from '@/data/logic/handle-response';
 import type { Activity, BaseActivity } from '@/models/activity';
 
 const axiosInstance = withBearerFromCookie(
     axios.create({
         ...config,
-        baseURL: constants.ENV.NEXT_PUBLIC_REACTIVITY_API_URL + '/activities',
+        baseURL: constants.ENV.API_URL + '/activities',
     })
 );
 

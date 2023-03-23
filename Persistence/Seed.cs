@@ -26,9 +26,6 @@ public static class Seed
 
         }
 
-        Console.WriteLine("HELLO");
-        Console.WriteLine(DateTime.UtcNow.AddMonths(-2).ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture));
-
 
         if (context.Activities.Any()) return;
 

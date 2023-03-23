@@ -9,12 +9,12 @@ type ServerSideAuthHandler<T> = (
 ) => Promise<GetServerSidePropsResult<T>>;
 
 async function extractAuthCookieAndUser<T>(handler: ServerSideAuthHandler<T>, cxt: GetServerSidePropsContext) {
-    const token = cxt.req.cookies[constants.AUTH_COOKIE_NAME];
+    const token = cxt.req.cookies[constants.ENV.AUTH_COOKIE_NAME];
 
     if (!token) {
         return {
             redirect: {
-                destination: '/401',
+                destination: '/login',
                 permanent: false,
             },
         };
@@ -31,7 +31,7 @@ async function extractAuthCookieAndUser<T>(handler: ServerSideAuthHandler<T>, cx
         };
     }
 
-    if (constants.AUTH_ERROR_STATUS.includes(error?.response?.status || -1)) {
+    if (constants.AUTH_ERROR_RESPONSE_STATUSES.includes(error?.response?.status || -1)) {
         return {
             redirect: {
                 destination: '/' + error?.response?.status,
@@ -43,8 +43,6 @@ async function extractAuthCookieAndUser<T>(handler: ServerSideAuthHandler<T>, cx
     return handler({ ...response.data, token }, cxt);
 }
 
-const withServerSideAuth = <T>(handler: ServerSideAuthHandler<T>) => {
-    return extractAuthCookieAndUser.bind(null, handler);
-};
+const withServerSideAuth = <T>(handler: ServerSideAuthHandler<T>) => extractAuthCookieAndUser.bind(null, handler);
 
 export default withServerSideAuth;
