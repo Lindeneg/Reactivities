@@ -6,10 +6,10 @@ import Stack from '@mui/material/Stack';
 import useListener from '@/hooks/use-listener';
 import getCategory from '@/logic/get-category';
 import type { Activity, User } from '@/models';
-import ActivityAttendanceWidget from '../widgets/activity-attendance-widget';
-import ActivityControlWidget from '../widgets/activity-control-widget';
-import ActivityInformationWidget from '../widgets/activity-information-widget';
-import ChatWidget from '../widgets/chat-widget';
+import ActivityAttendanceWidget from './activity-attendance-widget';
+import ActivityChatWidget from './activity-chat-widget';
+import ActivityControlWidget from './activity-control-widget';
+import ActivityInformationWidget from './activity-information-widget';
 
 export interface ActivityDashboardProps {
     user: User;
@@ -80,7 +80,7 @@ const ActivityDashboard = (props: ActivityDashboardProps) => {
                     venue={activity.venue}
                 />
 
-                <ChatWidget
+                <ActivityChatWidget
                     title='Chat about this event'
                     onReplyToEvent={() => {}}
                     onReplyToComment={() => {}}

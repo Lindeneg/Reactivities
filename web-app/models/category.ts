@@ -1,10 +1,10 @@
 export const CATEGORY = {
-    CULTURE: 0,
-    DRINKS: 1,
-    FILM: 2,
-    FOOD: 3,
-    MUSIC: 4,
-    TRAVEL: 5,
+    DRINKS: 0,
+    CULTURE: 1,
+    MUSIC: 2,
+    TRAVEL: 3,
+    FILM: 4,
+    FOOD: 5,
 } as const;
 
 export const CATEGORY_LABEL = {

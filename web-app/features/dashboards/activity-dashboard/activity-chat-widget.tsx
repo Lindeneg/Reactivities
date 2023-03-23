@@ -8,14 +8,14 @@ import ChatAvatarComment, {
 } from '@/components/chat-avatar-comment';
 import Widget from '@/components/widget';
 
-export interface ChatWidgetProps {
+export interface ActivityChatWidgetProps {
     onReplyToComment: ChatAvatarCommentProps['onReply'];
     onReplyToEvent: () => void;
     title: string;
     comments: ChatCommentProps[];
 }
 
-const ChatWidget = ({ title, comments, onReplyToComment, onReplyToEvent }: ChatWidgetProps) => {
+const ActivityChatWidget = ({ title, comments, onReplyToComment, onReplyToEvent }: ActivityChatWidgetProps) => {
     return (
         <Widget
             title={title}
@@ -35,4 +35,4 @@ const ChatWidget = ({ title, comments, onReplyToComment, onReplyToEvent }: ChatW
     );
 };
 
-export default ChatWidget;
+export default ActivityChatWidget;
