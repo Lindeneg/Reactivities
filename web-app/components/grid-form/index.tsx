@@ -3,6 +3,8 @@ import DatePicker from 'react-datepicker';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
 import Grid from '@mui/material/Grid';
 import MenuItem from '@mui/material/MenuItem';
 import TextField, { type TextFieldProps } from '@mui/material/TextField';
@@ -35,24 +37,31 @@ const GridForm = ({
     onSubmit,
     onClose,
 }: GridFormProps) => {
-    const renderTextField = ({ options, ...props }: TextFieldPropsWithoutHandlers, size: 'small' | 'large') => {
+    const renderFormField = ({ options, ...props }: TextFieldPropsWithoutHandlers, size: 'small' | 'large') => {
         const gridProps = size === 'small' ? { xs: 12, sm: 6 } : { xs: 12 };
 
         let formElement = <TextField {...props} onChange={handleChange} onBlur={handleBlur} />;
 
         if (props.type === 'date') {
             formElement = (
-                <DatePicker
-                    className='reactivities-calender-picker'
-                    placeholderText='Date *'
-                    name='date'
-                    showTimeSelect
-                    timeCaption='time'
-                    dateFormat='MMMM d, yyyy h:mm aa'
-                    selected={props.value as Date}
-                    onChange={(date) => setFieldValue('date', date)}
-                    required
-                />
+                <>
+                    <DatePicker
+                        className={'reactivities-calender-picker' + (props.error ? ' error' : '')}
+                        placeholderText='Date *'
+                        name='date'
+                        showTimeSelect
+                        timeCaption='time'
+                        dateFormat='MMMM d, yyyy h:mm aa'
+                        selected={props.value as Date}
+                        onChange={(date) => setFieldValue('date', date)}
+                        required
+                    />
+                    {props.error && (
+                        <FormHelperText error sx={{ marginLeft: '14px' }}>
+                            {props.helperText}
+                        </FormHelperText>
+                    )}
+                </>
             );
         } else if (props.select && Array.isArray(options)) {
             formElement = (
@@ -76,8 +85,8 @@ const GridForm = ({
     return (
         <Box component='form' noValidate sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-                {small.map((props) => renderTextField(props, 'small'))}
-                {large.map((props) => renderTextField(props, 'large'))}
+                {small.map((props) => renderFormField(props, 'small'))}
+                {large.map((props) => renderFormField(props, 'large'))}
             </Grid>
             <Button
                 type='button'

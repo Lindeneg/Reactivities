@@ -7,6 +7,7 @@ import GridForm from '@/components/grid-form';
 import Modal from '@/components/modal';
 import api from '@/data/client';
 import useListener from '@/hooks/use-listener';
+import capitalizeString from '@/logic/capitalize-string';
 import getCategory from '@/logic/get-category';
 import type { Activity, BaseActivity } from '@/models/activity';
 
@@ -54,38 +55,29 @@ const CreateActivityModal = () => {
                         ? activity
                         : { title: '', category: '' as any, city: '', venue: '', description: '', date: null as any }
                 }
-                validate={(values) => {
-                    const errors: Record<string, string> = {};
-
-                    if (!values.title || values.title.length < 3 || values.title.length > 24) {
-                        errors.title = '3-24 characters';
-                    }
-
-                    if (typeof values.category !== 'number' || isNaN(values.category)) {
-                        errors.category = 'Please Select Category';
-                    }
-
-                    if (!values.city || values.city.length < 1 || values.city.length > 32) {
-                        errors.city = '1-16 characters';
-                    }
-
-                    if (!values.venue || values.venue.length < 1 || values.venue.length > 32) {
-                        errors.venue = '1-16 characters';
-                    }
-
-                    if (!values.description || values.description.length < 3 || values.description.length > 128) {
-                        errors.description = '3-128 characters';
-                    }
-
-                    if (!values.date) {
-                        errors.date = 'Date is required';
-                    }
-
-                    return errors;
-                }}
+                validate={(values) =>
+                    Object.keys(values).reduce((acc, key) => {
+                        const val = values[key as keyof typeof values];
+                        if (key !== 'category' && !val) {
+                            acc[key] = `${capitalizeString(key)} is required`;
+                        }
+                        return acc;
+                    }, {} as Record<string, string>)
+                }
                 onSubmit={async (values, helpers) => {
-                    // helpers.setErrors();
-                    await (activity ? api.activities.update(activity.id, values) : api.activities.create(values));
+                    const { error } = await (activity
+                        ? api.activities.update(activity.id, values)
+                        : api.activities.create(values));
+
+                    if (error) {
+                        const errors = error.response?.data.errors || {};
+                        Object.keys(errors).forEach((key) => {
+                            const msg = errors[key as keyof typeof errors][0];
+                            msg && helpers.setFieldError(key.toLowerCase(), msg);
+                        });
+                        return;
+                    }
+
                     handleClose();
                 }}
             >
@@ -172,6 +164,7 @@ const CreateActivityModal = () => {
                                 id: 'date',
                                 type: 'date',
                                 value: values.date,
+                                helperText: hasSubmitted && (errors.date as string),
                                 error: hasSubmitted && !!errors.date,
                                 required: true,
                                 fullWidth: true,

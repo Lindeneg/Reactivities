@@ -6,6 +6,12 @@
     font-size: 1rem;
 }
 
+.reactivities-calender-picker.error {
+    border: #d32f2f 1px solid;
+    color: #d32f2f;
+    font-weight: 400;
+}
+
 .react-calendar {
     width: 100%;
     font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;

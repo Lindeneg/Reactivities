@@ -2,9 +2,11 @@ import type { AxiosError, AxiosResponse } from 'axios';
 
 // TODO use this instead: https://github.com/vultix/ts-results
 
+type CustomAxiosError = AxiosError<{ errors: Record<string, string[]> }>;
+
 export type APIResult<TReturn> = Promise<{
     response: AxiosResponse<TReturn> | null;
-    error: AxiosError | null;
+    error: CustomAxiosError | null;
 }>;
 
 type HandleResponseOpts<TResponse, TArgs extends unknown[]> = {
@@ -31,7 +33,7 @@ const handleResponse = <TResponse, TArgs extends unknown[]>({
 
             return {
                 response: null,
-                error: err as AxiosError,
+                error: err as CustomAxiosError,
             };
         } finally {
             await onDone();
