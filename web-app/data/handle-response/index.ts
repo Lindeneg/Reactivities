@@ -1,5 +1,7 @@
 import type { AxiosError, AxiosResponse } from 'axios';
 
+// TODO use this instead: https://github.com/vultix/ts-results
+
 export type APIResult<TReturn> = Promise<{
     response: AxiosResponse<TReturn> | null;
     error: AxiosError | null;

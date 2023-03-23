@@ -1,21 +1,17 @@
 import axios from 'axios';
 import communicator from '@/communicator';
 import constants from '@/constants';
-import handleResponse from '@/logic/handle-response';
-import type { Activity, BaseActivity } from '@/models/activity';
 import config from '@/data/config';
+import handleResponse from '@/data/handle-response';
+import withBearerFromCookie from '@/data/interceptors/with-bearer-from-cookie';
+import type { Activity, BaseActivity } from '@/models/activity';
 
-const axiosInstance = axios.create({
-    ...config,
-    baseURL: constants.ENV.NEXT_PUBLIC_REACTIVITY_API_URL + '/activities',
-});
-
-axiosInstance.interceptors.request.use((config) => {
-    const match = window.document.cookie.match(/reactivities-token=(.+);?/);
-    config.headers.Authorization = `Bearer ${match ? match[1] : ''}`;
-
-    return config;
-});
+const axiosInstance = withBearerFromCookie(
+    axios.create({
+        ...config,
+        baseURL: constants.ENV.NEXT_PUBLIC_REACTIVITY_API_URL + '/activities',
+    })
+);
 
 const activities = {
     create: handleResponse({

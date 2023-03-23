@@ -1,24 +1,26 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import constants from '@/constants';
 import api from '@/data/server';
-import { User } from '@/models/user';
+import { User } from '@/models';
 
-export type ServerSideAuthHandler<T> = (data: User & { token: string }) => Promise<GetServerSidePropsResult<T>>;
+type ServerSideAuthHandler<T> = (
+    data: User & { token: string },
+    cxt: GetServerSidePropsContext
+) => Promise<GetServerSidePropsResult<T>>;
 
-export async function withServerSideAuth<T>(cxt: GetServerSidePropsContext, handler: ServerSideAuthHandler<T>) {
-    const token = cxt.req.cookies['reactivities-token'];
+async function extractAuthCookieAndUser<T>(handler: ServerSideAuthHandler<T>, cxt: GetServerSidePropsContext) {
+    const token = cxt.req.cookies[constants.AUTH_COOKIE_NAME];
 
     if (!token) {
         return {
             redirect: {
-                destination: '/403',
+                destination: '/401',
                 permanent: false,
             },
         };
     }
 
     const { response, error } = await api.auth.getCurrentUser(token);
-
-    console.log(response, error);
 
     if (!response?.data) {
         return {
@@ -29,14 +31,20 @@ export async function withServerSideAuth<T>(cxt: GetServerSidePropsContext, hand
         };
     }
 
-    if ([401, 403].includes(error?.response?.status || -1)) {
+    if (constants.AUTH_ERROR_STATUS.includes(error?.response?.status || -1)) {
         return {
             redirect: {
-                destination: '/401',
+                destination: '/' + error?.response?.status,
                 permanent: false,
             },
         };
     }
 
-    return handler({ ...response.data, token });
+    return handler({ ...response.data, token }, cxt);
 }
+
+const withServerSideAuth = <T>(handler: ServerSideAuthHandler<T>) => {
+    return extractAuthCookieAndUser.bind(null, handler);
+};
+
+export default withServerSideAuth;

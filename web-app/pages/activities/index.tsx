@@ -1,13 +1,11 @@
-import type { GetServerSideProps } from 'next';
 import { useEffect } from 'react';
 import communicator from '@/communicator';
 import api from '@/data/server';
 import ActivitiesDashboard from '@/features/dashboards/activities-dashboard';
 import Layout from '@/features/layout';
 import sortActivitiesByDate from '@/logic/sort-activities-by-date';
-import { withServerSideAuth } from '@/middleware/with-server-side-auth';
-import type { Activity } from '@/models/activity';
-import type { User } from '@/models/user';
+import withServerSideAuth from '@/middleware/with-server-side-auth';
+import type { Activity, User } from '@/models';
 
 export interface ActivitiesPageProps {
     user: User | null;
@@ -15,47 +13,46 @@ export interface ActivitiesPageProps {
     error: string | null;
 }
 
-const ActivitiesPage = ({ error, ...props }: ActivitiesPageProps) => {
+const ActivitiesPage = ({ activities, user, error }: ActivitiesPageProps) => {
     useEffect(() => {
         error && communicator.publish('enqueue-snackbar', { msg: error, variant: 'error', autoHideDuration: 10000 });
     }, [error]);
 
-    if (error)
+    if (error || !user) {
         return (
             <Layout>
                 <p>An error occurred</p>
             </Layout>
         );
+    }
 
     return (
         <Layout>
-            <ActivitiesDashboard {...props} />
+            <ActivitiesDashboard activities={activities} user={user} />
         </Layout>
     );
 };
 
-export const getServerSideProps: GetServerSideProps<ActivitiesPageProps> = async (cxt) => {
-    return withServerSideAuth<ActivitiesPageProps>(cxt, async ({ token, ...user }) => {
-        const { response, error } = await api.activities.getAll(token);
+export const getServerSideProps = withServerSideAuth<ActivitiesPageProps>(async ({ token, ...user }) => {
+    const { response, error } = await api.activities.getAll(token);
 
-        if (error || !response) {
-            return {
-                props: {
-                    activities: [],
-                    user: null,
-                    error: 'An error occurred whilst fetching activities. Please try again later.',
-                },
-            };
-        }
-
+    if (error || !response) {
         return {
             props: {
-                activities: sortActivitiesByDate(response.data),
-                user,
-                error: null,
+                user: null,
+                activities: [],
+                error: 'An error occurred whilst fetching activities. Please try again later.',
             },
         };
-    });
-};
+    }
+
+    return {
+        props: {
+            user,
+            activities: sortActivitiesByDate(response.data),
+            error: null,
+        },
+    };
+});
 
 export default ActivitiesPage;

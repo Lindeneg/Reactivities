@@ -1,7 +1,7 @@
 import axios from 'axios';
 import constants from '@/constants';
 import config from '@/data/config';
-import handleResponse from '@/logic/handle-response';
+import handleResponse from '@/data/handle-response';
 import type { Activity } from '@/models/activity';
 
 const axiosInstance = axios.create({

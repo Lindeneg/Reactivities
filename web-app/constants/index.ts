@@ -8,9 +8,17 @@ const META_HEADER = {
     DESCRIPTION: 'Create and organize events',
 } as const;
 
+const AUTH_ERROR_STATUS = [401, 403];
+
+const AUTH_COOKIE_NAME = 'reactivities-token';
+const AUTH_COOKIE_REGEX = /reactivities-token=(.+);?/;
+
 const constants = {
     ENV,
     META_HEADER,
+    AUTH_ERROR_STATUS,
+    AUTH_COOKIE_NAME,
+    AUTH_COOKIE_REGEX,
 };
 
 export default constants;

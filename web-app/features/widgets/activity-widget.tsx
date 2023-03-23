@@ -76,7 +76,7 @@ const ActivityWidget = ({ activity, isHost, onMoreDetails }: ActivityWidgetProps
                     flexDirection='column'
                     sx={(theme) => ({
                         [theme.breakpoints.up('md')]: {
-                            margin: 'auto',
+                            margin: '0 0 0 1rem',
                         },
                         [theme.breakpoints.down('md')]: {
                             margin: '0',

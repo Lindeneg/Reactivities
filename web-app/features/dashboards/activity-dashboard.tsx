@@ -5,13 +5,14 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import useListener from '@/hooks/use-listener';
 import getCategory from '@/logic/get-category';
-import type { Activity } from '@/models/activity';
+import type { Activity, User } from '@/models';
 import ActivityAttendanceWidget from '../widgets/activity-attendance-widget';
 import ActivityControlWidget from '../widgets/activity-control-widget';
 import ActivityInformationWidget from '../widgets/activity-information-widget';
 import ChatWidget from '../widgets/chat-widget';
 
 export interface ActivityDashboardProps {
+    user: User;
     activity: Activity;
 }
 
@@ -29,10 +30,31 @@ const ActivityDashboard = (props: ActivityDashboardProps) => {
         setActivity(detail.activity);
     });
 
-    // TODO mobile view
     return (
-        <Box display='flex' flexDirection='row' justifyContent='space-evenly' width='100%'>
-            <Stack spacing={2}>
+        <Box
+            display='flex'
+            justifyContent='space-evenly'
+            width='100%'
+            sx={(theme) => ({
+                [theme.breakpoints.up('lg')]: {
+                    flexDirection: 'row',
+                },
+                [theme.breakpoints.down('lg')]: {
+                    flexDirection: 'column-reverse',
+                },
+            })}
+        >
+            <Stack
+                spacing={2}
+                sx={(theme) => ({
+                    [theme.breakpoints.up('lg')]: {
+                        margin: '0',
+                    },
+                    [theme.breakpoints.down('lg')]: {
+                        margin: '1rem 0',
+                    },
+                })}
+            >
                 <Image
                     src={`/images/categoryImages/${getCategory.label(activity.category).toLowerCase()}.jpg`}
                     alt='activity image'
