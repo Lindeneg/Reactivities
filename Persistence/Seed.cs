@@ -3,6 +3,7 @@ using Activity = Domain.Activity;
 using CategoryEnum = Domain.CategoryEnum;
 using AppUser = Domain.AppUser;
 using System.Globalization;
+using Domain;
 
 namespace Persistence;
 
@@ -10,24 +11,18 @@ public static class Seed
 {
     public static async Task SeedData(DataContext context, UserManager<AppUser> userManager)
     {
-        if (!userManager.Users.Any())
+        var users = new List<AppUser>
         {
-            var users = new List<AppUser>
-            {
-                new AppUser{DisplayName = "Bob", UserName = "bob", Email = "bob@test.com"},
-                new AppUser{DisplayName = "Tom", UserName = "tom", Email = "tom@test.com"},
-                new AppUser{DisplayName = "Jane", UserName = "jane", Email = "jane@test.com"}
-            };
+            new AppUser{DisplayName = "Bob", UserName = "bob", Email = "bob@test.com"},
+            new AppUser{DisplayName = "Tom", UserName = "tom", Email = "tom@test.com"},
+            new AppUser{DisplayName = "Jane", UserName = "jane", Email = "jane@test.com"}
+        };
 
-            foreach (var user in users)
-            {
-                await userManager.CreateAsync(user, "Pa$$w0rd");
-            }
-
+        foreach (var user in users)
+        {
+            await userManager.CreateAsync(user, "Pa$$w0rd");
         }
 
-
-        if (context.Activities.Any()) return;
 
         var activities = new List<Activity>
         {
@@ -39,6 +34,14 @@ public static class Seed
                 Category = CategoryEnum.Drinks,
                 City = "London",
                 Venue = "Pub",
+                Attendees = new List<ActivityAttendee>
+                {
+                    new ActivityAttendee
+                    {
+                        AppUser = users[0],
+                        IsHost = true
+                    }
+                }
             },
             new Activity
             {
@@ -48,6 +51,19 @@ public static class Seed
                 Category = CategoryEnum.Culture,
                 City = "Paris",
                 Venue = "Louvre",
+                Attendees = new List<ActivityAttendee>
+                {
+                    new ActivityAttendee
+                    {
+                        AppUser = users[0],
+                        IsHost = true
+                    },
+                    new ActivityAttendee
+                    {
+                        AppUser = users[1],
+                        IsHost = false
+                    },
+                }
             },
             new Activity
             {
@@ -57,6 +73,19 @@ public static class Seed
                 Category = CategoryEnum.Culture,
                 City = "London",
                 Venue = "Natural History Museum",
+                Attendees = new List<ActivityAttendee>
+                {
+                    new ActivityAttendee
+                    {
+                        AppUser = users[2],
+                        IsHost = true
+                    },
+                    new ActivityAttendee
+                    {
+                        AppUser = users[1],
+                        IsHost = false
+                    },
+                }
             },
             new Activity
             {
@@ -66,6 +95,19 @@ public static class Seed
                 Category = CategoryEnum.Music,
                 City = "London",
                 Venue = "O2 Arena",
+                Attendees = new List<ActivityAttendee>
+                {
+                    new ActivityAttendee
+                    {
+                        AppUser = users[0],
+                        IsHost = true
+                    },
+                    new ActivityAttendee
+                    {
+                        AppUser = users[2],
+                        IsHost = false
+                    },
+                }
             },
             new Activity
             {
@@ -75,6 +117,19 @@ public static class Seed
                 Category = CategoryEnum.Drinks,
                 City = "London",
                 Venue = "Another pub",
+                Attendees = new List<ActivityAttendee>
+                {
+                    new ActivityAttendee
+                    {
+                        AppUser = users[1],
+                        IsHost = true
+                    },
+                    new ActivityAttendee
+                    {
+                        AppUser = users[0],
+                        IsHost = false
+                    },
+                }
             },
             new Activity
             {
@@ -84,6 +139,14 @@ public static class Seed
                 Category = CategoryEnum.Drinks,
                 City = "London",
                 Venue = "Yet another pub",
+                Attendees = new List<ActivityAttendee>
+                {
+                    new ActivityAttendee
+                    {
+                        AppUser = users[1],
+                        IsHost = true
+                    }
+                }
             },
             new Activity
             {
@@ -93,6 +156,19 @@ public static class Seed
                 Category = CategoryEnum.Drinks,
                 City = "London",
                 Venue = "Just another pub",
+                Attendees = new List<ActivityAttendee>
+                {
+                    new ActivityAttendee
+                    {
+                        AppUser = users[0],
+                        IsHost = true
+                    },
+                    new ActivityAttendee
+                    {
+                        AppUser = users[1],
+                        IsHost = false
+                    },
+                }
             },
             new Activity
             {
@@ -102,6 +178,19 @@ public static class Seed
                 Category = CategoryEnum.Music,
                 City = "London",
                 Venue = "Roundhouse Camden",
+                Attendees = new List<ActivityAttendee>
+                {
+                    new ActivityAttendee
+                    {
+                        AppUser = users[2],
+                        IsHost = true
+                    },
+                    new ActivityAttendee
+                    {
+                        AppUser = users[1],
+                        IsHost = false
+                    },
+                }
             },
             new Activity
             {
@@ -111,6 +200,19 @@ public static class Seed
                 Category = CategoryEnum.Travel,
                 City = "London",
                 Venue = "Somewhere on the Thames",
+                Attendees = new List<ActivityAttendee>
+                {
+                    new ActivityAttendee
+                    {
+                        AppUser = users[0],
+                        IsHost = true
+                    },
+                    new ActivityAttendee
+                    {
+                        AppUser = users[2],
+                        IsHost = false
+                    },
+                }
             },
             new Activity
             {
@@ -120,6 +222,19 @@ public static class Seed
                 Category = CategoryEnum.Film,
                 City = "London",
                 Venue = "Cinema",
+                Attendees = new List<ActivityAttendee>
+                {
+                    new ActivityAttendee
+                    {
+                        AppUser = users[2],
+                        IsHost = true
+                    },
+                    new ActivityAttendee
+                    {
+                        AppUser = users[1],
+                        IsHost = false
+                    },
+                }
             }
         };
 

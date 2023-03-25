@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Application.Activities;
+using AutoMapper;
 using Domain;
 
 namespace Application.Core;

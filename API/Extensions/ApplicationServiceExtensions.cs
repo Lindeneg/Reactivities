@@ -39,7 +39,13 @@ public static class ApplicationServiceExtensions
             var context = services.GetRequiredService<DataContext>();
             var userManager = services.GetRequiredService<UserManager<AppUser>>();
             await context.Database.MigrateAsync();
-            await Seed.SeedData(context, userManager);
+
+            if (app.Environment.IsDevelopment() && !userManager.Users.Any() && !context.Activities.Any())
+            {
+                app.Logger.LogInformation("Seeding database with mock data");
+                await Seed.SeedData(context, userManager);
+            }
+
         }
         catch (Exception ex)
         {
