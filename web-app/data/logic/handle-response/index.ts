@@ -1,6 +1,8 @@
 import type { AxiosError, AxiosResponse } from 'axios';
 
-export type CustomAxiosError = AxiosError<{ errors: Record<string, string[]> }>;
+export type CustomAxiosError = AxiosError<
+    { errors: Record<string, string[]> } | Array<{ code: string; description: string }>
+>;
 
 export type APIResult<TReturn> = Promise<{
     response: AxiosResponse<TReturn> | null;
