@@ -1,4 +1,4 @@
-import { CATEGORY, CATEGORY_LABEL, type Category } from '@/models/category';
+import { CATEGORY, CATEGORY_LABEL, type Category } from '@/models';
 
 const label = (category: Category): string => {
     const result = CATEGORY_LABEL[category];

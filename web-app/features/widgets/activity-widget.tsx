@@ -12,7 +12,7 @@ import api from '@/data/client';
 import getCategory from '@/logic/get-category';
 import prettyDateString from '@/logic/pretty-date-string';
 import withColorContrast from '@/logic/with-color-contrast';
-import type { Activity } from '@/models/activity';
+import type { Activity } from '@/models';
 
 export interface ActivityWidgetProps {
     activity: Activity;

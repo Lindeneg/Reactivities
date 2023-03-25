@@ -10,7 +10,7 @@ import useListener from '@/hooks/use-listener';
 import defaultFormValidation from '@/logic/default-form-validation';
 import getCategory from '@/logic/get-category';
 import setFieldErrorFromApi from '@/logic/set-field-error-from-api';
-import type { Activity, BaseActivity } from '@/models/activity';
+import type { Activity, BaseActivity } from '@/models';
 
 const sharedProps = { required: true, fullWidth: true, autoFocus: true };
 const defaultState = { title: '', category: 0, city: '', venue: '', description: '', date: null as any } as const;

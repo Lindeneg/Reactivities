@@ -43,6 +43,6 @@ async function extractAuthCookieAndUser<T>(handler: ServerSideAuthHandler<T>, cx
     return handler({ ...response.data, token }, cxt);
 }
 
-const withServerSideAuth = <T>(handler: ServerSideAuthHandler<T>) => extractAuthCookieAndUser.bind(null, handler);
+const withMustBeAuthenticated = <T>(handler: ServerSideAuthHandler<T>) => extractAuthCookieAndUser.bind(null, handler);
 
-export default withServerSideAuth;
+export default withMustBeAuthenticated;

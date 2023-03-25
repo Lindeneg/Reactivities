@@ -1,5 +1,5 @@
-import type { BaseModel } from './base-model';
-import type { Category } from './category';
+import type { BaseModel } from '@/models/base/base-model';
+import type { Category } from '@/models/enums/category';
 
 export interface BaseActivity {
     title: string;

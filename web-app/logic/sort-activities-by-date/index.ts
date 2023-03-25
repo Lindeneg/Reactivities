@@ -1,4 +1,4 @@
-import type { Activity } from '@/models/activity';
+import type { Activity } from '@/models';
 
 const sortActivitiesByDate = (activities: Activity[]) => {
     return activities.sort((a, b) => {

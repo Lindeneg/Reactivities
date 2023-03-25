@@ -4,7 +4,7 @@ import { ENV } from '@/constants';
 import config from '@/data/config';
 import withBearerFromCookie from '@/data/interceptors/with-bearer-from-cookie';
 import handleResponse from '@/data/logic/handle-response';
-import type { Activity, BaseActivity } from '@/models/activity';
+import type { Activity, BaseActivity } from '@/models';
 
 const axiosInstance = withBearerFromCookie(
     axios.create({
@@ -29,7 +29,7 @@ const activities = {
             });
 
             communicator.publish('enqueue-snackbar', {
-                msg: `Successfully create activity: '${activity.title}'`,
+                msg: `Successfully created activity: '${activity.title}'`,
                 variant: 'success',
             });
 

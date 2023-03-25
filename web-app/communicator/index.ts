@@ -1,5 +1,5 @@
 import type { OptionsObject } from 'notistack';
-import type { Activity } from '@/models/activity';
+import type { Activity } from '@/models';
 
 type ReactivityPayload = {
     'set-create-activity-modal-state': { open: boolean; activity?: Activity };

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { ENV } from '@/constants';
 import config from '@/data/config';
 import handleResponse from '@/data/logic/handle-response';
-import { User } from '@/models/user';
+import { User } from '@/models';
 
 const axiosInstance = axios.create({
     ...config,

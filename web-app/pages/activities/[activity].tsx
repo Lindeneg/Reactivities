@@ -3,7 +3,7 @@ import communicator from '@/communicator';
 import api from '@/data/server';
 import ActivityDashboard from '@/features/dashboards/activity-dashboard';
 import Layout from '@/features/layout';
-import withServerSideAuth from '@/middleware/with-server-side-auth';
+import withMustBeAuthenticated from '@/middleware/with-must-be-authenticated';
 import type { Activity, User } from '@/models';
 
 export interface ActivityPageProps {
@@ -32,7 +32,7 @@ const ActivityPage = ({ activity, user, error }: ActivityPageProps) => {
     );
 };
 
-export const getServerSideProps = withServerSideAuth<ActivityPageProps>(async ({ token, ...user }, cxt) => {
+export const getServerSideProps = withMustBeAuthenticated<ActivityPageProps>(async ({ token, ...user }, cxt) => {
     const { response, error } = await api.activities.get(String(cxt.query.activity), token);
 
     if (error?.status === 404) {

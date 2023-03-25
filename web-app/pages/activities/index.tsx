@@ -4,7 +4,7 @@ import api from '@/data/server';
 import ActivitiesDashboard from '@/features/dashboards/activities-dashboard';
 import Layout from '@/features/layout';
 import sortActivitiesByDate from '@/logic/sort-activities-by-date';
-import withServerSideAuth from '@/middleware/with-server-side-auth';
+import withMustBeAuthenticated from '@/middleware/with-must-be-authenticated';
 import type { Activity, User } from '@/models';
 
 export interface ActivitiesPageProps {
@@ -33,7 +33,7 @@ const ActivitiesPage = ({ activities, user, error }: ActivitiesPageProps) => {
     );
 };
 
-export const getServerSideProps = withServerSideAuth<ActivitiesPageProps>(async ({ token, ...user }) => {
+export const getServerSideProps = withMustBeAuthenticated<ActivitiesPageProps>(async ({ token, ...user }) => {
     const { response, error } = await api.activities.getAll(token);
 
     if (error || !response) {

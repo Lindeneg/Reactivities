@@ -25,7 +25,7 @@ async function redirectToDashboardIfUserIsLoggedIn<T>(
     return handler(cxt);
 }
 
-const withServerSideUnauthenticated = <T>(handler: ServerSideUnauthenticatedHandler<T>) =>
+const withMustBeUnauthenticated = <T>(handler: ServerSideUnauthenticatedHandler<T>) =>
     redirectToDashboardIfUserIsLoggedIn.bind(null, handler);
 
-export default withServerSideUnauthenticated;
+export default withMustBeUnauthenticated;
