@@ -156,6 +156,11 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
+"@cl-live-server/logger@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@cl-live-server/logger/-/logger-0.0.3.tgz#09a8d652327e94e32ba2817d71214ba86778c44e"
+  integrity sha512-ZCC7CmlLtWtMnwiWahXuiRF71lhuS5zezMskXGV+PnwQ/K18ai6APcfitFQLstWlTKKI7m1ZSaQt4nShnpwJhQ==
+
 "@emotion/babel-plugin@^11.10.5":
   version "11.10.5"
   resolved "https://registry.yarnpkg.com/@emotion/babel-plugin/-/babel-plugin-11.10.5.tgz#65fa6e1790ddc9e23cc22658a4c5dea423c55c3c"
@@ -886,6 +891,11 @@ chalk@^4.0.0:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
 
+cl-fill-link@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/cl-fill-link/-/cl-fill-link-2.0.2.tgz#7a167f1f22fe1748ea7e2562bf640f57b7512c8a"
+  integrity sha512-jHwH1+U8Ebel8ciutkjt/tJ5DqLi23MlDto/Z6vJN3YFl3GH/ptkt/QbWVzX8rtXQVDnno6qqCaV3pYPdY1oJw==
+
 classnames@^2.2.6:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.2.tgz#351d813bf0137fcc6a76a16b88208d2560a0d924"
@@ -1532,6 +1542,14 @@ functions-have-names@^1.2.2:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/functions-have-names/-/functions-have-names-1.2.3.tgz#0404fe4ee2ba2f607f0e0ec3c80bae994133b834"
   integrity sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==
+
+generate-next-links@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/generate-next-links/-/generate-next-links-3.1.0.tgz#7b7b3b6dc391645410013da86dbc19fb7d995c5f"
+  integrity sha512-lfbPV0m913UJjAYkO0f+4gANIentfluJ0MpMXwBmibz2MhxXrT6CF3Mf7pPpi8MS3/TfZVRYKSCBA7ziHrVIXw==
+  dependencies:
+    "@cl-live-server/logger" "^0.0.3"
+    prettier "^2.3.2"
 
 get-intrinsic@^1.0.2, get-intrinsic@^1.1.1, get-intrinsic@^1.1.3, get-intrinsic@^1.2.0:
   version "1.2.0"
@@ -2342,6 +2360,11 @@ prettier@2.8.4:
   version "2.8.4"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.4.tgz#34dd2595629bfbb79d344ac4a91ff948694463c3"
   integrity sha512-vIS4Rlc2FNh0BySk3Wkd6xmwxB0FpOndW5fisM5H8hsZSxU2VWVB5CWIkIjWvrHjIhxk2g3bfMKM87zNTrZddw==
+
+prettier@^2.3.2:
+  version "2.8.7"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.7.tgz#bb79fc8729308549d28fe3a98fce73d2c0656450"
+  integrity sha512-yPngTo3aXUUmyuTjeTUT75txrf+aMh9FiD7q9ZE/i6r0bPb22g4FsE6Y338PQX1bmfy08i9QQCB7/rcUAVntfw==
 
 prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"

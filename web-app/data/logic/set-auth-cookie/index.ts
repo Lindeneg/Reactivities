@@ -1,4 +1,4 @@
-import constants from '@/constants';
+import { ENV } from '@/constants';
 
 const setAuthCookie = (token: string) => {
     const expires = 7 * 24 * 60 * 60 * 1000;
@@ -6,7 +6,7 @@ const setAuthCookie = (token: string) => {
 
     document.cookie = `reactivities-token=${token}; Max-Age=${
         expires / 1000
-    }; Path=/; Expires=${cookieExpire}; SameSite=Strict; Secure=${constants.ENV.MODE === 'prod'}`;
+    }; Path=/; Expires=${cookieExpire}; SameSite=Strict; Secure=${ENV.MODE === 'prod'}`;
 };
 
 export default setAuthCookie;

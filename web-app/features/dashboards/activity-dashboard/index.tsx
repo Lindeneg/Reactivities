@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
+import { APP_LINK } from '@/constants';
 import useListener from '@/hooks/use-listener';
 import getCategory from '@/logic/get-category';
 import type { Activity, User } from '@/models';
@@ -23,7 +24,7 @@ const ActivityDashboard = (props: ActivityDashboardProps) => {
     useListener('deleted-activity', ({ detail }) => {
         if (activity.id !== detail.activityId) return;
 
-        router.push('/activities');
+        router.push(APP_LINK.ACTIVITIES);
     });
 
     useListener('updated-activity', ({ detail }) => {

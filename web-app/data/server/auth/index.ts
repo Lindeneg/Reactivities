@@ -1,12 +1,12 @@
 import axios from 'axios';
-import constants from '@/constants';
+import { ENV } from '@/constants';
 import config from '@/data/config';
 import handleResponse from '@/data/logic/handle-response';
 import { User } from '@/models/user';
 
 const axiosInstance = axios.create({
     ...config,
-    baseURL: constants.ENV.API_URL + '/account',
+    baseURL: ENV.API_URL + '/account',
 });
 
 const auth = {

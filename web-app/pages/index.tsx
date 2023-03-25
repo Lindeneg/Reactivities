@@ -1,4 +1,5 @@
 import type { GetServerSideProps } from 'next';
+import { APP_LINK } from '@/constants';
 
 const Home = () => {
     return null;
@@ -7,7 +8,7 @@ const Home = () => {
 export const getServerSideProps: GetServerSideProps = async () => {
     return {
         redirect: {
-            destination: '/activities',
+            destination: APP_LINK.ACTIVITIES,
             permanent: true,
         },
     };

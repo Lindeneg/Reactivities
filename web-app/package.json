@@ -8,7 +8,8 @@
         "start": "next start",
         "lint": "next lint",
         "format": "prettier \"**/*\" --ignore-unknown --write",
-        "format:fix": "yarn run format --write"
+        "format:fix": "yarn run format --write",
+        "gnl": "generate-next-links -N generatedlinks -O ./constants -Q -T -R"
     },
     "dependencies": {
         "@emotion/react": "11.10.5",
@@ -23,6 +24,7 @@
         "@types/react-datepicker": "^4.10.0",
         "@types/react-dom": "18.0.10",
         "axios": "1.3.2",
+        "cl-fill-link": "2.0.2",
         "eslint": "8.34.0",
         "eslint-config-next": "13.1.6",
         "eslint-config-prettier": "8.6.0",
@@ -35,5 +37,8 @@
         "react-datepicker": "^4.10.0",
         "react-dom": "18.2.0",
         "typescript": "4.9.5"
+    },
+    "devDependencies": {
+        "generate-next-links": "3.1.0"
     }
 }

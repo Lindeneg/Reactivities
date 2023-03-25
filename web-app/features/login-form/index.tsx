@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
+import { APP_LINK } from '@/constants';
 import api from '@/data/client';
 import defaultFormValidation from '@/logic/default-form-validation';
 import setFieldErrorFromApi from '@/logic/set-field-error-from-api';
@@ -20,7 +21,7 @@ const LoginForm = () => {
 
         const didSetError = setFieldErrorFromApi(error, values, helpers.setFieldError);
 
-        if (!didSetError) router.push('/');
+        if (!didSetError) router.push(APP_LINK.ROOT);
     };
 
     return (
@@ -91,13 +92,17 @@ const LoginForm = () => {
                                 <Button
                                     size='small'
                                     variant='text'
-                                    onClick={() => router.push('/account/forgot-password')}
+                                    //onClick={() => router.push('/account/forgot-password')}
                                 >
                                     Forgot password?
                                 </Button>
                             </Grid>
                             <Grid item>
-                                <Button size='small' variant='text' onClick={() => router.push('/account/signup')}>
+                                <Button
+                                    size='small'
+                                    variant='text'
+                                    onClick={() => router.push(APP_LINK.ACCOUNT_SIGNUP)}
+                                >
                                     Don&apos;t have an account? Sign Up
                                 </Button>
                             </Grid>

@@ -1,3 +1,4 @@
+import { fillLink } from 'cl-fill-link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Calender from 'react-calendar';
@@ -8,6 +9,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import Typography from '@mui/material/Typography';
 import Grid from '@/components/grid';
 import Widget from '@/components/widget';
+import { APP_LINK } from '@/constants';
 import ActivityWidget from '@/features/widgets/activity-widget';
 import useListener from '@/hooks/use-listener';
 import sortActivitiesByDate from '@/logic/sort-activities-by-date';
@@ -83,7 +85,9 @@ const ActivitiesDashboard = (props: ActivitiesDashboardProps) => {
                     <ActivityWidget
                         isHost={true}
                         activity={activity}
-                        onMoreDetails={() => router.push('/activities/' + activity.id)}
+                        onMoreDetails={() =>
+                            router.push(fillLink(APP_LINK.ACTIVITIES_ACTIVITY, { activity: activity.id }))
+                        }
                     />
                 )}
             />

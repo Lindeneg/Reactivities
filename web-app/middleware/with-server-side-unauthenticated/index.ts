@@ -1,5 +1,5 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
-import constants from '@/constants';
+import { APP_LINK, ENV } from '@/constants';
 import api from '@/data/server';
 
 type ServerSideUnauthenticatedHandler<T> = (cxt: GetServerSidePropsContext) => Promise<GetServerSidePropsResult<T>>;
@@ -8,14 +8,14 @@ async function redirectToDashboardIfUserIsLoggedIn<T>(
     handler: ServerSideUnauthenticatedHandler<T>,
     cxt: GetServerSidePropsContext
 ) {
-    const token = cxt.req.cookies[constants.ENV.AUTH_COOKIE_NAME];
+    const token = cxt.req.cookies[ENV.AUTH_COOKIE_NAME];
 
     if (token) {
         const { error } = await api.auth.getCurrentUser(token);
         if (!error) {
             return {
                 redirect: {
-                    destination: '/activities',
+                    destination: APP_LINK.ROOT,
                     permanent: false,
                 },
             };
