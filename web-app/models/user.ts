@@ -3,3 +3,5 @@ export interface User {
     username: string;
     image: string | null;
 }
+
+export type UserWithToken = User & { token: string };

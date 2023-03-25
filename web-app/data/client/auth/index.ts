@@ -1,8 +1,10 @@
 import axios from 'axios';
+import communicator from '@/communicator';
 import constants from '@/constants';
 import config from '@/data/config';
 import handleResponse from '@/data/logic/handle-response';
 import setAuthCookie from '@/data/logic/set-auth-cookie';
+import type { UserWithToken } from '@/models';
 import type { LoginDto } from '@/models/login-dto';
 
 const axiosInstance = axios.create({
@@ -13,11 +15,17 @@ const axiosInstance = axios.create({
 const auth = {
     login: handleResponse({
         callback: async (data: LoginDto) => {
-            const response = await axiosInstance.post('/login', data);
+            const response = await axiosInstance.post<UserWithToken>('/login', data);
 
             setAuthCookie(response.data.token);
 
             return response;
+        },
+        onError: () => {
+            communicator.publish('enqueue-snackbar', {
+                msg: 'Failed to login',
+                variant: 'error',
+            });
         },
     }),
 } as const;

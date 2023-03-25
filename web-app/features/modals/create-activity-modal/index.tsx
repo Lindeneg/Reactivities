@@ -1,4 +1,4 @@
-import { Formik } from 'formik';
+import { Formik, type FormikHelpers } from 'formik';
 import { useState } from 'react';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
@@ -7,22 +7,18 @@ import GridForm from '@/components/grid-form';
 import Modal from '@/components/modal';
 import api from '@/data/client';
 import useListener from '@/hooks/use-listener';
-import capitalizeString from '@/logic/capitalize-string';
+import defaultFormValidation from '@/logic/default-form-validation';
 import getCategory from '@/logic/get-category';
+import setFieldErrorFromApi from '@/logic/set-field-error-from-api';
 import type { Activity, BaseActivity } from '@/models/activity';
+
+const sharedProps = { required: true, fullWidth: true, autoFocus: true };
+const defaultState = { title: '', category: 0, city: '', venue: '', description: '', date: null as any } as const;
 
 const CreateActivityModal = () => {
     const [showCreateActivityModal, setShowCreateActivityModal] = useState(false);
     const [activity, setActivity] = useState<Activity | null>(null);
     const [hasSubmitted, setHasSubmitted] = useState(false);
-
-    const hasMadeChange = (values: BaseActivity) => {
-        if (!activity) return true;
-        for (const key in values) {
-            if (values[key as keyof BaseActivity] !== activity[key as keyof BaseActivity]) return true;
-        }
-        return false;
-    };
 
     useListener('set-create-activity-modal-state', ({ detail }) => {
         setShowCreateActivityModal(detail.open);
@@ -35,9 +31,24 @@ const CreateActivityModal = () => {
         }
     });
 
+    const hasMadeChange = (values: BaseActivity) => {
+        if (!activity) return true;
+        for (const key in values) {
+            if (values[key as keyof BaseActivity] !== activity[key as keyof BaseActivity]) return true;
+        }
+        return false;
+    };
+
+    const handleSubmit = async (values: BaseActivity, helpers: FormikHelpers<BaseActivity>) => {
+        const { error } = await (activity ? api.activities.update(activity.id, values) : api.activities.create(values));
+
+        const didSetError = setFieldErrorFromApi(error, values, helpers.setFieldError);
+
+        if (!didSetError) handleClose();
+    };
+
     const handleClose = () => communicator.publish('set-create-activity-modal-state', { open: false });
 
-    // TODO refactor / split out component
     return (
         <Modal
             open={showCreateActivityModal}
@@ -50,36 +61,13 @@ const CreateActivityModal = () => {
             </Typography>
             <Divider sx={{ margin: '15px 0px' }} />
             <Formik<BaseActivity>
-                initialValues={
-                    activity
-                        ? activity
-                        : { title: '', category: '' as any, city: '', venue: '', description: '', date: null as any }
-                }
+                initialValues={activity || defaultState}
                 validate={(values) =>
-                    Object.keys(values).reduce((acc, key) => {
-                        const val = values[key as keyof typeof values];
-                        if (key !== 'category' && !val) {
-                            acc[key] = `${capitalizeString(key)} is required`;
-                        }
-                        return acc;
-                    }, {} as Record<string, string>)
+                    defaultFormValidation(values, {
+                        exclude: ['category'],
+                    })
                 }
-                onSubmit={async (values, helpers) => {
-                    const { error } = await (activity
-                        ? api.activities.update(activity.id, values)
-                        : api.activities.create(values));
-
-                    if (error) {
-                        const errors = error.response?.data.errors || {};
-                        Object.keys(errors).forEach((key) => {
-                            const msg = errors[key as keyof typeof errors][0];
-                            msg && helpers.setFieldError(key.toLowerCase(), msg);
-                        });
-                        return;
-                    }
-
-                    handleClose();
-                }}
+                onSubmit={handleSubmit}
             >
                 {({
                     values,
@@ -105,9 +93,7 @@ const CreateActivityModal = () => {
                                 value: values.title,
                                 helperText: hasSubmitted && errors.title,
                                 error: hasSubmitted && !!errors.title,
-                                required: true,
-                                fullWidth: true,
-                                autoFocus: true,
+                                ...sharedProps,
                             },
                             {
                                 name: 'city',
@@ -116,9 +102,7 @@ const CreateActivityModal = () => {
                                 value: values.city,
                                 helperText: hasSubmitted && errors.city,
                                 error: hasSubmitted && !!errors.city,
-                                required: true,
-                                fullWidth: true,
-                                autoFocus: true,
+                                ...sharedProps,
                             },
                             {
                                 name: 'category',
@@ -129,9 +113,7 @@ const CreateActivityModal = () => {
                                 helperText: hasSubmitted && errors.category,
                                 error: hasSubmitted && !!errors.category,
                                 select: true,
-                                required: true,
-                                fullWidth: true,
-                                autoFocus: true,
+                                ...sharedProps,
                             },
                             {
                                 name: 'venue',
@@ -140,9 +122,7 @@ const CreateActivityModal = () => {
                                 value: values.venue,
                                 helperText: hasSubmitted && errors.venue,
                                 error: hasSubmitted && !!errors.venue,
-                                required: true,
-                                fullWidth: true,
-                                autoFocus: true,
+                                ...sharedProps,
                             },
                         ]}
                         large={[
@@ -155,9 +135,7 @@ const CreateActivityModal = () => {
                                 error: hasSubmitted && !!errors.description,
                                 maxRows: 2,
                                 multiline: true,
-                                required: true,
-                                fullWidth: true,
-                                autoFocus: true,
+                                ...sharedProps,
                             },
                             {
                                 name: 'date',
@@ -166,9 +144,7 @@ const CreateActivityModal = () => {
                                 value: values.date,
                                 helperText: hasSubmitted && (errors.date as string),
                                 error: hasSubmitted && !!errors.date,
-                                required: true,
-                                fullWidth: true,
-                                autoFocus: true,
+                                ...sharedProps,
                             },
                         ]}
                         disabledSubmit={!!activity && !hasMadeChange(values)}
@@ -179,7 +155,6 @@ const CreateActivityModal = () => {
                         onClose={handleClose}
                         onSubmit={() => {
                             !hasSubmitted && setHasSubmitted(true);
-                            if (Object.keys(errors).length > 0) return;
                             handleSubmit();
                         }}
                     />

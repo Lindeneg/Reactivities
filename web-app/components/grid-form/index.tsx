@@ -3,7 +3,6 @@ import DatePicker from 'react-datepicker';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
-import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import Grid from '@mui/material/Grid';
 import MenuItem from '@mui/material/MenuItem';
@@ -13,7 +12,6 @@ type TextFieldPropsWithoutHandlers = Omit<TextFieldProps, 'onChange' | 'onBlur'>
     options?: { value: number | string; label: string }[];
 };
 
-// TODO extend props with datepicker|textfield union type
 export interface GridFormProps {
     small: TextFieldPropsWithoutHandlers[];
     large: TextFieldPropsWithoutHandlers[];
@@ -96,7 +94,7 @@ const GridForm = ({
                 disabled={isSubmitting || disabledSubmit}
                 onClick={onSubmit}
             >
-                {isSubmitting ? <CircularProgress /> : 'Submit'}
+                {isSubmitting ? <CircularProgress color='secondary' /> : 'Submit'}
             </Button>
             <Button disabled={isSubmitting} type='button' fullWidth variant='outlined' sx={{ mt: 1 }} onClick={onClose}>
                 Cancel

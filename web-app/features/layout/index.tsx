@@ -1,9 +1,8 @@
-import { type SnackbarKey, closeSnackbar, useSnackbar } from 'notistack';
+import { useSnackbar } from 'notistack';
 import { useState } from 'react';
-import CloseIcon from '@mui/icons-material/Close';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import IconButton from '@mui/material/IconButton';
+import CloseSnackbar from '@/components/close-snackbar';
 import Footer from '@/components/footer';
 import GlobalSpinner from '@/components/global-spinner';
 import Header from '@/components/header';
@@ -18,19 +17,6 @@ export interface LayoutProps {
     children: React.ReactNode;
 }
 
-const CloseSnackbarButton = (key: SnackbarKey) => {
-    return (
-        <IconButton
-            aria-label='close snackbar'
-            onClick={() => {
-                closeSnackbar(key);
-            }}
-        >
-            <CloseIcon />
-        </IconButton>
-    );
-};
-
 const Layout = ({ children, meta }: LayoutProps) => {
     const [navOpen, setNavOpen] = useState(false);
     const [showSpinner, setShowSpinner] = useState(false);
@@ -43,7 +29,7 @@ const Layout = ({ children, meta }: LayoutProps) => {
     useListener('enqueue-snackbar', ({ detail }) => {
         const { msg, ...props } = detail;
         enqueueSnackbar(msg, {
-            action: (key) => CloseSnackbarButton(key),
+            action: (key) => CloseSnackbar({ key }),
             ...props,
         });
     });

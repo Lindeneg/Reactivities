@@ -81,7 +81,7 @@ const activities = {
             communicator.publish('deleted-activity', { activityId: id });
 
             communicator.publish('enqueue-snackbar', {
-                msg: 'Successfully deleted activity' + title ? `: '${title}'` : '',
+                msg: 'Successfully deleted activity' + (title ? `: '${title}'` : ''),
                 variant: 'success',
             });
 
@@ -89,7 +89,7 @@ const activities = {
         },
         onError: (_, __, title) => {
             communicator.publish('enqueue-snackbar', {
-                msg: 'Failed to delete activity' + title ? `: '${title}'` : '',
+                msg: 'Failed to delete activity' + (title ? `: '${title}'` : ''),
                 variant: 'error',
             });
         },
