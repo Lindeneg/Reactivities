@@ -1,4 +1,3 @@
-import { GetServerSideProps } from 'next';
 import { useSnackbar } from 'notistack';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Avatar from '@mui/material/Avatar';
@@ -6,10 +5,9 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import CloseSnackbar from '@/components/close-snackbar';
-import constants from '@/constants';
-import api from '@/data/server';
 import LoginForm from '@/features/login-form';
 import useListener from '@/hooks/use-listener';
+import withServerSideUnauthenticated from '@/middleware/with-server-side-unauthenticated';
 
 const LoginPage = () => {
     const { enqueueSnackbar } = useSnackbar();
@@ -44,24 +42,10 @@ const LoginPage = () => {
     );
 };
 
-export const getServerSideProps: GetServerSideProps = async (cxt) => {
-    const token = cxt.req.cookies[constants.ENV.AUTH_COOKIE_NAME];
-
-    if (token) {
-        const { error } = await api.auth.getCurrentUser(token);
-        if (!error) {
-            return {
-                redirect: {
-                    destination: '/activities',
-                    permanent: false,
-                },
-            };
-        }
-    }
-
+export const getServerSideProps = withServerSideUnauthenticated(async () => {
     return {
         props: {},
     };
-};
+});
 
 export default LoginPage;
