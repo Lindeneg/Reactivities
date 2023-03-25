@@ -9,7 +9,7 @@ export interface BaseActivity {
     city: string;
     venue: string;
     hostUsername: string;
-    profiles: string[];
+    attendees: string[];
 }
 
 export type Activity = BaseModel & BaseActivity;
