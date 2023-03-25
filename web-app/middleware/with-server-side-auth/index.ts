@@ -14,7 +14,7 @@ async function extractAuthCookieAndUser<T>(handler: ServerSideAuthHandler<T>, cx
     if (!token) {
         return {
             redirect: {
-                destination: '/login',
+                destination: '/account/login',
                 permanent: false,
             },
         };
