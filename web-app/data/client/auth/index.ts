@@ -4,7 +4,7 @@ import { ENV } from '@/constants';
 import config from '@/data/config';
 import handleResponse from '@/data/logic/handle-response';
 import setAuthCookie from '@/data/logic/set-auth-cookie';
-import type { LoginDto, UserWithToken } from '@/models';
+import type { LoginDto, SignupDto, UserWithToken } from '@/models';
 
 const axiosInstance = axios.create({
     ...config,
@@ -23,6 +23,21 @@ const auth = {
         onError: () => {
             communicator.publish('enqueue-snackbar', {
                 msg: 'Failed to login',
+                variant: 'error',
+            });
+        },
+    }),
+    signup: handleResponse({
+        callback: async (data: SignupDto) => {
+            const response = await axiosInstance.post<UserWithToken>('/register', data);
+
+            setAuthCookie(response.data.token);
+
+            return response;
+        },
+        onError: () => {
+            communicator.publish('enqueue-snackbar', {
+                msg: 'Failed to signup',
                 variant: 'error',
             });
         },

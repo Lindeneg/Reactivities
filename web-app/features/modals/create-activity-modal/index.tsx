@@ -13,7 +13,16 @@ import setFieldErrorFromApi from '@/logic/set-field-error-from-api';
 import type { Activity, BaseActivity } from '@/models';
 
 const sharedProps = { required: true, fullWidth: true, autoFocus: true };
-const defaultState = { title: '', category: 0, city: '', venue: '', description: '', date: null as any } as const;
+const defaultState = {
+    title: '',
+    category: 0,
+    city: '',
+    venue: '',
+    description: '',
+    hostUsername: '',
+    profiles: [] as string[],
+    date: null as any,
+} as const;
 
 const CreateActivityModal = () => {
     const [showCreateActivityModal, setShowCreateActivityModal] = useState(false);
@@ -64,7 +73,7 @@ const CreateActivityModal = () => {
                 initialValues={activity || defaultState}
                 validate={(values) =>
                     defaultFormValidation(values, {
-                        exclude: ['category'],
+                        exclude: ['category', 'hostUsername', 'profiles'],
                     })
                 }
                 onSubmit={handleSubmit}

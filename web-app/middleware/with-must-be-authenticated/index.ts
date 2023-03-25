@@ -25,7 +25,7 @@ async function extractAuthCookieAndUser<T>(handler: ServerSideAuthHandler<T>, cx
     if (!response?.data) {
         return {
             redirect: {
-                destination: APP_LINK.N500,
+                destination: APP_LINK.ACCOUNT_LOGIN,
                 permanent: false,
             },
         };

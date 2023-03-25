@@ -17,7 +17,7 @@ const SignupForm = () => {
     const router = useRouter();
 
     const handleSubmit = async (values: SignupDto, helpers: FormikHelpers<SignupDto>) => {
-        const { error } = await api.auth.login(values);
+        const { error } = await api.auth.signup(values);
 
         const didSetError = setFieldErrorFromApi(error, values, helpers.setFieldError);
 

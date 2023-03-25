@@ -8,6 +8,8 @@ export interface BaseActivity {
     category: Category;
     city: string;
     venue: string;
+    hostUsername: string;
+    profiles: string[];
 }
 
 export type Activity = BaseModel & BaseActivity;
