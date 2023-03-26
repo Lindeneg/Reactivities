@@ -32,3 +32,5 @@ msbuild.wrn
 *.db
 *.db-shm
 *.db-wal
+
+appsettings.json
