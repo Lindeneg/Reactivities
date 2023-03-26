@@ -1,10 +1,14 @@
 import ConfirmationModal from './confirmation-modal';
-import CreateActivityModal from './create-activity-modal';
+import CreateActivityModal, { type CreateActivityModalProps } from './create-activity-modal';
 
-const Modals = () => {
+export interface ModalsProps {
+    user: CreateActivityModalProps['user'] | null;
+}
+
+const Modals = ({ user }: ModalsProps) => {
     return (
         <>
-            <CreateActivityModal />
+            {user && <CreateActivityModal user={user} />}
             <ConfirmationModal />
         </>
     );

@@ -10,7 +10,7 @@ import useListener from '@/hooks/use-listener';
 import defaultFormValidation from '@/logic/default-form-validation';
 import getCategory from '@/logic/get-category';
 import setFieldErrorFromApi from '@/logic/set-field-error-from-api';
-import type { Activity, BaseActivity } from '@/models';
+import type { Activity, BaseActivity, User } from '@/models';
 
 const sharedProps = { required: true, fullWidth: true, autoFocus: true };
 const defaultState = {
@@ -22,7 +22,11 @@ const defaultState = {
     date: null as any,
 } as BaseActivity;
 
-const CreateActivityModal = () => {
+export interface CreateActivityModalProps {
+    user: User;
+}
+
+const CreateActivityModal = ({ user }: CreateActivityModalProps) => {
     const [showCreateActivityModal, setShowCreateActivityModal] = useState(false);
     const [activity, setActivity] = useState<Activity | null>(null);
     const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -47,7 +51,9 @@ const CreateActivityModal = () => {
     };
 
     const handleSubmit = async (values: BaseActivity, helpers: FormikHelpers<BaseActivity>) => {
-        const { error } = await (activity ? api.activities.update(activity.id, values) : api.activities.create(values));
+        const { error } = await (activity
+            ? api.activities.update(activity.id, values)
+            : api.activities.create(values, user));
 
         const didSetError = setFieldErrorFromApi(error, values, helpers.setFieldError);
 

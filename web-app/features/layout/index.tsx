@@ -41,7 +41,7 @@ const Layout = ({ children, meta, user }: LayoutProps) => {
     return (
         <>
             {showSpinner && <GlobalSpinner />}
-            <Modals />
+            <Modals user={user} />
             <MetaHeader {...meta} />
             <Box display='flex' flexDirection='column' minHeight='100vh'>
                 <Header

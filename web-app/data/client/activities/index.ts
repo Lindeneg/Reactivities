@@ -4,7 +4,7 @@ import { ENV } from '@/constants';
 import config from '@/data/config';
 import withBearerFromCookie from '@/data/interceptors/with-bearer-from-cookie';
 import handleResponse from '@/data/logic/handle-response';
-import type { Activity, BaseActivity } from '@/models';
+import type { Activity, BaseActivity, User } from '@/models';
 
 const axiosInstance = withBearerFromCookie(
     axios.create({
@@ -15,7 +15,7 @@ const axiosInstance = withBearerFromCookie(
 
 const activities = {
     create: handleResponse({
-        callback: async (activity: BaseActivity) => {
+        callback: async (activity: BaseActivity, user: User) => {
             const response = await axiosInstance.post<string>('/', {
                 ...activity,
                 date: activity.date.toISOString(),
@@ -24,12 +24,15 @@ const activities = {
             communicator.publish('created-activity', {
                 activity: {
                     ...activity,
+                    isCancelled: false,
+                    hostUsername: user.username,
+                    attendees: [user],
                     id: response.data,
                 },
             });
 
             communicator.publish('enqueue-snackbar', {
-                msg: `Successfully created activity: '${activity.title}'`,
+                msg: 'Successfully created activity',
                 variant: 'success',
             });
 
@@ -59,7 +62,7 @@ const activities = {
             });
 
             communicator.publish('enqueue-snackbar', {
-                msg: `Successfully updated activity: '${activity.title}'`,
+                msg: 'Successfully updated activity',
                 variant: 'success',
             });
 
@@ -84,7 +87,7 @@ const activities = {
                 });
 
                 communicator.publish('enqueue-snackbar', {
-                    msg: `Successfully ${activity.isCancelled ? 'revived' : 'cancelled'} activity: '${activity.title}'`,
+                    msg: `Successfully ${activity.isCancelled ? 'revived' : 'cancelled'} activity`,
                     variant: 'success',
                 });
             } else {
@@ -93,7 +96,7 @@ const activities = {
                 });
 
                 communicator.publish('enqueue-snackbar', {
-                    msg: `Successfully updated attendance on activity: '${activity.title}'`,
+                    msg: 'Successfully updated attendance',
                     variant: 'success',
                 });
             }
@@ -117,7 +120,7 @@ const activities = {
             communicator.publish('deleted-activity', { activityId: id });
 
             communicator.publish('enqueue-snackbar', {
-                msg: 'Successfully deleted activity' + (title ? `: '${title}'` : ''),
+                msg: 'Successfully deleted activity',
                 variant: 'success',
             });
 
