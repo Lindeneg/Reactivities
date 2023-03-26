@@ -11,8 +11,10 @@ export type APIResult<TReturn> = Promise<{
 
 type HandleResponseOpts<TResponse, TArgs extends unknown[]> = {
     callback: (...args: TArgs) => Promise<NonNullable<Awaited<APIResult<TResponse>>['response']>>;
-    onError?: (err: AxiosError, ...args: any) => Promise<void> | void;
-    onDone?: () => Promise<void> | void;
+    // if TArgs are not destructured, the parameter names
+    // for the caller will be what is implemented in onError or onDone instead of callback
+    onError?: (err: AxiosError, ...args: [...TArgs]) => Promise<void> | void;
+    onDone?: (...args: [...TArgs]) => Promise<void> | void;
 };
 
 const handleResponse = <TResponse, TArgs extends unknown[]>({
@@ -36,7 +38,7 @@ const handleResponse = <TResponse, TArgs extends unknown[]>({
                 error: err as CustomAxiosError,
             };
         } finally {
-            await onDone();
+            await onDone(...args);
         }
     };
 };

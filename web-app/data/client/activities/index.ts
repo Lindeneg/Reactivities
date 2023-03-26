@@ -72,6 +72,41 @@ const activities = {
         },
     }),
 
+    attend: handleResponse({
+        callback: async (activity: Activity, isHost: boolean) => {
+            const response = await axiosInstance.post<void>(`/${activity.id}/attend`);
+
+            if (isHost) {
+                communicator.publish('updated-activity-state', {
+                    activityId: activity.id,
+                    isCancelled: !activity.isCancelled,
+                });
+
+                communicator.publish('enqueue-snackbar', {
+                    msg: `Successfully ${activity.isCancelled ? 'revived' : 'cancelled'} activity: '${activity.title}'`,
+                    variant: 'success',
+                });
+            } else {
+                communicator.publish('updated-activity-attendance', {
+                    activityId: activity.id,
+                });
+
+                communicator.publish('enqueue-snackbar', {
+                    msg: `Successfully updated attendance on activity: '${activity.title}'`,
+                    variant: 'success',
+                });
+            }
+
+            return response;
+        },
+        onError: (_, activity) => {
+            communicator.publish('enqueue-snackbar', {
+                msg: `Failed to update activity: '${activity.title}'`,
+                variant: 'error',
+            });
+        },
+    }),
+
     delete: handleResponse({
         callback: async (id: Activity['id'], title?: Activity['title']) => {
             communicator.publish('set-global-spinner-state', { open: true });

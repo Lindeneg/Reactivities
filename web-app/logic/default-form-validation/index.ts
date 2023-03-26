@@ -1,9 +1,5 @@
 import capitalizeString from '../capitalize-string';
 
-// we need to constrain TValues to an object
-// however if an interface is given as the generic type
-// we need to map it in order for the constraint to be satisfied
-// haven't found a better solution than this
 type MappedConstraint<T> = { [K in keyof T]: T[K] };
 
 type FunctionConstraint<T> = { [K in keyof T]: (value: T[K]) => boolean };

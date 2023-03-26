@@ -8,7 +8,11 @@ type ReactivityPayload = {
 
     'updated-activity': { activity: Activity };
 
+    'updated-activity-state': { activityId: string; isCancelled: boolean };
+
     'deleted-activity': { activityId: string };
+
+    'updated-activity-attendance': { activityId: string };
 
     'set-global-spinner-state': { open: boolean };
 

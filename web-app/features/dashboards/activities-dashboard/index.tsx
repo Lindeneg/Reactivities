@@ -10,10 +10,10 @@ import Typography from '@mui/material/Typography';
 import Grid from '@/components/grid';
 import Widget from '@/components/widget';
 import { APP_LINK } from '@/constants';
-import ActivityWidget from '@/features/widgets/activity-widget';
 import useListener from '@/hooks/use-listener';
 import sortActivitiesByDate from '@/logic/sort-activities-by-date';
 import type { Activity, User } from '@/models';
+import ActivityWidget from './activity-widget';
 
 export interface ActivitiesDashboardProps {
     user: User;
@@ -83,7 +83,7 @@ const ActivitiesDashboard = (props: ActivitiesDashboardProps) => {
                 itemKey={(e) => e.id}
                 renderItem={(activity) => (
                     <ActivityWidget
-                        isHost={true}
+                        isHost={activity.hostUsername === props.user.username}
                         activity={activity}
                         onMoreDetails={() =>
                             router.push(fillLink(APP_LINK.ACTIVITIES_ACTIVITY, { activity: activity.id }))

@@ -20,6 +20,7 @@ export interface ActivityDashboardProps {
 const ActivityDashboard = (props: ActivityDashboardProps) => {
     const [activity, setActivity] = useState({ ...props.activity, date: new Date(props.activity.date) });
     const router = useRouter();
+    const isHost = activity.hostUsername === props.user.username;
 
     useListener('deleted-activity', ({ detail }) => {
         if (activity.id !== detail.activityId) return;
@@ -28,7 +29,37 @@ const ActivityDashboard = (props: ActivityDashboardProps) => {
     });
 
     useListener('updated-activity', ({ detail }) => {
+        if (activity.id !== detail.activity.id) return;
+
         setActivity(detail.activity);
+    });
+
+    useListener('updated-activity-state', ({ detail }) => {
+        if (activity.id !== detail.activityId) return;
+
+        setActivity((prev) => ({
+            ...prev,
+            ...detail,
+        }));
+    });
+
+    useListener('updated-activity-attendance', ({ detail }) => {
+        if (activity.id !== detail.activityId) return;
+
+        setActivity((prev) => {
+            for (const attendee of prev.attendees) {
+                if (attendee.username === props.user.username) {
+                    return {
+                        ...prev,
+                        attendees: prev.attendees.filter((e) => e.username !== props.user.username),
+                    };
+                }
+            }
+            return {
+                ...prev,
+                attendees: [...prev.attendees, props.user],
+            };
+        });
     });
 
     return (
@@ -64,21 +95,12 @@ const ActivityDashboard = (props: ActivityDashboardProps) => {
                     style={{ height: '300px', width: '100%', objectFit: 'cover' }}
                 />
 
+                <ActivityInformationWidget {...activity} />
+
                 <ActivityControlWidget
                     activity={activity}
-                    isAttending={true}
-                    isHost={true}
-                    onAttendActivity={() => {}}
-                    onCancelAttendance={() => {}}
-                />
-
-                <ActivityInformationWidget
-                    hostedBy='Bob'
-                    title={activity.title}
-                    description={activity.description}
-                    date={activity.date}
-                    city={activity.city}
-                    venue={activity.venue}
+                    isAttending={!!activity.attendees.find((e) => e.username === props.user.username)}
+                    isHost={isHost}
                 />
 
                 <ActivityChatWidget
@@ -103,28 +125,7 @@ const ActivityDashboard = (props: ActivityDashboardProps) => {
                     ]}
                 />
             </Stack>
-            <ActivityAttendanceWidget
-                attendees={[
-                    {
-                        name: 'Bob',
-                        image: '/images/user.png',
-                        isHost: true,
-                        isFollowing: true,
-                    },
-                    {
-                        name: 'Tom',
-                        image: '/images/user.png',
-                        isHost: false,
-                        isFollowing: true,
-                    },
-                    {
-                        name: 'Sally',
-                        image: '/images/user.png',
-                        isHost: false,
-                        isFollowing: false,
-                    },
-                ]}
-            />
+            <ActivityAttendanceWidget hostUsername={activity.hostUsername} attendees={activity.attendees} />
         </Box>
     );
 };

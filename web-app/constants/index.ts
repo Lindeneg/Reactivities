@@ -15,4 +15,6 @@ export const AUTH_ERROR_RESPONSE_STATUSES = [401, 403];
 
 export const AUTH_COOKIE_REGEX = new RegExp(`${ENV.AUTH_COOKIE_NAME}=(.+);?`);
 
+export const PLACEHOLDER_USER_IMAGE = '/images/user.png';
+
 export const APP_LINK = generatedlinks;
