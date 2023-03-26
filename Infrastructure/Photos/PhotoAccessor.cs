@@ -1,7 +1,7 @@
 using Application.Interfaces;
-using Application.Photos;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
