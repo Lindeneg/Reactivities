@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import communicator from '@/communicator';
@@ -10,6 +11,7 @@ const defaultDescription = 'Are you sure you want to continue?';
 
 const ConfirmationModal = () => {
     const [showModal, setShowModal] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
     const [description, setDescription] = useState<string>('');
     const callback = useRef<() => Promise<void> | void>(() => {});
 
@@ -27,7 +29,9 @@ const ConfirmationModal = () => {
     const handleClose = () => communicator.publish('set-confirmation-modal-state', { open: false });
 
     const onClick = async () => {
+        setSubmitting(true);
         await callback.current();
+        setSubmitting(false);
         handleClose();
     };
 
@@ -46,10 +50,17 @@ const ConfirmationModal = () => {
             <Typography id='confirmation-modal-title' variant='body1'>
                 {description || defaultDescription}
             </Typography>
-            <Button type='button' fullWidth variant='contained' sx={{ mt: 3 }} onClick={onClick}>
-                Continue
+            <Button type='button' fullWidth variant='contained' sx={{ mt: 3 }} onClick={onClick} disabled={submitting}>
+                {submitting ? <CircularProgress color='secondary' /> : 'Continue'}
             </Button>
-            <Button type='button' fullWidth variant='outlined' sx={{ mt: 1 }} onClick={handleClose}>
+            <Button
+                type='button'
+                fullWidth
+                variant='outlined'
+                sx={{ mt: 1 }}
+                onClick={handleClose}
+                disabled={submitting}
+            >
                 Cancel
             </Button>
         </Modal>

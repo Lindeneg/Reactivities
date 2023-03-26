@@ -19,10 +19,8 @@ const defaultState = {
     city: '',
     venue: '',
     description: '',
-    hostUsername: '',
-    profiles: [] as string[],
     date: null as any,
-} as const;
+} as BaseActivity;
 
 const CreateActivityModal = () => {
     const [showCreateActivityModal, setShowCreateActivityModal] = useState(false);
@@ -73,7 +71,7 @@ const CreateActivityModal = () => {
                 initialValues={activity || defaultState}
                 validate={(values) =>
                     defaultFormValidation(values, {
-                        exclude: ['category', 'hostUsername', 'profiles'],
+                        exclude: ['category', 'hostUsername', 'attendees', 'hostUsername', 'isCancelled'],
                     })
                 }
                 onSubmit={handleSubmit}

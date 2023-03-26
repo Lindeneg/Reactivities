@@ -45,9 +45,10 @@ const activities = {
 
     update: handleResponse({
         callback: async (id: Activity['id'], activity: BaseActivity) => {
+            const { hostUsername, attendees, isCancelled, date, ...payload } = activity;
             const response = await axiosInstance.put<void>(`/${id}`, {
-                ...activity,
-                date: activity.date.toISOString(),
+                ...payload,
+                date: date.toISOString(),
             });
 
             communicator.publish('updated-activity', {
