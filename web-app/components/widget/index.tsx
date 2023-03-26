@@ -1,4 +1,4 @@
-import Box from '@mui/material/Box';
+import Box, { type BoxProps } from '@mui/material/Box';
 import Card, { type CardProps } from '@mui/material/Card';
 import CardActions, { type CardActionsProps } from '@mui/material/CardActions';
 import CardContent, { type CardContentProps } from '@mui/material/CardContent';
@@ -9,7 +9,9 @@ export interface WidgetProps {
     children: React.ReactNode;
     action?: React.ReactNode;
     minWidth?: number;
+    minHeight?: number;
     withBox?: boolean;
+    boxProps?: BoxProps;
     cardProps?: CardProps;
     cardContentProps?: CardContentProps;
     cardActionProps?: CardActionsProps;
@@ -24,9 +26,11 @@ const Widget = ({
     cardActionProps,
     cardHeaderProps,
     cardProps,
+    boxProps,
     title,
     withBox = true,
     minWidth = 275,
+    minHeight = 275,
 }: WidgetProps) => {
     const content = (
         <Card variant='elevation' {...cardProps}>
@@ -44,7 +48,17 @@ const Widget = ({
         </Card>
     );
 
-    return <>{withBox ? <Box sx={{ minWidth }}>{content}</Box> : content}</>;
+    return (
+        <>
+            {withBox ? (
+                <Box sx={{ minWidth, minHeight }} {...boxProps}>
+                    {content}
+                </Box>
+            ) : (
+                content
+            )}
+        </>
+    );
 };
 
 export default Widget;

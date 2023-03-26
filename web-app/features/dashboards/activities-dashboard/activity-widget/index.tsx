@@ -65,8 +65,7 @@ const ActivityWidget = ({ activity, user, onMoreDetails }: ActivityWidgetProps) 
                         height: '64px',
                     }}
                     alt={`${user.displayName}'s avatar`}
-                    src={getUserImageOrDefault(user.image)}
-                    onClick={() => router.push(fillLink(APP_LINK.PROFILE_USERNAME, { username: user.username }))}
+                    src={`/images/categoryImages/${getCategory.label(activity.category).toLowerCase()}.jpg`}
                 />
                 <Box
                     display='flex'
