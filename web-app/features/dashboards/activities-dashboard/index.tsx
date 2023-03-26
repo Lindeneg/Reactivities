@@ -83,7 +83,6 @@ const ActivitiesDashboard = (props: ActivitiesDashboardProps) => {
                 itemKey={(e) => e.id}
                 renderItem={(activity) => (
                     <ActivityWidget
-                        isHost={activity.hostUsername === props.user.username}
                         activity={activity}
                         onMoreDetails={() =>
                             router.push(fillLink(APP_LINK.ACTIVITIES_ACTIVITY, { activity: activity.id }))

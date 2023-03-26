@@ -11,13 +11,8 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-// dashboard example
-// https://github.com/mui/material-ui/blob/v5.11.8/docs/data/material/getting-started/templates/dashboard/Dashboard.tsx
-
 // mui theme switcher
 // https://mui.com/material-ui/experimental-api/css-theme-variables/usage/#toggle-between-light-and-dark-mode
-
-// CQRS https://blog.christian-schou.dk/how-to-implement-cqrs-with-mediatr-in-asp-net/
 
 const theme = createTheme({
     palette: {

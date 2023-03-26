@@ -5,5 +5,6 @@ export enum generatedlinks {
     ACTIVITIES_ACTIVITY = '/activities/[activity]',
     N404 = '/404',
     N500 = '/500',
+    PROFILE_USERNAME = '/profile/[username]',
     ROOT = '/',
 }

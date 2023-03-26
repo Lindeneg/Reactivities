@@ -1,68 +1,49 @@
+import { fillLink } from 'cl-fill-link';
 import Image from 'next/image';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import EditIcon from '@mui/icons-material/Edit';
+import { useRouter } from 'next/router';
+import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import communicator from '@/communicator';
 import Widget from '@/components/widget';
-import api from '@/data/client';
+import { APP_LINK } from '@/constants';
 import getCategory from '@/logic/get-category';
+import getUserImageOrDefault from '@/logic/get-user-image-or-default';
 import prettyDateString from '@/logic/pretty-date-string';
 import withColorContrast from '@/logic/with-color-contrast';
 import type { Activity } from '@/models';
 
 export interface ActivityWidgetProps {
     activity: Activity;
-    isHost: boolean;
     onMoreDetails: () => void;
 }
 
-const ActivityWidget = ({ activity, isHost, onMoreDetails }: ActivityWidgetProps) => {
-    const openCreateActivityModal = () => {
-        communicator.publish('set-create-activity-modal-state', { open: true, activity });
-    };
-
-    const onDelete = () => {
-        communicator.publish('set-confirmation-modal-state', {
-            open: true,
-            description: `Are you sure you want to delete activity '${activity.title}'?`,
-            onAccept: async () => {
-                await api.activities.delete(activity.id, activity.title);
-            },
-        });
-    };
-
+const ActivityWidget = ({ activity, onMoreDetails }: ActivityWidgetProps) => {
+    const router = useRouter();
     const sx = activity.isCancelled ? { textDecoration: 'line-through' } : {};
 
     return (
         <Widget
             action={
-                <Box display='flex' width='100%' padding='8px' alignItems='center' justifyContent='space-between'>
-                    <Button onClick={onMoreDetails} size='small'>
-                        More Details
-                    </Button>
-                    {isHost && (
-                        <IconButton aria-label='delete activity' onClick={onDelete}>
-                            <DeleteForeverIcon fontSize='small' />
-                        </IconButton>
-                    )}
-                </Box>
+                <Button onClick={onMoreDetails} size='small'>
+                    More Details
+                </Button>
             }
         >
-            <Box display='flex' alignItems='center' justifyContent='space-between' marginBottom={isHost ? '0' : '1rem'}>
+            <Box display='flex' flexDirection='row' marginBottom='0.3rem'>
                 <Chip label={getCategory.label(activity.category).toUpperCase()} size='small' variant='outlined' />
-                {isHost && (
-                    <IconButton aria-label='open edit activity modal' onClick={openCreateActivityModal}>
-                        <EditIcon fontSize='small' />
-                    </IconButton>
+                {activity.isCancelled && (
+                    <Chip
+                        label='CANCELLED'
+                        size='small'
+                        variant='outlined'
+                        color='error'
+                        sx={{ marginLeft: '0.2rem' }}
+                    />
                 )}
             </Box>
-            {activity.isCancelled && (
-                <Chip label='CANCELLED' size='small' variant='outlined' color='error' sx={{ marginBottom: '0.3rem' }} />
-            )}
+
             <Box
                 display='flex'
                 sx={(theme) => ({
@@ -98,16 +79,21 @@ const ActivityWidget = ({ activity, isHost, onMoreDetails }: ActivityWidgetProps
             <Typography sx={{ mt: 1.5, ...sx }} color='text.secondary'>
                 {prettyDateString(activity.date)}
             </Typography>
-            <Typography
-                variant='body2'
-                sx={withColorContrast({
-                    margin: '8px 0',
-                    padding: '4px',
-                    borderRadius: '12px',
-                })}
+            <Box
+                display='flex'
+                flexDirection='row'
+                sx={withColorContrast({ padding: '8px', margin: '1rem 0', borderRadius: '1rem' })}
             >
-                Attendees
-            </Typography>
+                {activity.attendees.map(({ username, displayName, image }, idx) => (
+                    <Avatar
+                        key={username}
+                        sx={{ cursor: 'pointer', width: '32px', height: '32px', marginLeft: idx === 0 ? '0' : '4px' }}
+                        alt={`${displayName}'s avatar`}
+                        src={getUserImageOrDefault(image)}
+                        onClick={() => router.push(fillLink(APP_LINK.PROFILE_USERNAME, { username }))}
+                    />
+                ))}
+            </Box>
             <Typography variant='body2' sx={sx}>
                 {activity.description}
             </Typography>
