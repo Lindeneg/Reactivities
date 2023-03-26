@@ -1,18 +1,13 @@
 import { fillLink } from 'cl-fill-link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import Calender from 'react-calendar';
 import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import Typography from '@mui/material/Typography';
 import Grid from '@/components/grid';
-import Widget from '@/components/widget';
 import { APP_LINK } from '@/constants';
 import useListener from '@/hooks/use-listener';
 import sortActivitiesByDate from '@/logic/sort-activities-by-date';
 import type { Activity, User } from '@/models';
+import ActivityFilterWidget from './activity-filter-widget';
 import ActivityWidget from './activity-widget';
 
 export interface ActivitiesDashboardProps {
@@ -54,30 +49,7 @@ const ActivitiesDashboard = (props: ActivitiesDashboardProps) => {
                 },
             })}
         >
-            <Box>
-                <Widget title='Activity Filters' minWidth={375}>
-                    <List>
-                        <ListItem divider>
-                            <ListItemButton selected>
-                                <Typography variant='button'>All Activities</Typography>
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem divider>
-                            <ListItemButton>
-                                <Typography variant='button'>I&apos;m Going</Typography>
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem divider>
-                            <ListItemButton>
-                                <Typography variant='button'>I&apos;m Hosting</Typography>
-                            </ListItemButton>
-                        </ListItem>
-                    </List>
-                </Widget>
-                <Widget cardProps={{ sx: { margin: '1rem 0' } }}>
-                    <Calender />
-                </Widget>
-            </Box>
+            <ActivityFilterWidget />
             <Grid
                 data={activities}
                 itemKey={(e) => e.id}

@@ -3,14 +3,14 @@ import { IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
 import withColorContrast from '@/logic/with-color-contrast';
 import HeaderLogo, { type HeaderLogoProps } from './header-logo';
-import HeaderProfile from './header-profile';
+import HeaderProfile, { type HeaderProfileProps } from './header-profile';
 import HeaderSearch from './header-search';
 
-export interface HeaderProps extends HeaderLogoProps {
+export interface HeaderProps extends HeaderLogoProps, HeaderProfileProps {
     onOpenNavigation: () => void;
 }
 
-const Header = ({ name, logoPath, onOpenNavigation }: HeaderProps) => {
+const Header = ({ name, logoPath, user, onOpenNavigation }: HeaderProps) => {
     return (
         <Box
             component='header'
@@ -31,7 +31,7 @@ const Header = ({ name, logoPath, onOpenNavigation }: HeaderProps) => {
 
             <HeaderSearch />
 
-            <HeaderProfile />
+            <HeaderProfile user={user} />
         </Box>
     );
 };

@@ -3,6 +3,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 import communicator from '@/communicator';
 import Widget from '@/components/widget';
 import api from '@/data/client';
@@ -83,13 +84,15 @@ const ActivityControlWidget = ({ activity, isAttending, isHost }: ActivityContro
                     {getAttendButtonText()}
                 </Button>
                 {isHost && (
-                    <IconButton
-                        onClick={openCreateActivityModal}
-                        aria-label='open edit activity modal'
-                        sx={{ float: 'right' }}
-                    >
-                        <EditIcon fontSize='small' />
-                    </IconButton>
+                    <Tooltip title='Edit'>
+                        <IconButton
+                            onClick={openCreateActivityModal}
+                            aria-label='open edit activity modal'
+                            sx={{ float: 'right' }}
+                        >
+                            <EditIcon fontSize='small' />
+                        </IconButton>
+                    </Tooltip>
                 )}
             </Box>
             <Box>
@@ -103,9 +106,11 @@ const ActivityControlWidget = ({ activity, isAttending, isHost }: ActivityContro
                     {'Cancel ' + (isHost ? 'Event' : 'Attendance')}
                 </Button>
                 {isHost && (
-                    <IconButton onClick={onDelete} aria-label='delete activity' sx={{ float: 'right' }}>
-                        <DeleteForeverIcon fontSize='small' />
-                    </IconButton>
+                    <Tooltip title='Delete'>
+                        <IconButton onClick={onDelete} aria-label='delete activity' sx={{ float: 'right' }}>
+                            <DeleteForeverIcon fontSize='small' />
+                        </IconButton>
+                    </Tooltip>
                 )}
             </Box>
         </Widget>

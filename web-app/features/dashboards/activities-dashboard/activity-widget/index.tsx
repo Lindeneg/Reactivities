@@ -5,6 +5,7 @@ import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
+import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import Widget from '@/components/widget';
 import { APP_LINK } from '@/constants';
@@ -76,24 +77,36 @@ const ActivityWidget = ({ activity, onMoreDetails }: ActivityWidgetProps) => {
                     </Typography>
                 </Box>
             </Box>
+
             <Typography sx={{ mt: 1.5, ...sx }} color='text.secondary'>
                 {prettyDateString(activity.date)}
             </Typography>
+
             <Box
                 display='flex'
                 flexDirection='row'
                 sx={withColorContrast({ padding: '8px', margin: '1rem 0', borderRadius: '1rem' })}
             >
                 {activity.attendees.map(({ username, displayName, image }, idx) => (
-                    <Avatar
-                        key={username}
-                        sx={{ cursor: 'pointer', width: '32px', height: '32px', marginLeft: idx === 0 ? '0' : '4px' }}
-                        alt={`${displayName}'s avatar`}
-                        src={getUserImageOrDefault(image)}
-                        onClick={() => router.push(fillLink(APP_LINK.PROFILE_USERNAME, { username }))}
-                    />
+                    <Tooltip key={username} title='Go to profile'>
+                        <Avatar
+                            sx={{
+                                cursor: 'pointer',
+                                width: '32px',
+                                height: '32px',
+                                marginLeft: idx === 0 ? '0' : '4px',
+                                '&:hover': {
+                                    opacity: 0.8,
+                                },
+                            }}
+                            alt={`${displayName}'s avatar`}
+                            src={getUserImageOrDefault(image)}
+                            onClick={() => router.push(fillLink(APP_LINK.PROFILE_USERNAME, { username }))}
+                        />
+                    </Tooltip>
                 ))}
             </Box>
+
             <Typography variant='body2' sx={sx}>
                 {activity.description}
             </Typography>

@@ -20,14 +20,14 @@ const ActivitiesPage = ({ activities, user, error }: ActivitiesPageProps) => {
 
     if (error || !user) {
         return (
-            <Layout>
+            <Layout user={null}>
                 <p>An error occurred</p>
             </Layout>
         );
     }
 
     return (
-        <Layout>
+        <Layout user={user}>
             <ActivitiesDashboard activities={activities} user={user} />
         </Layout>
     );

@@ -19,14 +19,14 @@ const ActivityPage = ({ activity, user, error }: ActivityPageProps) => {
 
     if (!activity || !user || error) {
         return (
-            <Layout>
+            <Layout user={null}>
                 <p>An error occurred</p>
             </Layout>
         );
     }
 
     return (
-        <Layout>
+        <Layout user={user}>
             <ActivityDashboard activity={activity} user={user} />
         </Layout>
     );
