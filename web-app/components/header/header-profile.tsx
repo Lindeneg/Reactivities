@@ -41,7 +41,7 @@ const HeaderProfileMenu = ({ displayName, onLogout }: HeaderProfileMenuProps) =>
                 </ListItemButton>
             </ListItem>
             <ListItem divider disablePadding>
-                <ListItemButton component='a' href='#simple-list'>
+                <ListItemButton>
                     <ListItemIcon>
                         <InboxIcon />
                     </ListItemIcon>

@@ -19,9 +19,9 @@ const ActivitiesDashboard = (props: ActivitiesDashboardProps) => {
     const [activities, setActivities] = useState(props.activities.map((e) => ({ ...e, date: new Date(e.date) })));
     const router = useRouter();
 
-    useListener('created-activity', ({ detail }) =>
-        setActivities((prev) => sortActivitiesByDate([...prev, detail.activity]))
-    );
+    useListener('created-activity', ({ detail }) => {
+        router.push(fillLink(APP_LINK.ACTIVITIES_ACTIVITY, { activity: detail.activity.id }));
+    });
 
     useListener('updated-activity', ({ detail }) =>
         setActivities((prev) => {
@@ -59,6 +59,7 @@ const ActivitiesDashboard = (props: ActivitiesDashboardProps) => {
                 renderItem={(activity) => (
                     <ActivityWidget
                         activity={activity}
+                        user={props.user}
                         onMoreDetails={() =>
                             router.push(fillLink(APP_LINK.ACTIVITIES_ACTIVITY, { activity: activity.id }))
                         }
