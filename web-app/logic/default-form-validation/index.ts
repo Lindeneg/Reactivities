@@ -1,4 +1,4 @@
-import capitalizeString from '../capitalize-string';
+import { capitalize } from '@mui/material';
 
 type MappedConstraint<T> = { [K in keyof T]: T[K] };
 
@@ -11,7 +11,7 @@ type Options<TValues extends MappedConstraint<TValues>, TOverrides extends Funct
     exclude: Array<keyof TValues>;
 };
 
-const createRequiredString = (key: string) => `${capitalizeString(key)} is required`;
+const createRequiredString = (key: string) => `${capitalize(key)} is required`;
 
 const defaultFormValidation = <
     TValues extends MappedConstraint<TValues>,

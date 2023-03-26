@@ -50,13 +50,15 @@ const ActivityAttendanceWidget = ({ attendees, hostUsername }: ActivityAttendanc
     return (
         <Widget title={`${attendees.length} attendees going`} minWidth={375}>
             <List>
-                {attendees.map((attendee, idx) => (
-                    <AttendeeItem
-                        {...attendee}
-                        isHost={attendee.username === hostUsername}
-                        key={`${attendee.username}-${idx}`}
-                    />
-                ))}
+                {attendees
+                    .sort((e) => (e.username === hostUsername ? -1 : 1))
+                    .map((attendee, idx) => (
+                        <AttendeeItem
+                            {...attendee}
+                            isHost={attendee.username === hostUsername}
+                            key={`${attendee.username}-${idx}`}
+                        />
+                    ))}
             </List>
         </Widget>
     );

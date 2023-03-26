@@ -3,6 +3,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import InfoIcon from '@mui/icons-material/Info';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import WarningIcon from '@mui/icons-material/Warning';
+import { capitalize } from '@mui/material';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -44,7 +45,7 @@ const ActivityInformationWidget = ({
                     <ListItemIcon>
                         <BadgeIcon />
                     </ListItemIcon>
-                    <ListItemText sx={sx} primary={`${title} | Hosted by ${hostUsername}`} />
+                    <ListItemText sx={sx} primary={`${title} | Hosted by ${capitalize(hostUsername)}`} />
                 </ListItem>
                 <ListItem divider>
                     <ListItemIcon>

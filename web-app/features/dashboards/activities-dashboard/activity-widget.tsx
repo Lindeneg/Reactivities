@@ -35,6 +35,8 @@ const ActivityWidget = ({ activity, isHost, onMoreDetails }: ActivityWidgetProps
         });
     };
 
+    const sx = activity.isCancelled ? { textDecoration: 'line-through' } : {};
+
     return (
         <Widget
             action={
@@ -58,7 +60,9 @@ const ActivityWidget = ({ activity, isHost, onMoreDetails }: ActivityWidgetProps
                     </IconButton>
                 )}
             </Box>
-
+            {activity.isCancelled && (
+                <Chip label='CANCELLED' size='small' variant='outlined' color='error' sx={{ marginBottom: '0.3rem' }} />
+            )}
             <Box
                 display='flex'
                 sx={(theme) => ({
@@ -86,12 +90,12 @@ const ActivityWidget = ({ activity, isHost, onMoreDetails }: ActivityWidgetProps
                     <Typography variant='h5' component='div'>
                         {activity.title}
                     </Typography>
-                    <Typography sx={{ mb: 1.5 }} color='text.secondary'>
+                    <Typography sx={{ mb: 1.5, ...sx }} color='text.secondary'>
                         {activity.city} | {activity.venue}
                     </Typography>
                 </Box>
             </Box>
-            <Typography sx={{ mt: 1.5 }} color='text.secondary'>
+            <Typography sx={{ mt: 1.5, ...sx }} color='text.secondary'>
                 {prettyDateString(activity.date)}
             </Typography>
             <Typography
@@ -104,7 +108,9 @@ const ActivityWidget = ({ activity, isHost, onMoreDetails }: ActivityWidgetProps
             >
                 Attendees
             </Typography>
-            <Typography variant='body2'>{activity.description}</Typography>
+            <Typography variant='body2' sx={sx}>
+                {activity.description}
+            </Typography>
         </Widget>
     );
 };
