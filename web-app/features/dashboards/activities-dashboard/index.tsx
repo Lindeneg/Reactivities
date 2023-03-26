@@ -27,7 +27,10 @@ const ActivitiesDashboard = (props: ActivitiesDashboardProps) => {
         setActivities((prev) => {
             const index = prev.findIndex((e) => e.id === detail.activity.id);
             if (index === -1) return prev;
-            prev[index] = detail.activity;
+            prev[index] = {
+                ...prev[index],
+                ...detail.activity,
+            };
             return sortActivitiesByDate([...prev]);
         })
     );

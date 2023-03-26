@@ -10,7 +10,7 @@ import useListener from '@/hooks/use-listener';
 import defaultFormValidation from '@/logic/default-form-validation';
 import getCategory from '@/logic/get-category';
 import setFieldErrorFromApi from '@/logic/set-field-error-from-api';
-import type { Activity, BaseActivity, User } from '@/models';
+import type { ActivityFormValues, User } from '@/models';
 
 const sharedProps = { required: true, fullWidth: true, autoFocus: true };
 const defaultState = {
@@ -20,7 +20,7 @@ const defaultState = {
     venue: '',
     description: '',
     date: null as any,
-} as BaseActivity;
+} as ActivityFormValues;
 
 export interface CreateActivityModalProps {
     user: User;
@@ -28,13 +28,16 @@ export interface CreateActivityModalProps {
 
 const CreateActivityModal = ({ user }: CreateActivityModalProps) => {
     const [showCreateActivityModal, setShowCreateActivityModal] = useState(false);
-    const [activity, setActivity] = useState<Activity | null>(null);
+    const [activity, setActivity] = useState<ActivityFormValues | null>(null);
     const [hasSubmitted, setHasSubmitted] = useState(false);
 
     useListener('set-create-activity-modal-state', ({ detail }) => {
         setShowCreateActivityModal(detail.open);
         if (detail.open) {
-            detail.activity && setActivity(detail.activity);
+            if (detail.activity) {
+                const { hostUsername, attendees, isCancelled, ...payload } = detail.activity;
+                setActivity(payload);
+            }
         } else {
             setHasSubmitted(false);
             setShowCreateActivityModal(false);
@@ -42,15 +45,15 @@ const CreateActivityModal = ({ user }: CreateActivityModalProps) => {
         }
     });
 
-    const hasMadeChange = (values: BaseActivity) => {
+    const hasMadeChange = (values: ActivityFormValues) => {
         if (!activity) return true;
         for (const key in values) {
-            if (values[key as keyof BaseActivity] !== activity[key as keyof BaseActivity]) return true;
+            if (values[key as keyof ActivityFormValues] !== activity[key as keyof ActivityFormValues]) return true;
         }
         return false;
     };
 
-    const handleSubmit = async (values: BaseActivity, helpers: FormikHelpers<BaseActivity>) => {
+    const handleSubmit = async (values: ActivityFormValues, helpers: FormikHelpers<ActivityFormValues>) => {
         const { error } = await (activity
             ? api.activities.update(activity.id, values)
             : api.activities.create(values, user));
@@ -73,11 +76,11 @@ const CreateActivityModal = ({ user }: CreateActivityModalProps) => {
                 {activity ? 'Edit' : 'Create'} Activity
             </Typography>
             <Divider sx={{ margin: '15px 0px' }} />
-            <Formik<BaseActivity>
+            <Formik<ActivityFormValues>
                 initialValues={activity || defaultState}
                 validate={(values) =>
                     defaultFormValidation(values, {
-                        exclude: ['category', 'hostUsername', 'attendees', 'hostUsername', 'isCancelled'],
+                        exclude: ['category'],
                     })
                 }
                 onSubmit={handleSubmit}
