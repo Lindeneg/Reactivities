@@ -1,4 +1,5 @@
 import { capitalize } from '@mui/material';
+import objectKeys from '../object-keys';
 
 type MappedConstraint<T> = { [K in keyof T]: T[K] };
 
@@ -11,7 +12,7 @@ type Options<TValues extends MappedConstraint<TValues>, TOverrides extends Funct
     exclude: Array<keyof TValues>;
 };
 
-const createRequiredString = (key: string) => `${capitalize(key)} is required`;
+const createRequiredString = <T>(key: T) => `${capitalize(String(key))} is required`;
 
 const defaultFormValidation = <
     TValues extends MappedConstraint<TValues>,
@@ -25,20 +26,19 @@ const defaultFormValidation = <
         TOverrides
     >;
 
-    return Object.keys(values).reduce((acc, _key) => {
-        if (exclude.includes(_key as keyof TValues)) return acc;
+    return objectKeys(values).reduce((acc, key) => {
+        if (exclude.includes(key)) return acc;
 
-        const key = _key as keyof TValues;
         const value = values[key];
         const isValidOverride = overrides[key];
 
         if (typeof isValidOverride === 'function') {
-            if (!isValidOverride(value)) acc[key] = createRequiredString(_key);
+            if (!isValidOverride(value)) acc[key] = createRequiredString(key);
             return acc;
         }
 
         if (!value) {
-            acc[key] = createRequiredString(_key);
+            acc[key] = createRequiredString(key);
         }
 
         return acc;

@@ -1,5 +1,4 @@
 import { fillLink } from 'cl-fill-link';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
@@ -13,14 +12,15 @@ import getCategory from '@/logic/get-category';
 import getUserImageOrDefault from '@/logic/get-user-image-or-default';
 import prettyDateString from '@/logic/pretty-date-string';
 import withColorContrast from '@/logic/with-color-contrast';
-import type { Activity } from '@/models';
+import type { Activity, User } from '@/models';
 
 export interface ActivityWidgetProps {
     activity: Activity;
+    user: User;
     onMoreDetails: () => void;
 }
 
-const ActivityWidget = ({ activity, onMoreDetails }: ActivityWidgetProps) => {
+const ActivityWidget = ({ activity, user, onMoreDetails }: ActivityWidgetProps) => {
     const router = useRouter();
     const sx = activity.isCancelled ? { textDecoration: 'line-through' } : {};
 
@@ -33,16 +33,19 @@ const ActivityWidget = ({ activity, onMoreDetails }: ActivityWidgetProps) => {
             }
         >
             <Box display='flex' flexDirection='row' marginBottom='0.3rem'>
-                <Chip label={getCategory.label(activity.category).toUpperCase()} size='small' variant='outlined' />
                 {activity.isCancelled && (
                     <Chip
                         label='CANCELLED'
                         size='small'
                         variant='outlined'
                         color='error'
-                        sx={{ marginLeft: '0.2rem' }}
+                        sx={{ marginRight: '0.2rem' }}
                     />
                 )}
+                {activity.hostUsername === user.username && (
+                    <Chip label='HOST' size='small' variant='outlined' color='info' sx={{ marginRight: '0.2rem' }} />
+                )}
+                <Chip label={getCategory.label(activity.category).toUpperCase()} size='small' variant='outlined' />
             </Box>
 
             <Box
@@ -56,7 +59,14 @@ const ActivityWidget = ({ activity, onMoreDetails }: ActivityWidgetProps) => {
                     },
                 })}
             >
-                <Image src={'/images/user.png'} alt='activity image' width={128} height={128} />
+                <Avatar
+                    sx={{
+                        width: '64px',
+                        height: '64px',
+                    }}
+                    alt={`${user.displayName}'s avatar`}
+                    src={`/images/categoryImages/${getCategory.label(activity.category).toLowerCase()}.jpg`}
+                />
                 <Box
                     display='flex'
                     flexDirection='column'

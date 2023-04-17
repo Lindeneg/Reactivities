@@ -31,7 +31,10 @@ const ActivityDashboard = (props: ActivityDashboardProps) => {
     useListener('updated-activity', ({ detail }) => {
         if (activity.id !== detail.activity.id) return;
 
-        setActivity(detail.activity);
+        setActivity((prev) => ({
+            ...prev,
+            ...detail.activity,
+        }));
     });
 
     useListener('updated-activity-state', ({ detail }) => {

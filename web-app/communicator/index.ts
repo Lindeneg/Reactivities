@@ -1,12 +1,12 @@
 import type { OptionsObject } from 'notistack';
-import type { Activity } from '@/models';
+import type { Activity, ActivityFormValues } from '@/models';
 
-type ReactivityPayload = {
+type ReactivityEventPayloadMap = {
     'set-create-activity-modal-state': { open: boolean; activity?: Activity };
 
     'created-activity': { activity: Activity };
 
-    'updated-activity': { activity: Activity };
+    'updated-activity': { activity: ActivityFormValues };
 
     'updated-activity-state': { activityId: string; isCancelled: boolean };
 
@@ -21,9 +21,9 @@ type ReactivityPayload = {
     'enqueue-snackbar': { msg: string } & OptionsObject;
 };
 
-export type ReactivityEvent = keyof ReactivityPayload;
+export type ReactivityEvent = keyof ReactivityEventPayloadMap;
 
-export type ReactivityEventPayload<TEvent extends ReactivityEvent> = ReactivityPayload[TEvent];
+export type ReactivityEventPayload<TEvent extends ReactivityEvent> = ReactivityEventPayloadMap[TEvent];
 
 export type ReactivityEventListener<TEvent extends ReactivityEvent> = (
     event: CustomEvent<ReactivityEventPayload<TEvent>>

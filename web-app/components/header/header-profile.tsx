@@ -1,12 +1,13 @@
+import { fillLink } from 'cl-fill-link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import AccountCircleIcon from '@mui/icons-material/AccountCircleOutlined';
-import DraftsIcon from '@mui/icons-material/Drafts';
-import InboxIcon from '@mui/icons-material/Inbox';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { IconButton } from '@mui/material';
+import SwitchRight from '@mui/icons-material/SwitchRight';
+import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -14,38 +15,38 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { APP_LINK } from '@/constants';
 import createCookieString from '@/logic/create-cookie-string';
+import getUserImageOrDefault from '@/logic/get-user-image-or-default';
 import withColorContrast from '@/logic/with-color-contrast';
 import type { User } from '@/models';
 
 export interface HeaderProfileMenuProps extends User {
     onLogout: () => void;
+    onGotoProfile: () => void;
 }
 
-const HeaderProfileMenu = ({ displayName, onLogout }: HeaderProfileMenuProps) => {
+const HeaderProfileMenu = ({ displayName, onGotoProfile, onLogout }: HeaderProfileMenuProps) => {
     return (
         <List>
-            <ListItem divider disablePadding>
-                <ListItemButton>
-                    <ListItemIcon>
-                        <LockOpenIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={`Logged in as ${displayName}`} />
-                </ListItemButton>
+            <ListItem divider>
+                <ListItemIcon>
+                    <EmojiPeopleIcon />
+                </ListItemIcon>
+                <ListItemText primary={`Hi ${displayName}!`} />
             </ListItem>
             <ListItem disablePadding>
-                <ListItemButton>
+                <ListItemButton onClick={onGotoProfile}>
                     <ListItemIcon>
-                        <DraftsIcon />
+                        <AccountCircle />
                     </ListItemIcon>
-                    <ListItemText primary='Trash' />
+                    <ListItemText primary='Your Profile' />
                 </ListItemButton>
             </ListItem>
             <ListItem divider disablePadding>
-                <ListItemButton component='a' href='#simple-list'>
+                <ListItemButton>
                     <ListItemIcon>
-                        <InboxIcon />
+                        <SwitchRight />
                     </ListItemIcon>
-                    <ListItemText primary='Spam' />
+                    <ListItemText primary='Switch Theme' />
                 </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
@@ -83,7 +84,14 @@ const HeaderProfile = ({ user }: HeaderProfileProps) => {
                 aria-label='open account toolbox'
                 onMouseEnter={() => setOpen(true)}
             >
-                <AccountCircleIcon fontSize='large' />
+                <Avatar
+                    sx={{
+                        width: '28px',
+                        height: '28px',
+                    }}
+                    alt={`${user.displayName}'s avatar`}
+                    src={getUserImageOrDefault(user.image)}
+                />
             </IconButton>
             {open && (
                 <Box
@@ -96,7 +104,13 @@ const HeaderProfile = ({ user }: HeaderProfileProps) => {
                         maxWidth: 250,
                     })}
                 >
-                    <HeaderProfileMenu {...user} onLogout={onLogout} />
+                    <HeaderProfileMenu
+                        {...user}
+                        onLogout={onLogout}
+                        onGotoProfile={() =>
+                            router.push(fillLink(APP_LINK.PROFILE_USERNAME, { username: user.username }))
+                        }
+                    />
                 </Box>
             )}
         </Box>

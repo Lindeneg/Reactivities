@@ -13,6 +13,7 @@ public class BaseApiController : ControllerBase
     // attempt to reuse mediator if it exists else inject it
     protected IMediator Mediator => (_mediator ??= HttpContext.RequestServices.GetService<IMediator>()) ?? throw new InvalidOperationException();
 
+    // TODO make this more smarter
     protected ActionResult HandleResult<T>(Result<T> result)
     {
         if (result == null) return NotFound();

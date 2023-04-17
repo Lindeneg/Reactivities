@@ -4,7 +4,7 @@ import { ENV } from '@/constants';
 import config from '@/data/config';
 import withBearerFromCookie from '@/data/interceptors/with-bearer-from-cookie';
 import handleResponse from '@/data/logic/handle-response';
-import type { Activity, BaseActivity, User } from '@/models';
+import type { Activity, ActivityFormValues, User } from '@/models';
 
 const axiosInstance = withBearerFromCookie(
     axios.create({
@@ -15,7 +15,7 @@ const axiosInstance = withBearerFromCookie(
 
 const activities = {
     create: handleResponse({
-        callback: async (activity: BaseActivity, user: User) => {
+        callback: async (activity: ActivityFormValues, user: User) => {
             const response = await axiosInstance.post<string>('/', {
                 ...activity,
                 date: activity.date.toISOString(),
@@ -47,11 +47,10 @@ const activities = {
     }),
 
     update: handleResponse({
-        callback: async (id: Activity['id'], activity: BaseActivity) => {
-            const { hostUsername, attendees, isCancelled, date, ...payload } = activity;
+        callback: async (id: ActivityFormValues['id'], activity: ActivityFormValues) => {
             const response = await axiosInstance.put<void>(`/${id}`, {
-                ...payload,
-                date: date.toISOString(),
+                ...activity,
+                date: activity.date.toISOString(),
             });
 
             communicator.publish('updated-activity', {

@@ -15,3 +15,5 @@ export interface BaseActivity {
 }
 
 export type Activity = BaseModel & BaseActivity;
+
+export type ActivityFormValues = Omit<Activity, 'hostUsername' | 'isCancelled' | 'attendees'>;
